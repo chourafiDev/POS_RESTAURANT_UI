@@ -1,0 +1,41 @@
+# Next.js
+.next/
+out/
+.cache/
+public/static/
+node_modules/
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build files
+build/
+dist/
+
+# Serverless Functions
+api/.next/
+api/out/
+api/node_modules/
+
+# Testing
+coverage/
+.jest/
+
+# Editor
+.vscode/
+.idea/
+
+# Package Manager
+yarn.lock
+package-lock.json
+
+# Logs
+logs/
+*.log
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
