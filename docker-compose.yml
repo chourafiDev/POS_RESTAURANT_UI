@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  app:
+    image: "pos_ui_image"
+    container_name: "pos_ui_container"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
