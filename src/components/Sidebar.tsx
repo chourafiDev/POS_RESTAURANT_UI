@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import classNames from "classnames";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const Sidebar = () => {
@@ -30,11 +30,11 @@ const Sidebar = () => {
   ];
 
   const [toggleCollaps, setToggleCollapse] = useState(false);
-  const router = useRouter();
+  const pathname = usePathname();
 
   const activeMenu = useMemo(
-    () => menuItems.find(({ link }) => link === router.pathname),
-    [router.pathname]
+    () => menuItems.find(({ link }) => link === pathname),
+    [pathname]
   );
 
   const wrapperClasses = classNames(
