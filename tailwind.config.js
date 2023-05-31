@@ -8,12 +8,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: "#4c81f1",
+        brand: "#5DB170",
         yellow: "#f7b941",
-        green: "#5DB170",
         red: "#E57E74",
-        gray: "#DADCEB",
-        black: "#000000",
+        dark: "#212529",
+        gray: "#817d7d",
+        "gray-light": "#ECF0F3",
       },
       fontFamily: {
         poppins: [],
