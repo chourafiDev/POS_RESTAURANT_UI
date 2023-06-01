@@ -12,7 +12,7 @@ module.exports = {
         yellow: "#f7b941",
         red: "#E57E74",
         dark: "#073b4c",
-        gray: "#817d7d",
+        gray: "#ACACAE",
         "gray-light": "#ECF0F3",
         "green-500": "#6BBD99",
         "green-400": "#AECFA4",
@@ -21,7 +21,6 @@ module.exports = {
       fontFamily: {
         poppins: [],
       },
-     
     },
   },
   plugins: [],
