@@ -8,21 +8,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: "#5DB170",
+        brand: "#46A094",
         yellow: "#f7b941",
         red: "#E57E74",
-        dark: "#212529",
+        dark: "#073b4c",
         gray: "#817d7d",
         "gray-light": "#ECF0F3",
+        "green-500": "#6BBD99",
+        "green-400": "#AECFA4",
+        "green-300": "#C4E8C2",
       },
       fontFamily: {
         poppins: [],
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+     
     },
   },
   plugins: [],
