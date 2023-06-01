@@ -9,11 +9,11 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 SwiperCore.use([Navigation]);
 
-interface CategoriesListProps {
+interface CategoriesProps {
   categories: Category[];
 }
 
-const Index: FC<CategoriesListProps> = ({ categories }) => {
+const Index: FC<CategoriesProps> = ({ categories }) => {
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
 
