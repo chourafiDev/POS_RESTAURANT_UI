@@ -9,7 +9,7 @@ interface CategoryItemProps {
 const Index: FC<CategoryItemProps> = ({ category: { name, icon, total } }) => {
   return (
     <div
-      className={`border border-gray-light rounded-md py-3 px-3 shadow-lg shadow-gray-light/50 inline-block w-28 cursor-pointer mb-10 ${
+      className={`border border-gray-light rounded-md py-3 px-3 shadow-lg shadow-gray-light/50 inline-block w-28 cursor-pointer mb-10 mt-4 hover:-translate-y-1 duration-300 ease-in ${
         name === "All" && "bg-brand"
       }`}
     >

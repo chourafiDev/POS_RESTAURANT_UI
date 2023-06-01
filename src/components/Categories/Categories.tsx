@@ -19,7 +19,7 @@ const Index: FC<CategoriesProps> = ({ categories }) => {
 
   return (
     <div className="px-8 mt-6">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center">
         <h2 className="text-dark font-medium text-xl mb-3">Categories</h2>
 
         <div className="flex gap-3 items-center">
