@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar/Navbar";
-import CategoriesList from "../components/CategoriesList/CategoriesList ";
-import { data } from "@/utils/data";
+import CategoriesList from "../components/CategoriesList/CategoriesList";
+import { categories } from "@/utils/data";
+import Menu from "@/components/menu/Menu";
 
 export default function Home() {
   return (
@@ -8,10 +9,10 @@ export default function Home() {
       <Navbar />
 
       {/* Categories */}
-      <div className="px-8">
-        <h2 className="text-dark font-medium text-lg mb-6">Categories</h2>
-        <CategoriesList data={data} />
-      </div>
+      <CategoriesList categories={categories} />
+
+      {/* Menu */}
+      <Menu />
     </div>
   );
 }
