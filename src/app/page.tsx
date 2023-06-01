@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar/Navbar";
-import CategoriesList from "../components/CategoriesList/CategoriesList";
+import Categories from "../components/Categories/Categories";
 import { categories } from "@/utils/data";
 import Menu from "@/components/menu/Menu";
 
@@ -9,7 +9,7 @@ export default function Home() {
       <Navbar />
 
       {/* Categories */}
-      <CategoriesList categories={categories} />
+      <Categories categories={categories} />
 
       {/* Menu */}
       <Menu />
