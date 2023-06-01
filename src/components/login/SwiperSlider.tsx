@@ -33,14 +33,6 @@ const SwiperSlider = () => {
           swiper.params.navigation.nextEl = nextRef.current;
           swiper.navigation.update();
         }}
-        // breakpoints={{
-        //   320: {
-        //     slidesPerView: 1.5,
-        //   },
-        //   991: {
-        //     slidesPerView: 3,
-        //   },
-        // }}
       >
         <SwiperSlide>
           <div className="w-full h-full relative overflow-hidden">
