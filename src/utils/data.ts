@@ -129,3 +129,30 @@ export const menu = [
     image: "sushi.jpg",
   },
 ];
+
+export const oredrs = [
+  {
+    id: 1,
+    title: "Breadtalk With Foam",
+    desc: "No Chocolate",
+    price: 22.56,
+    total: 2,
+    image: "bread.jpg",
+  },
+  {
+    id: 1,
+    title: "Special Spicy Fried Rice",
+    desc: "Not Spicy",
+    price: 22.56,
+    total: 2,
+    image: "bread.jpg",
+  },
+  {
+    id: 1,
+    title: "Seblak Beef Macaroni",
+    desc: "Spicy with 10 Chilies",
+    price: 22.56,
+    total: 2,
+    image: "bread.jpg",
+  },
+];
