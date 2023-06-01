@@ -8,3 +8,14 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+
+/* Override mantine styles */
+.mantine-Checkbox-label {
+  color: #073b4c !important;
+  font-weight: 400 !important;
+}
+
+.mantine-Divider-label {
+  color: #817d7d !important;
+  font-weight: 500 !important;
+}
