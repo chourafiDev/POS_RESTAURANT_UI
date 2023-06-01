@@ -11,3 +11,12 @@ export interface Menu {
   price: number;
   image: string;
 }
+
+export interface Order {
+  id: number;
+  title: string;
+  desc: string;
+  price: number;
+  total: number;
+  image: string;
+}
