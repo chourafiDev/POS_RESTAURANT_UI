@@ -8,13 +8,33 @@ interface CategoryItemProps {
 
 const Index: FC<CategoryItemProps> = ({ category: { name, icon, total } }) => {
   return (
-    <div className="border border-gray-light rounded-md py-3 px-3 shadow-zinc-500 inline-block w-28">
-      <div style={{ width: 30, height: 30 }}>
-        <img src={`/assets/imgs/icons/${icon}`} alt={name} className="w-full h-full" />
+    <div
+      className={`border border-gray-light rounded-md py-3 px-3 shadow-lg shadow-gray-light/50 inline-block w-28 cursor-pointer mb-10 ${
+        name === "All" && "bg-brand"
+      }`}
+    >
+      <div style={{ width: 35, height: 35 }}>
+        <img
+          src={`/assets/imgs/icons/${icon}`}
+          alt={name}
+          className="w-full h-full"
+        />
       </div>
 
-      <p className="mt-3 text-gray/60 text-sm font-medium">{name}</p>
-      <p className="text-dark/80 text-[14px] font-medium mt-1">{total} item</p>
+      <p
+        className={`mt-3 ${
+          name === "All" ? "text-white" : "text-gray/60"
+        } text-sm font-medium`}
+      >
+        {name}
+      </p>
+      <p
+        className={`${
+          name === "All" ? "text-white" : "text-gray/80"
+        } text-[14px] font-medium mt-1`}
+      >
+        {total} item
+      </p>
     </div>
   );
 };
