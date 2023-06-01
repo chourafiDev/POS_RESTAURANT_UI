@@ -1,4 +1,4 @@
-export const data = [
+export const categories = [
   {
     id: 1,
     name: "All",
@@ -20,13 +20,13 @@ export const data = [
   {
     id: 4,
     name: "Salad",
-    icon: "tacos.png",
+    icon: "salad.png",
     total: 5,
   },
   {
     id: 5,
-    name: "Tacos",
-    icon: "tacos.png",
+    name: "Taco",
+    icon: "taco.png",
     total: 50,
   },
   {
@@ -43,8 +43,77 @@ export const data = [
   },
   {
     id: 8,
-    name: "Chicken ",
-    icon: "chicken.png",
+    name: "Sushi",
+    icon: "sushi.png",
     total: 50,
+  },
+  {
+    id: 9,
+    name: "Meat",
+    icon: "meat.png",
+    total: 50,
+  },
+  {
+    id: 10,
+    name: "Cake",
+    icon: "cake.png",
+    total: 50,
+  },
+  {
+    id: 11,
+    name: "Doughnut",
+    icon: "doughnut.png",
+    total: 50,
+  },
+];
+
+export const menu = [
+  {
+    id: 1,
+    title: "Tacos Salsa With Chicken Grilled",
+    price: 17.22,
+    image: "tacos.jpg",
+  },
+  {
+    id: 1,
+    title: "Tacos Salsa With Chicken Grilled",
+    price: 17.22,
+    image: "tacos.jpg",
+  },
+  {
+    id: 1,
+    title: "Tacos Salsa With Chicken Grilled",
+    price: 17.22,
+    image: "tacos.jpg",
+  },
+  {
+    id: 1,
+    title: "Tacos Salsa With Chicken Grilled",
+    price: 17.22,
+    image: "tacos.jpg",
+  },
+  {
+    id: 1,
+    title: "Tacos Salsa With Chicken Grilled",
+    price: 17.22,
+    image: "tacos.jpg",
+  },
+  {
+    id: 1,
+    title: "Tacos Salsa With Chicken Grilled",
+    price: 17.22,
+    image: "tacos.jpg",
+  },
+  {
+    id: 1,
+    title: "Tacos Salsa With Chicken Grilled",
+    price: 17.22,
+    image: "tacos.jpg",
+  },
+  {
+    id: 1,
+    title: "Tacos Salsa With Chicken Grilled",
+    price: 17.22,
+    image: "tacos.jpg",
   },
 ];
