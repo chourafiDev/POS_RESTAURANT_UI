@@ -19,3 +19,7 @@ body {
   color: #817d7d !important;
   font-weight: 500 !important;
 }
+
+.mantine-Modal-title {
+  color: #073b4c !important;
+}
