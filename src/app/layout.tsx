@@ -1,5 +1,10 @@
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata = {
   title: "POS app",
@@ -13,10 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="h-screen flex flex-row justify-start">
-        <Sidebar />
-        <main className="bg-brand/20 flex-1 p-4">{children}</main>
-      </body>
+      <body className={`h-screen  ${poppins.className}`}>{children}</body>
     </html>
   );
 }
