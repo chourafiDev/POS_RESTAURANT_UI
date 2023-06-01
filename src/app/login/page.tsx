@@ -3,13 +3,9 @@ import SwiperSlider from "@/components/login/SwiperSlider";
 
 const page = () => {
   return (
-    <div className="grid grid-cols-3">
-      <div>
+    <div className="grid grid-cols-2">
         <SwiperSlider />
-      </div>
-      <div>
         <Form />
-      </div>
     </div>
   );
 };
