@@ -13,7 +13,7 @@ const bill = () => {
         <h4 className="text-dark/60 font-normal">Total sales tax</h4>
         <p className="text-dark font-medium">-$5.00</p>
       </div>
-      <div className="element relative mb-6 mt-7">
+      <div className="border-dashed-with-spacing relative mb-6 mt-7">
         <div className="absolute -bottom-3 -left-9 w-7 h-7 rounded-full bg-white"></div>
         <div className="absolute -bottom-3 -right-9 w-7 h-7 rounded-full bg-white"></div>
       </div>
