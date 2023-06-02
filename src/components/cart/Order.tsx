@@ -11,18 +11,20 @@ const Order: FC<OrderProps> = ({
 }) => {
   return (
     <div className="flex items-center gap-3 w-full">
-      <Image
-        src={`/assets/imgs/orders/${image}`}
-        width={100}
-        height={100}
-        alt={title}
-        className="rounded-lg"
-      />
+      <div className="w-[80px] h-[70px] relative">
+        <Image
+          src={`/assets/imgs/orders/${image}`}
+          fill
+          alt={title}
+          className="rounded-lg object-cover"
+        />
+      </div>
+
       <div className="w-full">
         <h5 className="text-dark font-medium">{title}</h5>
         <p className="text-gray text-sm font-light">{desc}</p>
         <div className="flex justify-between items-center mt-2">
-          <p className="text-gray text-sm">x{total}</p>
+          <p className="text-gray text-sm">{total}x</p>
           <p className="text-brand font-medium">${price}</p>
         </div>
       </div>
