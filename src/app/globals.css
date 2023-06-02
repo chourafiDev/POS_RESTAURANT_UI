@@ -9,7 +9,7 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
-.element {
+.border-dashed-with-spacing {
   height: 3px;
   background-image: linear-gradient(
     to right,
