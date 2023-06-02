@@ -9,6 +9,18 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
+.element {
+  height: 3px;
+  background-image: linear-gradient(
+    to right,
+    #e3e3e3 50%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  background-position: top;
+  background-size: 20px 1px;
+  background-repeat: repeat-x;
+}
+
 /* Override mantine styles */
 .mantine-Checkbox-label {
   color: #073b4c !important;
@@ -22,4 +34,20 @@ body {
 
 .mantine-Modal-title {
   color: #073b4c !important;
+}
+
+/* Override global scrolbar styles */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f9f9f9;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #dfdfdf;
+  border-radius: 20px;
 }
