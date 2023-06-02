@@ -1,6 +1,8 @@
 import { oredrs } from "@/utils/data";
 import { Drawer } from "@mantine/core";
 import Order from "./Order";
+import Bill from "./Bill";
+import Button from "../ui/Button";
 
 interface CartProps {
   opened: boolean;
@@ -29,6 +31,12 @@ const Cart = ({ opened, close }: CartProps) => {
             <Order key={order.id} order={order} />
           ))}
         </div>
+
+        <Bill />
+
+        <Button variant="default" size="default" className="mt-8">
+          Charge $93.24
+        </Button>
       </div>
     </Drawer>
   );
