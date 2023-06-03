@@ -18,8 +18,8 @@ const Cart = ({ opened, close }: CartProps) => {
       withCloseButton={false}
       overlayProps={{ opacity: 0.5, blur: 4 }}
     >
-      <div className="max-h-screen flex flex-col justify-between gap-3">
-        <div className="flex-1 overflow-y-scroll">
+      <div className="max-h-screen flex flex-col justify-between gap-3 px-4 py-2">
+        <div className="flex-1 overflow-y-auto no-scrollbar">
           <div className="border-b border-gray-light pb-3">
             <h2 className="text-dark font-medium mb-1 text-lg">
               Current Order
@@ -37,7 +37,7 @@ const Cart = ({ opened, close }: CartProps) => {
 
           <Bill />
         </div>
-        <div className="flex-1 mb-6">
+        <div className="flex-1">
           <Button variant="default" size="default" className="">
             Charge $93.24
           </Button>
