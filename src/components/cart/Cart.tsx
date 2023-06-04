@@ -38,7 +38,7 @@ const Cart = ({ opened, close }: CartProps) => {
           <Bill />
         </div>
         <div className="flex-1">
-          <Button variant="default" size="default" className="">
+          <Button variant="default" size="default" rounded="default">
             Charge $93.24
           </Button>
         </div>

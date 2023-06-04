@@ -138,6 +138,7 @@ const MenuItem: FC<MenuItemProps> = ({ menu: { title, price, image } }) => {
             <Button
               variant="default"
               size="default"
+              rounded="default"
               className="mt-10"
               onClick={addOrderToCart}
             >

@@ -68,13 +68,18 @@ const Form = () => {
           </div>
 
           <div className="space-y-4">
-            <Button variant="default" size="default">
+            <Button variant="default" size="default" rounded="default">
               Login
             </Button>
 
             <Divider my="xs" label="or" labelPosition="center" />
 
-            <Button variant="outline" size="default" className="gap-3">
+            <Button
+              variant="outline"
+              size="default"
+              rounded="default"
+              className="gap-3"
+            >
               <Image
                 src="/assets/imgs/icons/google.png"
                 alt="google"
