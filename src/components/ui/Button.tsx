@@ -3,17 +3,23 @@ import { VariantProps, cva } from "class-variance-authority";
 import { ButtonHTMLAttributes } from "react";
 
 const buttonVariants = cva(
-  "flex items-center justify-center rounded-md reltive text-sm font-medium w-full",
+  "flex items-center justify-center reltive font-medium w-full",
   {
     variants: {
       variant: {
         default: "bg-brand text-white hover:bg-brand/90 duration-200 ease-in",
-        outline: "border border-gray-light text-dark hover:bg-gray-light/50 duration-200 ease-in",
+        outline:
+          "border border-gray-light text-dark hover:bg-gray-light/50 duration-200 ease-in",
         destructive: "bg-red text-white",
       },
       size: {
-        default: "py-3 px-4",
-        sm: "py-2 px-2",
+        default: "py-3 px-4 text-sm",
+        sm: "py-2 px-2 text-sm",
+        lg: "py-4 px-6 text-md",
+      },
+      rounded: {
+        default: "rounded-md",
+        full: "rounded-full",
       },
     },
     defaultVariants: {
@@ -34,10 +40,14 @@ const Button = ({
   variant,
   className,
   size,
+  rounded,
   ...props
 }: ButtonProps) => {
   return (
-    <button className={buttonVariants({ variant, size, className })} {...props}>
+    <button
+      className={buttonVariants({ variant, size, rounded, className })}
+      {...props}
+    >
       {children}
     </button>
   );
