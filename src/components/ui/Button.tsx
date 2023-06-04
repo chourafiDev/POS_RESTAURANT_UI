@@ -8,13 +8,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-brand text-white hover:bg-brand/90 duration-200 ease-in",
+        secondary:
+          "bg-gray/60 text-white hover:bg-gray/40 duration-200 ease-in",
         outline:
           "border border-gray-light text-dark hover:bg-gray-light/50 duration-200 ease-in",
         destructive: "bg-red text-white",
+        gray: "bg-red text-white",
       },
       size: {
         default: "py-3 px-4 text-sm",
-        sm: "py-2 px-2 text-sm",
+        sm: "py-2 px-6 text-sm",
         lg: "py-4 px-6 text-md",
       },
       rounded: {
