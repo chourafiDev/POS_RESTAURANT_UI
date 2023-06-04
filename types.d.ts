@@ -20,3 +20,9 @@ export interface Order {
   total: number;
   image: string;
 }
+
+export interface Table {
+  number: string;
+  guests: number;
+  status: string;
+}
