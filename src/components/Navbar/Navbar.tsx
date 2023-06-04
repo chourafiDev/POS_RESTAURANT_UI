@@ -2,7 +2,7 @@ import React from "react";
 import NavLinks from "./NavLinks";
 import Logo from "./Logo";
 import Search from "./Search";
-import User from "./User";
+import User from "../User";
 
 const Navbar = () => {
   return (
