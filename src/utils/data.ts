@@ -156,3 +156,106 @@ export const oredrs = [
     image: "bread.jpg",
   },
 ];
+
+export const tables = [
+  {
+    number: "T-01",
+    guests: 4,
+    status: "available",
+  },
+  {
+    number: "T-02",
+    guests: 4,
+    status: "occupied",
+  },
+  {
+    number: "T-03",
+    guests: 8,
+    status: "occupied",
+  },
+  {
+    number: "T-04",
+    guests: 4,
+    status: "occupied",
+  },
+  {
+    number: "T-05",
+    guests: 4,
+    status: "booked",
+  },
+  {
+    number: "T-06",
+    guests: 4,
+    status: "occupied",
+  },
+  {
+    number: "T-07",
+    guests: 8,
+    status: "occupied",
+  },
+  {
+    number: "T-08",
+    guests: 8,
+    status: "billed",
+  },
+  {
+    number: "T-09",
+    guests: 4,
+    status: "billed",
+  },
+  {
+    number: "T-10",
+    guests: 8,
+    status: "billed",
+  },
+  {
+    number: "T-11",
+    guests: 4,
+    status: "available",
+  },
+  {
+    number: "T-12",
+    guests: 4,
+    status: "booked",
+  },
+  {
+    number: "T-13",
+    guests: 8,
+    status: "booked",
+  },
+  {
+    number: "T-14",
+    guests: 8,
+    status: "available",
+  },
+  {
+    number: "T-15",
+    guests: 4,
+    status: "available",
+  },
+  {
+    number: "T-16",
+    guests: 4,
+    status: "occupied",
+  },
+  {
+    number: "T-17",
+    guests: 8,
+    status: "billed",
+  },
+  {
+    number: "T-18",
+    guests: 8,
+    status: "billed",
+  },
+  {
+    number: "T-19",
+    guests: 4,
+    status: "occupied",
+  },
+  {
+    number: "T-20",
+    guests: 4,
+    status: "available",
+  },
+];
