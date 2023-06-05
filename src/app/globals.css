@@ -55,6 +55,10 @@ body {
 .mantine-1q36a81 {
   padding: 0rem !important;
 }
+/* Modal */
+.mantine-13mybfv {
+  border-radius: 10px !important;
+}
 
 /* Override global scrolbar styles */
 ::-webkit-scrollbar {
