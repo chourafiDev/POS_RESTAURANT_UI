@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import Button from "../ui/Button";
 import { AiOutlineClear } from "react-icons/ai";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface TableStateProps {
   removeAllTables: () => void;
@@ -41,20 +42,30 @@ const TableState: FC<TableStateProps> = ({
       </div>
 
       {/* Button clear all */}
-      {selectedTables.length >= 1 && (
-        <div className="absolute right-6 top-[1.3rem]">
-          <Button
-            variant="secondary"
-            size="sm"
-            rounded="full"
-            className="rounded-full gap-2"
-            onClick={removeAllTables}
+      <AnimatePresence initial={false}>
+        {selectedTables.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              transition: { duration: 0.75 / 2, delay: 0.75 / 2 },
+            }}
+            exit={{ opacity: 0, transition: { duration: 0.75 / 2 } }}
+            className="absolute right-6 top-[1.3rem]"
           >
-            <AiOutlineClear size={22} />
-            <p>Clear All</p>
-          </Button>
-        </div>
-      )}
+            <Button
+              variant="secondary"
+              size="sm"
+              rounded="full"
+              className="rounded-full gap-2"
+              onClick={removeAllTables}
+            >
+              <AiOutlineClear size={22} />
+              <p>Clear All</p>
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
