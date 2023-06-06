@@ -2,9 +2,9 @@ import { CiViewTable } from "react-icons/ci";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { MdOutlineLocalGroceryStore } from "react-icons/md";
 import Button from "../ui/Button";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, useMantineTheme } from "@mantine/core";
+import { Modal, MultiSelect, Select, useMantineTheme } from "@mantine/core";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface SelectedTablesProps {
@@ -16,9 +16,18 @@ const SelectedTables: FC<SelectedTablesProps> = ({
   selectedTables,
   removeSingleTable,
 }) => {
+  const guests = ["1", "2", "3", "4", "5", "Outher"];
+
   // handle open modal
   const [opened, { open, close }] = useDisclosure(false);
   const theme = useMantineTheme();
+
+  // handle select guest
+  const [selectedGuest, setSelectedGuest] = useState<string>("");
+
+  const selectGuest = (item: string) => {
+    return setSelectedGuest(item);
+  };
 
   return (
     <>
@@ -104,8 +113,72 @@ const SelectedTables: FC<SelectedTablesProps> = ({
           opacity: 0.55,
           blur: 3,
         }}
-        size="lg"
-      ></Modal>
+        size="md"
+      >
+        <div className="px-5 pb-5">
+          <div className="text-center mb-6">
+            <h2 className="text-dark font-medium text-xl mb-1">New Order</h2>
+            <p className="text-gray font-light text-sm">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <MultiSelect
+              label="Tables"
+              data={[
+                { value: "T-07", label: "T-07" },
+                { value: "T-04", label: "T-04" },
+                { value: "T-02", label: "T-02" },
+                { value: "T-10", label: "T-10" },
+                { value: "T-18", label: "T-18" },
+              ]}
+              defaultValue={["T-07", "T-02", "T-10", "T-18"]}
+              disabled
+            />
+
+            <Select
+              label="Choose Customers"
+              searchable
+              nothingFound="No options"
+              data={["React", "Angular", "Svelte", "Vue"]}
+              styles={() => ({
+                item: {
+                  "&[data-selected]": {
+                    "&, &:hover": {
+                      backgroundColor: "#46a0941f",
+                      color: "#46A094",
+                    },
+                  },
+                },
+              })}
+            />
+
+            <div className="pb-4">
+              <label className="text-sm text-dark font-medium">Guest</label>
+              <ul className="flex items-center gap-2 mt-1">
+                {guests.map((guest) => (
+                  <li
+                    className={`tag ${
+                      selectedGuest === guest
+                        ? "border-brand bg-brand/20 text-brand"
+                        : "border-gray/40 bg-gray/10 text-gray"
+                    }`}
+                    key={guest}
+                    onClick={() => selectGuest(guest)}
+                  >
+                    {guest}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <Button variant="default" size="default" rounded="default">
+              Book & Order
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };
