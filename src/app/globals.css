@@ -22,6 +22,10 @@ body {
       scrollbar-width: none; /* Firefox */
     }
   }
+
+  .tag {
+    @apply w-full flex items-center justify-center py-2 rounded-md border cursor-pointer text-sm;
+  }
 }
 
 .border-dashed-with-spacing {
@@ -68,6 +72,27 @@ body {
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f9f9f9;
+}
+
+/* Label */
+.mantine-1fzet7j {
+  color: #073b4c !important;
+}
+
+/* Input multi select */
+.mantine-1n7zxp {
+  padding-top: 0.6rem !important;
+  padding-bottom: 0.6rem !important;
+}
+
+/* Input select */
+.mantine-kcpopt {
+  height: 2.8rem !important;
+}
+
+.mantine-kcpopt:focus,
+.mantine-kcpopt:focus-within {
+  border-color: #46a094;
 }
 
 /* Handle */
