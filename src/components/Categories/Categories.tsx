@@ -39,7 +39,7 @@ const Index: FC<CategoriesProps> = ({ categories }) => {
       </div>
       <Swiper
         spaceBetween={10}
-        slidesPerView={10}
+        slidesPerView={8}
         loop
         navigation={{
           prevEl: prevRef.current,

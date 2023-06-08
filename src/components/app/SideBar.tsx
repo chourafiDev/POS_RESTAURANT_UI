@@ -15,7 +15,7 @@ const SideBar: FC<SideBarProps> = forwardRef(
     return (
       <div
         ref={ref}
-        className="fixed flex flex-col justify-between py-5 w-56 h-full shadow-sm border-r border-gray/20 bg-white"
+        className="fixed flex flex-col justify-between py-5 w-56 h-full shadow-sm border-r border-gray/20 bg-white z-20"
       >
         <div>
           <picture>

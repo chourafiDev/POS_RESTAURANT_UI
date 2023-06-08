@@ -67,7 +67,7 @@ export default function RootLayout({
             showNav && !isMobile ? "pl-56" : ""
           }`}
         >
-          <div className="px-4 md:px-6">{children}</div>
+          {children}
         </main>
       </body>
     </html>

@@ -5,7 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 
 export default function Home() {
   return (
-    <>
+    <div className="px-4 md:px-6">
       {/* <Navbar /> */}
 
       {/* Categories */}
@@ -13,6 +13,6 @@ export default function Home() {
 
       {/* Menu */}
       <Menu />
-    </>
+    </div>
   );
 }
