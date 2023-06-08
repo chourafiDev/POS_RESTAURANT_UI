@@ -142,6 +142,11 @@ const SelectedTables: FC<SelectedTablesProps> = ({
               searchable
               nothingFound="No options"
               data={["React", "Angular", "Svelte", "Vue"]}
+              transitionProps={{
+                transition: "pop-top-left",
+                duration: 80,
+                timingFunction: "ease",
+              }}
               styles={() => ({
                 item: {
                   "&[data-selected]": {
