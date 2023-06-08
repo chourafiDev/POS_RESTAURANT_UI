@@ -41,7 +41,7 @@ const MenuItem: FC<MenuItemProps> = ({ menu: { title, price, image } }) => {
 
   return (
     <>
-      <div onClick={openModal} className="cursor-pointer">
+      <div onClick={openModal} className="cursor-pointer bg-white">
         <Image
           src={`/assets/imgs/menu/${image}`}
           alt={title}
