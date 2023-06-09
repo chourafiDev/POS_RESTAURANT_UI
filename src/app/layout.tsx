@@ -1,11 +1,6 @@
-"use client";
-
-import TopBar from "@/components/app/TopBar";
 import "./globals.css";
 import { Poppins } from "next/font/google";
-import { useState, useEffect, Fragment } from "react";
-import { Transition } from "@headlessui/react";
-import SideBar from "@/components/app/SideBar";
+import LayoutContext from "@/components/app/LayoutContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,53 +17,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [showNav, setShowNav] = useState<boolean>(true);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-
-  function handleResize() {
-    if (innerWidth <= 640) {
-      setShowNav(false);
-      setIsMobile(true);
-    } else {
-      setShowNav(true);
-      setIsMobile(false);
-    }
-  }
-
-  useEffect(() => {
-    if (typeof window != undefined) {
-      addEventListener("resize", handleResize);
-    }
-
-    return () => {
-      removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <TopBar showNav={showNav} setShowNav={setShowNav} />
-        <Transition
-          as={Fragment}
-          show={showNav}
-          enter="transform transition duration-[400ms]"
-          enterFrom="-translate-x-full"
-          enterTo="translate-x-0"
-          leave="transform duration-[400ms] transition ease-in-out"
-          leaveFrom="translate-x-0"
-          leaveTo="-translate-x-full"
-        >
-          <SideBar showNav={showNav} />
-        </Transition>
-
-        <main
-          className={`h-screen pt-16 transition-all duration-[400ms] bg-white ${
-            showNav && !isMobile ? "pl-56" : ""
-          }`}
-        >
-          {children}
-        </main>
+        <LayoutContext>{children}</LayoutContext>
       </body>
     </html>
   );
