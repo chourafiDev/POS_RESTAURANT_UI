@@ -4,7 +4,7 @@ import Menu from "@/components/menu/Menu";
 
 export default function Home() {
   return (
-    <div className="px-4 md:px-6">
+    <div className="px-4 md:px-6 bg-[#fafafa]">
       {/* Categories */}
       <Categories categories={categories} />
 

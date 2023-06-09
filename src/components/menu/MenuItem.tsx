@@ -41,7 +41,10 @@ const MenuItem: FC<MenuItemProps> = ({ menu: { title, price, image } }) => {
 
   return (
     <>
-      <div onClick={openModal} className="cursor-pointer bg-white">
+      <div
+        onClick={openModal}
+        className="cursor-pointer bg-white p-2 rounded-md border border-gray/20 shadow-lg shadow-gray-light/50 hover:-translate-y-1 duration-200 ease-in"
+      >
         <Image
           src={`/assets/imgs/menu/${image}`}
           alt={title}
@@ -51,7 +54,7 @@ const MenuItem: FC<MenuItemProps> = ({ menu: { title, price, image } }) => {
         />
 
         <div className="mt-2">
-          <h1 className="text-gray/80 mb-2 text-[14px] font-normal tracking-wide">
+          <h1 className="text-gray mb-2 text-[14px] font-normal tracking-wide">
             {title}
           </h1>
           <strong className="text-dark font-medium">${price}</strong>
@@ -99,7 +102,7 @@ const MenuItem: FC<MenuItemProps> = ({ menu: { title, price, image } }) => {
 
             <div className="flex items-center gap-3 mt-5">
               <button
-                className="w-8 h-8 text-lg rounded-md bg-white border-2 border-brand text-brand"
+                className="w-8 h-8 text-lg rounded-md bg-white border-2 border-brand text-brand outline-none"
                 onClick={decreaseNumberOfOrders}
               >
                 -

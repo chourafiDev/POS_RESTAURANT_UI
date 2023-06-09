@@ -18,7 +18,7 @@ const Index: FC<CategoriesProps> = ({ categories }) => {
   const nextRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="mt-6">
+    <div className="pt-4">
       <div className="flex justify-between items-center">
         <h2 className="text-dark font-medium text-xl">Categories</h2>
 
