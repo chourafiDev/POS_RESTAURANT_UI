@@ -48,9 +48,9 @@ const SelectedTables: FC<SelectedTablesProps> = ({
               y: 100,
               transition: { duration: 0.75 / 2 },
             }}
-            className="fixed bottom-4 left-0 w-full px-5"
+            className="fixed bottom-4 left-0 w-full px-5 z-50"
           >
-            <div className="bg-white p-4 rounded-full">
+            <div className="bg-white p-4 rounded-full border border-gray/30 shadow-lg shadow-gray-light">
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="w-14 h-14 rounded-full bg-gray-light flex justify-center items-center mr-4">

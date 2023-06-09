@@ -12,7 +12,7 @@ const TablesList: FC<TablesListProps> = ({
   selectedTables,
 }) => {
   return (
-    <div className="bg-gray-light/80 min-h-screen px-14 py-4">
+    <div className="bg-gray-light/80 min-h-full px-14 pt-4 pb-16">
       <div className="flex gap-20 flex-wrap items-center">
         {tables.map((table) => (
           <Table
