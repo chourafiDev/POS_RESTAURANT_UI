@@ -73,7 +73,7 @@ const MenuItem: FC<MenuItemProps> = ({ menu: { title, price, image } }) => {
         }}
         size="xl"
       >
-        <div className="grid grid-cols-2 gap-8 p-2">
+        <div className="grid grid-cols-2 gap-8 p-4">
           <div>
             <div className="w-full h-[250px] shadow-lg shadow-gray-light/80 relative">
               <Image
