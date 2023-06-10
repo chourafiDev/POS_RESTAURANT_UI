@@ -14,6 +14,7 @@ const buttonVariants = cva(
           "border border-gray-light text-dark hover:bg-gray-light/50 duration-200 ease-in",
         destructive: "bg-red text-white",
         gray: "bg-red text-white",
+        white: "bg-white text-dark",
       },
       size: {
         default: "py-3 px-4 text-sm",
