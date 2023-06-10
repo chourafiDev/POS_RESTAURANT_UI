@@ -137,27 +137,10 @@ const SelectedTables: FC<SelectedTablesProps> = ({
               disabled
             />
 
-            <Select
-              label="Choose Customers"
-              searchable
-              nothingFound="No options"
-              data={["React", "Angular", "Svelte", "Vue"]}
-              transitionProps={{
-                transition: "pop-top-left",
-                duration: 80,
-                timingFunction: "ease",
-              }}
-              styles={() => ({
-                item: {
-                  "&[data-selected]": {
-                    "&, &:hover": {
-                      backgroundColor: "#46a0941f",
-                      color: "#46A094",
-                    },
-                  },
-                },
-              })}
-            />
+            <div className="">
+              <label className="text-sm text-dark font-medium">Customer</label>
+              <input type="text" className="input" />
+            </div>
 
             <div className="pb-4">
               <label className="text-sm text-dark font-medium">Guest</label>
@@ -167,7 +150,7 @@ const SelectedTables: FC<SelectedTablesProps> = ({
                     className={`tag ${
                       selectedGuest === guest
                         ? "border-brand bg-brand/20 text-brand"
-                        : "border-gray/40 bg-gray/10 text-gray"
+                        : "border-gray/30 bg-gray-light/20 text-gray"
                     }`}
                     key={guest}
                     onClick={() => selectGuest(guest)}

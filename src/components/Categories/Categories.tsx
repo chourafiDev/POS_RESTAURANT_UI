@@ -3,7 +3,7 @@ import CategoryItem from "./CategoryItem";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
 import "swiper/css";
-import { FC, useRef } from "react";
+import { FC, useRef, useState } from "react";
 import { Category } from "../../../types";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
@@ -16,6 +16,12 @@ interface CategoriesProps {
 const Index: FC<CategoriesProps> = ({ categories }) => {
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
+
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+
+  const handleSelectCategory = (item: string) => {
+    return setSelectedCategory(item);
+  };
 
   return (
     <div className="pt-4">
@@ -38,8 +44,8 @@ const Index: FC<CategoriesProps> = ({ categories }) => {
         </div>
       </div>
       <Swiper
-        spaceBetween={10}
-        slidesPerView={8}
+        spaceBetween={8}
+        slidesPerView={7}
         loop
         navigation={{
           prevEl: prevRef.current,
@@ -57,7 +63,11 @@ const Index: FC<CategoriesProps> = ({ categories }) => {
       >
         {categories.map((category) => (
           <SwiperSlide key={category.id}>
-            <CategoryItem category={category} />
+            <CategoryItem
+              category={category}
+              handleSelectCategory={handleSelectCategory}
+              selectedCategory={selectedCategory}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
