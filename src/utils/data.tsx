@@ -11,6 +11,11 @@ export const links = [
     icon: <GoHome size={18} />,
   },
   {
+    title: "Order",
+    link: "/order",
+    icon: <GoHome size={18} />,
+  },
+  {
     title: "Users",
     link: "/users",
     icon: <BiUser size={18} />,
