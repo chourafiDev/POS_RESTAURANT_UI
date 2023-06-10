@@ -26,6 +26,10 @@ body {
   .tag {
     @apply w-full flex items-center justify-center py-2 rounded-md border cursor-pointer text-sm;
   }
+
+  .input {
+    @apply w-full outline-none border border-gray/50 rounded-md px-3 py-2 text-dark/80 focus:border-brand;
+  }
 }
 
 .border-dashed-with-spacing {
@@ -60,7 +64,7 @@ body {
   padding: 0rem !important;
 }
 /* Modal */
-.mantine-13mybfv {
+.mantine-Paper-root {
   border-radius: 14px !important;
 }
 
