@@ -15,28 +15,26 @@ const SideBar: FC<SideBarProps> = forwardRef(
     return (
       <div
         ref={ref}
-        className="fixed flex flex-col justify-between py-5 w-56 h-full shadow-sm border-r border-gray/20 bg-white z-20"
+        className="fixed flex flex-col justify-between py-5 w-24 h-full shadow-sm border-r border-gray/20 bg-white z-20"
       >
         <div>
-          <picture>
+          <picture className="flex flex-col items-center">
             <Image
               src="/assets/imgs/logo.svg"
               alt="logo"
-              width={130}
-              height={30}
-              className="px-5"
+              width={45}
+              height={40}
+              className=""
             />
           </picture>
 
-          <ul className="space-y-6 mt-12">
-            {links.slice(0, 5).map(({ title, link, icon }) => (
+          <ul className="mt-7">
+            {links.map(({ title, link, icon }) => (
               <li key={title}>
                 <Link
                   href={link}
-                  className={`flex items-center gap-3 text-[14px] font-normal pl-5 ${
-                    pathname == link
-                      ? "text-brand border-s-4 border-brand"
-                      : "text-gray border-s-4 border-white"
+                  className={`flex flex-col items-center gap-1 text-[12px] font-medium p-2 mx-3 my-2 rounded-lg ${
+                    pathname == link ? "text-brand bg-brand/10" : "text-dark/50"
                   }`}
                 >
                   {icon}
@@ -47,8 +45,14 @@ const SideBar: FC<SideBarProps> = forwardRef(
           </ul>
         </div>
 
-        <div>
-          <div className="flex items-center gap-2 shadow-lg shadow-gray-light/40 rounded-lg py-3 px-1 border border-gray-light/50 bg-white mx-5">
+        {/* <div> */}
+        <div className="flex flex-col items-center gap-1">
+          <Link
+            href="/profile"
+            className={`flex flex-col items-center gap-1 text-[12px] font-semibold ${
+              pathname == "profile" ? "text-brand" : "text-dark/30"
+            }`}
+          >
             <Image
               src="/assets/imgs/user.png"
               width={40}
@@ -56,26 +60,8 @@ const SideBar: FC<SideBarProps> = forwardRef(
               alt="user"
               className="rounded-full"
             />
-            <div>
-              <h5 className="text-dark/80 font-semibold text-[15px]">
-                Casey Kaspol
-              </h5>
-              <p className="text-gray/80 text-sm">Cashier</p>
-            </div>
-          </div>
-          <ul className="space-y-6 mt-10 px-5">
-            {links.slice(5, 7).map(({ title, link, icon }) => (
-              <li key={title}>
-                <Link
-                  href={link}
-                  className="flex items-center gap-3 text-gray text-[14px] font-normal"
-                >
-                  {icon}
-                  {title}
-                </Link>
-              </li>
-            ))}
-          </ul>
+            Profile
+          </Link>
         </div>
       </div>
     );

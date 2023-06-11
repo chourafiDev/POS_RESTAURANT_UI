@@ -45,7 +45,7 @@ const LayoutContext = ({ children }: { children: React.ReactNode }) => {
       </Transition>
       <main
         className={`h-screen pt-16 transition-all duration-[400ms] bg-white ${
-          showNav && !isMobile ? "pl-56" : ""
+          showNav && !isMobile ? "pl-24" : ""
         }`}
       >
         {children}
