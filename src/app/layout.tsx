@@ -1,11 +1,13 @@
 import "./globals.css";
-import { Poppins } from "next/font/google";
+import { Poppins, Inter } from "next/font/google";
 import LayoutContext from "@/components/app/LayoutContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "POS app",
@@ -19,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body className={inter.className}>
         <LayoutContext>{children}</LayoutContext>
       </body>
     </html>

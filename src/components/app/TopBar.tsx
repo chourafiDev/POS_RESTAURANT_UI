@@ -20,7 +20,7 @@ const TopBar: FC<SideBarProps> = ({ showNav, setShowNav }) => {
   return (
     <div
       className={`fixed w-full h-16 pr-8 bg-white flex justify-between items-center transition-all duration-[400ms] border-b border-gray/20 z-10 ${
-        showNav ? "pl-64" : "pl-5"
+        showNav ? "pl-28" : "pl-5"
       }`}
     >
       <button
