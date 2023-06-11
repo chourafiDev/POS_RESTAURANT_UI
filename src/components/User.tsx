@@ -12,7 +12,7 @@ const User = () => {
         className="rounded-full"
       />
       <div>
-        <h5 className="text-dark font-semibold text-md">Casey Kaspol</h5>
+        <h5 className="text-dark font-semibold text-sm">Casey Kaspol</h5>
         <p className="text-gray text-sm">Cashier</p>
       </div>
     </div>
