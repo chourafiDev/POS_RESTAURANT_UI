@@ -1,49 +1,40 @@
-import { GoHome } from "react-icons/go";
-import { BiUser } from "react-icons/bi";
-import { RiFileList3Line } from "react-icons/ri";
-import { SlSettings } from "react-icons/sl";
-import { TbLayout2 } from "react-icons/tb";
+import { FaUsers } from "react-icons/fa";
+import { HiShoppingCart } from "react-icons/hi";
+import { RiHome6Fill, RiLogoutCircleRFill } from "react-icons/ri";
+import { MdOutlineHelp } from "react-icons/md";
+import { BsFillClockFill } from "react-icons/bs";
+import { RiLayoutMasonryFill } from "react-icons/ri";
 
 export const links = [
   {
     title: "Home",
     link: "/",
-    icon: <GoHome size={18} />,
+    icon: <RiHome6Fill size={20} className="text-dark/60" />,
   },
   {
     title: "Order",
     link: "/order",
-    icon: <GoHome size={18} />,
+    icon: <HiShoppingCart size={20} />,
   },
   {
     title: "Users",
     link: "/users",
-    icon: <BiUser size={18} />,
-  },
-  {
-    title: "Bills",
-    link: "/bills",
-    icon: <RiFileList3Line size={18} />,
+    icon: <FaUsers size={20} />,
   },
   {
     title: "Tables",
     link: "/tables",
-    icon: <TbLayout2 size={18} />,
+    icon: <RiLayoutMasonryFill size={20} />,
   },
   {
-    title: "Setting",
-    link: "/setting",
-    icon: <SlSettings size={18} />,
-  },
-  {
-    title: "Help & Information",
-    link: "/help",
-    icon: <RiFileList3Line size={18} />,
+    title: "History",
+    link: "/history",
+    icon: <BsFillClockFill size={20} />,
   },
   {
     title: "Log out",
     link: "/logout",
-    icon: <SlSettings size={18} />,
+    icon: <RiLogoutCircleRFill size={23} />,
   },
 ];
 
