@@ -9,7 +9,7 @@ export const links = [
   {
     title: "Home",
     link: "/",
-    icon: <RiHome6Fill size={20} className="text-dark/60" />,
+    icon: <RiHome6Fill size={20} />,
   },
   {
     title: "Order",
