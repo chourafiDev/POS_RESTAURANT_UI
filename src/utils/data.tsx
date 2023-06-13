@@ -1,7 +1,6 @@
 import { FaUsers } from "react-icons/fa";
 import { HiShoppingCart } from "react-icons/hi";
 import { RiHome6Fill, RiLogoutCircleRFill } from "react-icons/ri";
-import { MdOutlineHelp } from "react-icons/md";
 import { BsFillClockFill } from "react-icons/bs";
 import { RiLayoutMasonryFill } from "react-icons/ri";
 
@@ -297,5 +296,50 @@ export const tables = [
     number: "T-20",
     guests: 4,
     status: "available",
+  },
+];
+
+export const history = [
+  {
+    orderId: 9038734,
+    date: "28 jun, 2023",
+    table: "T1",
+    price: 45.67,
+    paymentType: "Debut",
+  },
+  {
+    orderId: 9038756,
+    date: "28 jun, 2023",
+    table: "T1",
+    price: 45.67,
+    paymentType: "Cash",
+  },
+  {
+    orderId: 9036834,
+    date: "28 jun, 2023",
+    table: "T1",
+    price: 45.67,
+    paymentType: "Debut",
+  },
+  {
+    orderId: 9097734,
+    date: "28 jun, 2023",
+    table: "T1",
+    price: 45.67,
+    paymentType: "E-Wallet",
+  },
+  {
+    orderId: 9038354,
+    date: "28 jun, 2023",
+    table: "T1",
+    price: 45.67,
+    paymentType: "Cash",
+  },
+  {
+    orderId: 9039034,
+    date: "28 jun, 2023",
+    table: "T1",
+    price: 45.67,
+    paymentType: "E-Wallet",
   },
 ];
