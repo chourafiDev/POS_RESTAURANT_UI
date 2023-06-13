@@ -67,6 +67,9 @@ body {
 .mantine-Paper-root {
   border-radius: 14px !important;
 }
+.mantine-9d0559 {
+  border-radius: 1px !important;
+}
 
 /* Override global scrolbar styles */
 ::-webkit-scrollbar {
@@ -97,6 +100,19 @@ body {
 .mantine-kcpopt:focus,
 .mantine-kcpopt:focus-within {
   border-color: #46a094;
+}
+
+/* Input date */
+.mantine-gszoqu:focus,
+.mantine-gszoqu:focus-within {
+  border-color: #46a094;
+}
+
+.mantine-DateInput-input {
+  border-radius: 12px !important;
+  padding: 21px !important;
+  color: #073b4c;
+  font-weight: 500;
 }
 
 /* Handle */
