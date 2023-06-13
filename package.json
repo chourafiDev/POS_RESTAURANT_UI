@@ -13,6 +13,7 @@
     "@emotion/server": "^11.11.0",
     "@headlessui/react": "^1.7.15",
     "@mantine/core": "^6.0.11",
+    "@mantine/dates": "^6.0.13",
     "@mantine/hooks": "^6.0.11",
     "@mantine/next": "^6.0.11",
     "@reduxjs/toolkit": "^1.9.5",
@@ -22,6 +23,7 @@
     "autoprefixer": "10.4.14",
     "class-variance-authority": "^0.6.0",
     "classnames": "^2.3.2",
+    "dayjs": "^1.11.8",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
     "framer-motion": "^10.12.16",
@@ -32,6 +34,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.9.0",
     "react-redux": "^8.0.5",
+    "recharts": "^2.6.2",
     "swiper": "^9.3.2",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
