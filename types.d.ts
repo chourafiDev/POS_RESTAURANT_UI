@@ -26,3 +26,11 @@ export interface Table {
   guests: number;
   status: string;
 }
+
+export interface OrderedList {
+  orderId: string;
+  table: string;
+  Qta: number;
+  time: string;
+  price: number;
+}
