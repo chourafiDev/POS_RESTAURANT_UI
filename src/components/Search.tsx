@@ -2,7 +2,7 @@ import { ImSearch } from "react-icons/im";
 
 const Search = () => {
   return (
-    <div className="pt-4 flex items-center gap-4">
+    <div className="flex items-center gap-4">
       <div className="flex items-center bg-white py-[3px] px-4 gap-2 rounded-md">
         <ImSearch className="text-dark/40" size={17} />
         <input
