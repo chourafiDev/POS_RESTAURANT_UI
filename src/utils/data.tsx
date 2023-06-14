@@ -185,7 +185,7 @@ export const oredrs = [
     image: "bread.jpg",
   },
   {
-    id: 1,
+    id: 2,
     title: "Special Spicy Fried Rice",
     desc: "Not Spicy",
     price: 22.56,
@@ -193,7 +193,7 @@ export const oredrs = [
     image: "bread.jpg",
   },
   {
-    id: 1,
+    id: 3,
     title: "Seblak Beef Macaroni",
     desc: "Spicy with 10 Chilies",
     price: 22.56,
@@ -347,5 +347,57 @@ export const history = [
     table: "T1",
     price: 45.67,
     paymentType: "E-Wallet",
+  },
+];
+
+export const ordersList = [
+  {
+    orderId: "#906753",
+    table: "T-6",
+    Qta: 8,
+    time: "20:30pm",
+    price: 40.99,
+  },
+  {
+    orderId: "#906893",
+    table: "T-10",
+    Qta: 6,
+    time: "23:00pm",
+    price: 40.99,
+  },
+  {
+    orderId: "#956753",
+    table: "T-5",
+    Qta: 3,
+    time: "09:00pm",
+    price: 40.99,
+  },
+  {
+    orderId: "#906798",
+    table: "T-2",
+    Qta: 2,
+    time: "20:00pm",
+    price: 40.99,
+  },
+  {
+    orderId: "#906243",
+    table: "T-1",
+    Qta: 9,
+    time: "14:00pm",
+    price: 40.99,
+  },
+  {
+    orderId: "#909053",
+    table: "T-12",
+    Qta: 4,
+    time: "15:00pm",
+    price: 40.99,
+  },
+  {
+    orderId: "#906353",
+    table: "T-15",
+    Qta: 3,
+    time: "10:30pm",
+    price: 40.99,
   },
 ];
