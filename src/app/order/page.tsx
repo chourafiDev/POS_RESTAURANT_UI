@@ -1,19 +1,26 @@
-import Categories from "../../components/Categories/Categories";
-import { categories } from "@/utils/data";
-import Menu from "@/components/menu/Menu";
-import Search from "@/components/Search";
+"use client";
+
+import Orders from "@/components/orders/Orders";
+import OrdersCompleted from "@/components/orders/OrdersCompleted";
+import OrdersOnProcess from "@/components/orders/OrdersOnProcess";
+
+const tabs = [
+  {
+    title: "On-process",
+    id: "on-process",
+    content: OrdersOnProcess,
+  },
+  {
+    title: "Completed",
+    id: "completed",
+    content: OrdersCompleted,
+  },
+];
 
 export default function Order() {
   return (
-    <div className="px-4 md:px-6 bg-[#fafafa]">
-      {/* Search */}
-      <Search />
-
-      {/* Categories */}
-      <Categories categories={categories} />
-
-      {/* Menu */}
-      <Menu />
+    <div className="p-4 md:p-6 bg-[#fafafa]">
+      <Orders tabs={tabs} />
     </div>
   );
 }
