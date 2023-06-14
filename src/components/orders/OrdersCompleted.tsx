@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import Order from "./Order";
 import { motion } from "framer-motion";
+import { ordersList } from "@/utils/data";
 
 interface OrdersCompletedProps {
   id: string;
@@ -29,8 +30,8 @@ const OrdersCompleted: FC<OrdersCompletedProps> = ({ id, active }) => {
       initial="inactive"
       className="space-y-2"
     >
-      {array.fill(5).map((index) => (
-        <Order key={index} index={index} />
+      {ordersList.map((order) => (
+        <Order key={order.orderId} order={order} />
       ))}
     </motion.div>
   );
