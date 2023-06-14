@@ -19,7 +19,7 @@ const tabs = [
 
 export default function Order() {
   return (
-    <div className="p-4 md:p-6 bg-[#fafafa]">
+    <div className="p-4 md:p-6 bg-[#fafafa] min-h-screen">
       <Orders tabs={tabs} />
     </div>
   );
