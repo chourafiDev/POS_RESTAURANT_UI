@@ -4,6 +4,7 @@ import { Transition } from "@headlessui/react";
 import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 import { useState, useEffect, Fragment } from "react";
+import NextNProgress from "nextjs-progressbar";
 
 const LayoutContext = ({ children }: { children: React.ReactNode }) => {
   const [showNav, setShowNav] = useState<boolean>(true);
@@ -30,6 +31,14 @@ const LayoutContext = ({ children }: { children: React.ReactNode }) => {
   }, []);
   return (
     <>
+      <NextNProgress
+        color="#6591ff"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={3}
+        showOnShallow={true}
+        options={{ showSpinner: false }}
+      />
       <TopBar showNav={showNav} setShowNav={setShowNav} />
       <Transition
         as={Fragment}
