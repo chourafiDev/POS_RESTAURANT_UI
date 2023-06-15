@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Order from "./Order";
 import { motion } from "framer-motion";
 import { ordersList } from "@/utils/data";
@@ -9,8 +9,6 @@ interface OrdersCompletedProps {
 }
 
 const OrdersCompleted: FC<OrdersCompletedProps> = ({ id, active }) => {
-  let array = new Array(5);
-
   const tabContentVariant = {
     active: {
       display: "block",
@@ -23,6 +21,12 @@ const OrdersCompleted: FC<OrdersCompletedProps> = ({ id, active }) => {
     },
   };
 
+  const [orderSelected, setOrderSelected] = useState("");
+
+  const hundleClickOrder = (orderId: string) => {
+    setOrderSelected(orderId);
+  };
+
   return (
     <motion.div
       variants={tabContentVariant}
@@ -31,7 +35,12 @@ const OrdersCompleted: FC<OrdersCompletedProps> = ({ id, active }) => {
       className="space-y-2"
     >
       {ordersList.map((order) => (
-        <Order key={order.orderId} order={order} />
+        <Order
+          key={order.orderId}
+          order={order}
+          orderSelected={orderSelected}
+          hundleClickOrder={hundleClickOrder}
+        />
       ))}
     </motion.div>
   );

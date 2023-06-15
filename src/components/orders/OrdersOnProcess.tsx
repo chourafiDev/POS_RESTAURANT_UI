@@ -1,4 +1,4 @@
-import { FC, useState, useCallback } from "react";
+import { FC, useState } from "react";
 import Order from "./Order";
 import { motion } from "framer-motion";
 import { ordersList } from "@/utils/data";
@@ -8,17 +8,7 @@ interface OrdersOnProcess {
   active: boolean;
 }
 
-interface IOrderList {
-  orderId: string;
-  table: string;
-  Qta: number;
-  time: string;
-  price: number;
-}
-
 const OrdersOnProcess: FC<OrdersOnProcess> = ({ id, active }) => {
-  let array = new Array(5);
-
   const tabContentVariant = {
     active: {
       display: "block",
