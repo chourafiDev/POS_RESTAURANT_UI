@@ -85,6 +85,26 @@ body {
 .mantine-1fzet7j {
   color: #073b4c !important;
 }
+.form .mantine-1fzet7j {
+  color: #979797 !important;
+  font-weight: 500 !important;
+  margin-bottom: 3px !important;
+}
+.form .mantine-Input-input {
+  border-radius: 14px !important;
+  height: 3rem !important;
+  font-size: 16px !important;
+  color: #073b4c !important;
+  background-color: #f5f5f5 !important;
+  border: none !important;
+}
+.form .mantine-PasswordInput-innerInput {
+  height: 100% !important;
+}
+
+.mantine-Radio-label {
+  color: #073b4c !important;
+}
 
 /* Input multi select */
 .mantine-1n7zxp {
