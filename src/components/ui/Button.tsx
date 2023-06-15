@@ -10,7 +10,7 @@ const buttonVariants = cva(
         secondary:
           "bg-gray/60 text-white hover:bg-gray/40 duration-200 ease-in",
         outline:
-          "border border-gray-light text-dark hover:bg-gray-light/50 duration-200 ease-in",
+          "border border-brand text-brand hover:bg-brand/10 duration-200 ease-in",
         destructive: "bg-red text-white",
         gray: "bg-red text-white",
         white: "bg-white text-dark",
