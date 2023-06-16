@@ -3,18 +3,12 @@ import { HiShoppingCart } from "react-icons/hi";
 import { RiHome6Fill } from "react-icons/ri";
 import { BsFillClockFill } from "react-icons/bs";
 import { RiLayoutMasonryFill } from "react-icons/ri";
-import { MdFastfood } from "react-icons/md";
 
 export const links = [
   {
     title: "Home",
     link: "/",
     icon: <RiHome6Fill size={20} />,
-  },
-  {
-    title: "Menu",
-    link: "/menu",
-    icon: <MdFastfood size={20} />,
   },
   {
     title: "Order",
