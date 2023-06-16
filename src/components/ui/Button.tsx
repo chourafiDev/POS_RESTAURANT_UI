@@ -11,7 +11,9 @@ const buttonVariants = cva(
           "bg-gray/60 text-white hover:bg-gray/40 duration-200 ease-in",
         outline:
           "border border-brand text-brand hover:bg-brand/10 duration-200 ease-in",
-        destructive: "bg-red text-white",
+        "outline-gray":
+          "border border-gray/40 text-dark hover:bg-gray-light/10 duration-200 ease-in",
+        destructive: "bg-red text-white hover:bg-red/90 duration-200 ease-in",
         gray: "bg-red text-white",
         white: "bg-white text-dark",
       },
