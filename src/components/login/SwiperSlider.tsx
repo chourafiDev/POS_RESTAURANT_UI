@@ -14,7 +14,7 @@ const SwiperSlider = () => {
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
   return (
-    <div className="h-screen p-6">
+    <div className="h-screen p-6 bg-[#fafafa]">
       <Swiper
         spaceBetween={50}
         slidesPerView={1}

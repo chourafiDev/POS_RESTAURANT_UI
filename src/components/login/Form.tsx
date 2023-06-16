@@ -8,15 +8,10 @@ import Image from "next/image";
 
 const Form = () => {
   return (
-    <div className="h-screen flex flex-col justify-center items-center">
+    <div className="h-screen bg-[#fafafa] flex flex-col justify-center items-center">
       <div className="w-3/4">
         <div className="w-[70px] h-[70px] rounded-full border border-gray-light bg-gray-light/20 relative mb-6">
-          <Image
-            src="/assets/imgs/logo-icon.png"
-            fill
-            alt="logo"
-            className="p-3"
-          />
+          <Image src="/assets/imgs/logo.svg" fill alt="logo" className="p-3" />
         </div>
 
         <div className="mb-9">
@@ -75,7 +70,7 @@ const Form = () => {
             <Divider my="xs" label="or" labelPosition="center" />
 
             <Button
-              variant="outline"
+              variant="outline-gray"
               size="default"
               rounded="default"
               className="gap-3"
