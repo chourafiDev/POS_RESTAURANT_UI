@@ -33,7 +33,7 @@ const SideBar: FC<SideBarProps> = forwardRef(
               <li key={title}>
                 <Link
                   href={link}
-                  className={`flex flex-col items-center gap-1 text-[12px] font-medium p-2 mx-3 my-2 rounded-lg ${
+                  className={`flex flex-col items-center gap-1 text-[12px] font-medium p-2 mx-3 my-[5px] rounded-lg ${
                     pathname == link ? "text-brand bg-brand/10" : "text-dark/50"
                   }`}
                 >
