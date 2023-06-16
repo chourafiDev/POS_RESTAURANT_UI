@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../globals.css";
 import { Poppins, Inter } from "next/font/google";
 import LayoutContext from "@/components/app/LayoutContext";
 

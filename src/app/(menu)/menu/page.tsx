@@ -1,4 +1,4 @@
-import Categories from "../../components/Categories/Categories";
+import Categories from "../../../components/Categories/Categories";
 import { categories } from "@/utils/data";
 import Menu from "@/components/menu/Menu";
 import Search from "@/components/Search";
