@@ -1,6 +1,6 @@
 import { FaUsers } from "react-icons/fa";
 import { HiShoppingCart } from "react-icons/hi";
-import { RiHome6Fill, RiLogoutCircleRFill } from "react-icons/ri";
+import { RiHome6Fill } from "react-icons/ri";
 import { BsFillClockFill } from "react-icons/bs";
 import { RiLayoutMasonryFill } from "react-icons/ri";
 import { MdFastfood } from "react-icons/md";
@@ -35,11 +35,6 @@ export const links = [
     title: "History",
     link: "/history",
     icon: <BsFillClockFill size={20} />,
-  },
-  {
-    title: "Log out",
-    link: "/logout",
-    icon: <RiLogoutCircleRFill size={23} />,
   },
 ];
 
@@ -399,5 +394,57 @@ export const ordersList = [
     Qta: 3,
     time: "10:30pm",
     price: 40.99,
+  },
+];
+
+export const users = [
+  {
+    id: 1,
+    firstName: "Jhon",
+    lastName: "Patris",
+    phone: "0678987678",
+    email: "jhonpatris@gmail.com",
+  },
+  {
+    id: 2,
+    firstName: "Jhon",
+    lastName: "Patris",
+    phone: "0678987678",
+    email: "jhonpatris@gmail.com",
+  },
+  {
+    id: 3,
+    firstName: "Jhon",
+    lastName: "Patris",
+    phone: "0678987678",
+    email: "jhonpatris@gmail.com",
+  },
+  {
+    id: 4,
+    firstName: "Jhon",
+    lastName: "Patris",
+    phone: "0678987678",
+    email: "jhonpatris@gmail.com",
+  },
+  {
+    id: 5,
+    firstName: "Jhon",
+    lastName: "Patris",
+    phone: "0678987678",
+    email: "jhonpatris@gmail.com",
+  },
+  {
+    id: 6,
+    firstName: "Jhon",
+    lastName: "Patris",
+    phone: "0678987678",
+    email: "jhonpatris@gmail.com",
+  },
+  {
+    id: 7,
+    firstName: "Jhon",
+    lastName: "Patris",
+    phone: "0678987678",
+    email: "jhonpatris@gmail.com",
   },
 ];
