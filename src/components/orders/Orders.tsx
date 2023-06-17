@@ -3,7 +3,7 @@ import React, { FC, useState } from "react";
 interface Tabs {
   title: string;
   id: string;
-  content: React.ComponentType<any>;
+  content: any;
 }
 
 interface OrdersProps {
