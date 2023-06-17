@@ -7,7 +7,7 @@ import StickyBox from "react-sticky-box";
 interface Tabs {
   title: string;
   id: string;
-  content: React.ComponentType<any>;
+  content: any;
 }
 
 interface SettingsProps {
@@ -42,13 +42,16 @@ const Settings: FC<SettingsProps> = ({ tabs }) => {
 
       <div className="flex-1">
         {/* Tab content */}
-        {tabs.map((tab, index) => (
-          <tab.content
-            key={tab.id}
-            id={`${tab.id}-content`}
-            active={activeTabIndex === index}
-          />
-        ))}
+        {tabs.map((tab, index) => {
+          const TabContent = tab.content;
+          return (
+            <TabContent
+              key={tab.id}
+              id={`${tab.id}-content`}
+              active={activeTabIndex === index}
+            />
+          );
+        })}
       </div>
     </div>
   );
