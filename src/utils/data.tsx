@@ -3,6 +3,7 @@ import { HiShoppingCart } from "react-icons/hi";
 import { RiHome6Fill } from "react-icons/ri";
 import { BsFillClockFill } from "react-icons/bs";
 import { RiLayoutMasonryFill } from "react-icons/ri";
+import { AiFillSetting } from "react-icons/ai";
 
 export const links = [
   {
@@ -29,6 +30,11 @@ export const links = [
     title: "History",
     link: "/history",
     icon: <BsFillClockFill size={20} />,
+  },
+  {
+    title: "Settings",
+    link: "/setting",
+    icon: <AiFillSetting size={20} />,
   },
 ];
 
