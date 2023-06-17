@@ -17,7 +17,7 @@ const tabs = [
 
 const page = () => {
   return (
-    <div className="p-4 md:p-6 bg-[#fafafa]">
+    <div className="p-4 md:p-6 bg-[#fafafa] min-h-full">
       <Settings tabs={tabs} />
     </div>
   );
