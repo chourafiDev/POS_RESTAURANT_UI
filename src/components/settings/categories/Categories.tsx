@@ -3,18 +3,17 @@
 import { FC } from "react";
 import { motion } from "framer-motion";
 
-import { users } from "@/utils/data";
+import { categories } from "@/utils/data";
 import { ImSearch } from "react-icons/im";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { LuPlusCircle } from "react-icons/lu";
 import { AiFillEdit } from "react-icons/ai";
-import { FaEye } from "react-icons/fa";
 import { useDisclosure } from "@mantine/hooks";
 import Button from "@/components/ui/Button";
-// import AddUser from "./AddUser";
-// import DeleteUser from "./DeleteUser";
-// import EditUser from "./EditUser";
-// import DetailsUser from "./DetailsUser";
+import Image from "next/image";
+import AddCategory from "./AddCategory";
+import EditCategory from "./EditCategory";
+import DeleteCategory from "./DeleteCategory";
 
 interface CategoriesProps {
   id: string;
@@ -50,12 +49,6 @@ const Categories: FC<CategoriesProps> = ({ id, active }) => {
   // handle edit category
   const [modalEditOpened, { open: openModalEdit, close: closeModalEdit }] =
     useDisclosure(false);
-
-  // handle details category
-  const [
-    modalDetailsOpened,
-    { open: openModalDetails, close: closeModalDetails },
-  ] = useDisclosure(false);
 
   // handle delete category
   const [
@@ -107,16 +100,10 @@ const Categories: FC<CategoriesProps> = ({ id, active }) => {
                   <thead className="border-b font-medium border-gray/10">
                     <tr>
                       <th scope="col" className="px-6 py-4 text-dark">
-                        First Name
+                        Name
                       </th>
                       <th scope="col" className="px-6 py-4 text-dark">
-                        Last Name
-                      </th>
-                      <th scope="col" className="px-6 py-4 text-dark">
-                        Phone
-                      </th>
-                      <th scope="col" className="px-6 py-4 text-dark">
-                        Email
+                        Icon
                       </th>
                       <th scope="col" className="px-6 py-4 text-dark">
                         Action
@@ -124,28 +111,22 @@ const Categories: FC<CategoriesProps> = ({ id, active }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {users.map((user) => (
-                      <tr key={user.id} className="border-b border-gray/10">
+                    {categories.map((category) => (
+                      <tr key={category.id} className="border-b border-gray/10">
                         <td className="whitespace-nowrap px-6 py-4 font-medium text-dark/70">
-                          {user.firstName}
+                          {category.name}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 font-medium text-dark/70">
-                          {user.lastName}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 font-medium text-dark/70">
-                          {user.phone}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 font-medium text-dark/70">
-                          {user.email}
+                          <Image
+                            src={`/assets/imgs/icons/${category.icon}`}
+                            alt={category.name}
+                            width={30}
+                            height={30}
+                            className="rounded-full"
+                          />
                         </td>
 
                         <td className="flex items-center gap-2 py-4 whitespace-nowrap">
-                          <button
-                            onClick={openModalDetails}
-                            className="w-9 h-9 rounded-md bg-brand/30 text-brand flex justify-center items-center"
-                          >
-                            <FaEye size={16} />
-                          </button>
                           <button
                             onClick={openModalEdit}
                             className="w-9 h-9 rounded-md bg-yellow/30 text-yellow flex justify-center items-center"
@@ -169,28 +150,22 @@ const Categories: FC<CategoriesProps> = ({ id, active }) => {
         </div>
 
         {/* Modal Add Item */}
-        {/* <AddCategory
+        <AddCategory
           modalAddOpened={modalAddOpened}
           closeModalAdd={closeModalAdd}
-        /> */}
+        />
 
         {/* Modal Edit Category */}
-        {/* <EditCategory
+        <EditCategory
           modalEditOpened={modalEditOpened}
           closeModalEdit={closeModalEdit}
-        /> */}
-
-        {/* Modal Details Category */}
-        {/* <DetailsCategory
-          modalDetailsOpened={modalDetailsOpened}
-          closeModalDetails={closeModalDetails}
-        /> */}
+        />
 
         {/* Modal Delete Category */}
-        {/* <DeleteCategory
+        <DeleteCategory
           modalDeleteOpened={modalDeleteOpened}
           closeModalDelete={closeModalDelete}
-        /> */}
+        />
       </>
     </motion.div>
   );

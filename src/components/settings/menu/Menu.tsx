@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { motion } from "framer-motion";
 
-import { users } from "@/utils/data";
+import { menu, users } from "@/utils/data";
 import { ImSearch } from "react-icons/im";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { LuPlusCircle } from "react-icons/lu";
@@ -11,6 +11,11 @@ import { AiFillEdit } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
 import { useDisclosure } from "@mantine/hooks";
 import Button from "@/components/ui/Button";
+import AddItem from "./AddItem";
+import Image from "next/image";
+import DeleteItem from "./DeleteItem";
+import EditItem from "./EditItem";
+import DetailItem from "./DetailItem";
 // import AddUser from "./AddUser";
 // import DeleteUser from "./DeleteUser";
 // import EditUser from "./EditUser";
@@ -53,8 +58,8 @@ const Menu: FC<MenuProps> = ({ id, active }) => {
 
   // handle details user
   const [
-    modalDetailsOpened,
-    { open: openModalDetails, close: closeModalDetails },
+    modalDetailOpened,
+    { open: openModalDetail, close: closeModalDetail },
   ] = useDisclosure(false);
 
   // handle delete user
@@ -73,9 +78,7 @@ const Menu: FC<MenuProps> = ({ id, active }) => {
     >
       <>
         <div className="flex items-center justify-between">
-          <h1 className="text-dark font-semibold mb-5 text-[18px]">
-            List Menu
-          </h1>
+          <h1 className="text-dark font-semibold mb-5 text-[18px]">Menu</h1>
           <div className="inline-block">
             <Button
               variant="default"
@@ -107,41 +110,42 @@ const Menu: FC<MenuProps> = ({ id, active }) => {
                   <thead className="border-b font-medium border-gray/10">
                     <tr>
                       <th scope="col" className="px-6 py-4 text-dark">
-                        First Name
+                        Image
                       </th>
                       <th scope="col" className="px-6 py-4 text-dark">
-                        Last Name
+                        Title
                       </th>
                       <th scope="col" className="px-6 py-4 text-dark">
-                        Phone
+                        Price
                       </th>
-                      <th scope="col" className="px-6 py-4 text-dark">
-                        Email
-                      </th>
+
                       <th scope="col" className="px-6 py-4 text-dark">
                         Action
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {users.map((user) => (
-                      <tr key={user.id} className="border-b border-gray/10">
+                    {menu.map((menu) => (
+                      <tr key={menu.id} className="border-b border-gray/10">
                         <td className="whitespace-nowrap px-6 py-4 font-medium text-dark/70">
-                          {user.firstName}
+                          <Image
+                            src={`/assets/imgs/menu/${menu.image}`}
+                            alt={menu.title}
+                            width={60}
+                            height={60}
+                            className="rounded-lg"
+                          />
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 font-medium text-dark/70">
-                          {user.lastName}
+                          {menu.title}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 font-medium text-dark/70">
-                          {user.phone}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 font-medium text-dark/70">
-                          {user.email}
+                          ${menu.price}
                         </td>
 
                         <td className="flex items-center gap-2 py-4 whitespace-nowrap">
                           <button
-                            onClick={openModalDetails}
+                            onClick={openModalDetail}
                             className="w-9 h-9 rounded-md bg-brand/30 text-brand flex justify-center items-center"
                           >
                             <FaEye size={16} />
@@ -169,28 +173,28 @@ const Menu: FC<MenuProps> = ({ id, active }) => {
         </div>
 
         {/* Modal Add Item */}
-        {/* <AddItem
+        <AddItem
           modalAddOpened={modalAddOpened}
           closeModalAdd={closeModalAdd}
-        /> */}
+        />
 
         {/* Modal Edit Item */}
-        {/* <EditItem
+        <EditItem
           modalEditOpened={modalEditOpened}
           closeModalEdit={closeModalEdit}
-        /> */}
+        />
 
-        {/* Modal Details Item */}
-        {/* <DetailsItem
-          modalDetailsOpened={modalDetailsOpened}
-          closeModalDetails={closeModalDetails}
-        /> */}
+        {/* Modal Detail Item */}
+        <DetailItem
+          modalDetailOpened={modalDetailOpened}
+          closeModalDetail={closeModalDetail}
+        />
 
         {/* Modal Delete Item */}
-        {/* <DeleteItem
+        <DeleteItem
           modalDeleteOpened={modalDeleteOpened}
           closeModalDelete={closeModalDelete}
-        /> */}
+        />
       </>
     </motion.div>
   );
