@@ -16,10 +16,6 @@ import Image from "next/image";
 import DeleteItem from "./DeleteItem";
 import EditItem from "./EditItem";
 import DetailItem from "./DetailItem";
-// import AddUser from "./AddUser";
-// import DeleteUser from "./DeleteUser";
-// import EditUser from "./EditUser";
-// import DetailsUser from "./DetailsUser";
 
 interface MenuProps {
   id: string;
