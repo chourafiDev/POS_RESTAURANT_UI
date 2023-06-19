@@ -10,7 +10,7 @@ import {
 import { FC, useCallback, useState } from "react";
 import { FileInput, rem } from "@mantine/core";
 import { FiUpload } from "react-icons/fi";
-import { MdClose } from "react-icons/md";
+import { RxDash } from "react-icons/rx";
 import { BiPlus } from "react-icons/bi";
 import Button from "@/components/ui/Button";
 
@@ -22,26 +22,43 @@ interface EditItemProps {
 const EditItem: FC<EditItemProps> = ({ modalEditOpened, closeModalEdit }) => {
   const theme = useMantineTheme();
 
-  const [data, setData] = useState([{ option: "" }]);
+  const [options, setOptions] = useState([""]);
 
   const handleClick = useCallback(() => {
-    setData([...data, { option: "" }]);
-  }, [data]);
+    // for (let i = 0; i < options.length; i++) {
+    //   console.log("type", typeof !options[i]);
+    //   if (!options[0]) {
+    //     console.log("case 1");
+    //     setOptions([...options, ""]);
+    //   } else if (i > 0 || !options[i]) {
+    //     console.log("case 2");
+    //     setOptions([...options]);
+    //   } else {
+    //     console.log("case 3");
+    //     setOptions([...options, ""]);
+    //   }
+    // }
+    if (options.length >= 10) {
+      return;
+    } else {
+      setOptions([...options, ""]);
+    }
+  }, [options]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const { name, value } = e.target;
-    const onchangeVal: any = [...data];
-    onchangeVal[index][name] = value;
-    setData(onchangeVal);
+    const { value } = e.target;
+    const onchangeVal: any = [...options];
+    onchangeVal[index] = value;
+    setOptions(onchangeVal);
   };
 
   const handleDelete = (index: number) => {
-    const deleteVal = [...data];
+    const deleteVal = [...options];
     deleteVal.splice(index, 1);
-    setData(deleteVal);
+    setOptions(deleteVal);
   };
 
   return (
@@ -79,8 +96,13 @@ const EditItem: FC<EditItemProps> = ({ modalEditOpened, closeModalEdit }) => {
         />
 
         <div className="bg-gray-light/40 rounded-lg my-6 p-3 border border-gray-light/70">
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-2 mb-2">
             <label className="text-sm text-gray font-medium">Options</label>
+            {options.length >= 10 && (
+              <p className="text-sm text-brand font-medium">
+                You have 10 options maximim
+              </p>
+            )}
             <div className="inline-block">
               <Button
                 variant="default"
@@ -94,26 +116,25 @@ const EditItem: FC<EditItemProps> = ({ modalEditOpened, closeModalEdit }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
-            {data.map((val, index) => (
+          <div className="grid grid-cols-2 gap-2">
+            {options.map((val, index) => (
               <div key={index} className="flex items-center gap-1">
                 <input
                   name="option"
-                  value={val.option}
+                  value={val}
                   onChange={(e) => handleChange(e, index)}
                   className="input"
                 />
                 <button
                   type="button"
                   onClick={() => handleDelete(index)}
-                  className="bg-gray-light text-red rounded-md w-11 h-11 flex justify-center items-center"
+                  className="bg-gray-light text-red rounded-full w-8 h-8 border border-gray/10 flex justify-center items-center"
                 >
-                  <MdClose size={20} />
+                  <RxDash size={20} />
                 </button>
               </div>
             ))}
           </div>
-          {/* <p>{JSON.stringify(data)}</p> */}
         </div>
 
         <FileInput
