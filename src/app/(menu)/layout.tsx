@@ -1,5 +1,6 @@
 import { Providers } from "@/redux/provider";
 import "../globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata = {
   title: "Login",
