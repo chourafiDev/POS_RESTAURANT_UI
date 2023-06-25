@@ -3,10 +3,46 @@
 import { Input, PasswordInput, Checkbox, Divider } from "@mantine/core";
 import Link from "next/link";
 import { TfiLock, TfiEmail } from "react-icons/tfi";
-import Button from "../ui/Button";
+import Button from "@/components/ui/Button";
 import Image from "next/image";
+import { FormEvent, useState, useEffect, useCallback } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useLoginMutation } from "@/redux/services/authApiSlice";
+import { setCredentials } from "@/redux/features/authSlice";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const Form = () => {
+  const { _id, firstName, lastName, role } = useAppSelector(
+    (state) => state.auth
+  );
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (_id !== "" && firstName !== "" && lastName !== "" && role !== "") {
+      router.push("/");
+    }
+  }, [_id, firstName, lastName, role, router]);
+
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      router.push("/");
+    } catch (err: any) {
+      toast.error(err.data?.message || err.error);
+    }
+  };
+
   return (
     <div className="h-screen bg-[#fafafa] flex flex-col justify-center items-center">
       <div className="w-3/4">
@@ -23,7 +59,7 @@ const Form = () => {
           </p>
         </div>
 
-        <form className="">
+        <form onSubmit={submitHandler}>
           <div className="space-y-3">
             <Input
               icon={<TfiEmail />}
@@ -37,6 +73,7 @@ const Form = () => {
                 },
               })}
               size="md"
+              onChange={(e) => setEmail(e.target.value)}
             />
             <PasswordInput
               placeholder="Your password"
@@ -49,6 +86,7 @@ const Form = () => {
                 },
               })}
               size="md"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
@@ -62,29 +100,28 @@ const Form = () => {
             </Link>
           </div>
 
-          <div className="space-y-4">
-            <Button variant="default" size="default" rounded="default">
-              Login
-            </Button>
-
-            <Divider my="xs" label="or" labelPosition="center" />
-
-            <Button
-              variant="outline-gray"
-              size="default"
-              rounded="default"
-              className="gap-3"
-            >
-              <Image
-                src="/assets/imgs/icons/google.png"
-                alt="google"
-                width={18}
-                height={18}
-              />
-              Sign In With Google
-            </Button>
-          </div>
+          <Button variant="default" size="default" rounded="default">
+            Login
+          </Button>
         </form>
+
+        <Divider my="xs" label="or" labelPosition="center" />
+
+        <Button
+          variant="outline-gray"
+          size="default"
+          rounded="default"
+          className="gap-3"
+          type="button"
+        >
+          <Image
+            src="/assets/imgs/icons/google.png"
+            alt="google"
+            width={18}
+            height={18}
+          />
+          Sign In With Google
+        </Button>
       </div>
     </div>
   );
