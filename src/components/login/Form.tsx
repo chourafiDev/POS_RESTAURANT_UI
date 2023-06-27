@@ -1,6 +1,6 @@
 "use client";
 
-import { Input, PasswordInput, Checkbox, Divider } from "@mantine/core";
+import { Input, PasswordInput, Checkbox, Divider, Loader } from "@mantine/core";
 import Link from "next/link";
 import { TfiLock, TfiEmail } from "react-icons/tfi";
 import Button from "@/components/ui/Button";
@@ -32,7 +32,6 @@ const Form = () => {
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
 
     try {
       const res = await login({ email, password }).unwrap();
@@ -100,28 +99,21 @@ const Form = () => {
             </Link>
           </div>
 
-          <Button variant="default" size="default" rounded="default">
-            Login
-          </Button>
+          {isLoading ? (
+            <Button
+              variant="disabled"
+              size="default"
+              rounded="default"
+              className="flex items-center gap-2"
+            >
+              Login <Loader color="#073b4c" size="xs" />
+            </Button>
+          ) : (
+            <Button variant="default" size="default" rounded="default">
+              Login
+            </Button>
+          )}
         </form>
-
-        <Divider my="xs" label="or" labelPosition="center" />
-
-        <Button
-          variant="outline-gray"
-          size="default"
-          rounded="default"
-          className="gap-3"
-          type="button"
-        >
-          <Image
-            src="/assets/imgs/icons/google.png"
-            alt="google"
-            width={18}
-            height={18}
-          />
-          Sign In With Google
-        </Button>
       </div>
     </div>
   );
