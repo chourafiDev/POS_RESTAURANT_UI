@@ -1,18 +1,41 @@
 "use client";
 
-import { Input, Modal, useMantineTheme } from "@mantine/core";
+import { Input, Modal, Select, useMantineTheme } from "@mantine/core";
 import { FC, useState } from "react";
 import Button from "../ui/Button";
 import { FileInput, rem } from "@mantine/core";
 import { FiUpload } from "react-icons/fi";
+import { BiCopyAlt } from "react-icons/bi";
+import { LuSettings2 } from "react-icons/lu";
+import generator from "generate-password";
+import { toast } from "react-hot-toast";
 
-interface EditUserProps {
+interface DeleteUserProps {
   modalEditOpened: boolean;
   closeModalEdit: () => void;
 }
 
-const EditUser: FC<EditUserProps> = ({ modalEditOpened, closeModalEdit }) => {
+const EditUser: FC<DeleteUserProps> = ({ modalEditOpened, closeModalEdit }) => {
   const theme = useMantineTheme();
+
+  //   form states
+  const [generatePassword, setGeneratePassword] = useState<string>("");
+  const [image, setImage] = useState<File | null>(null);
+
+  // Generate password
+  const generatePwd = () => {
+    const pwd = generator.generate({
+      length: 8,
+      numbers: true,
+    });
+    setGeneratePassword(pwd);
+  };
+
+  // Copy password
+  const copyPwd = async () => {
+    await navigator.clipboard.writeText(generatePassword);
+    toast.success("Mot de passe copié");
+  };
 
   return (
     <Modal
@@ -55,22 +78,61 @@ const EditUser: FC<EditUserProps> = ({ modalEditOpened, closeModalEdit }) => {
           <Input.Wrapper id="phone-number" label="Phone">
             <Input id="phone-number" />
           </Input.Wrapper>
-          <Input.Wrapper id="dateOfBirth" label="Date of Birth">
-            <Input id="dateOfBirth" />
-          </Input.Wrapper>
+          <Select
+            label="Role"
+            placeholder="Role"
+            data={[
+              { value: "Admin", label: "Admin" },
+              { value: "Cashier", label: "Cashier" },
+            ]}
+          />
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-6">
-          <Input.Wrapper id="location" label="Location">
-            <Input id="location" />
+
+        <div className="grid grid-cols-2 gap-4 mt-6 bg-gray-light/20 border border-gray-light/40 rounded-xl p-4">
+          <Input.Wrapper id="password" className="" label="Generate Password">
+            <Input id="password" disabled value={generatePassword} />
           </Input.Wrapper>
-          <Input.Wrapper id="postalCode" label="Postal Code">
-            <Input id="postalCode" />
-          </Input.Wrapper>
+          <div className="flex items-end gap-2">
+            <Button
+              variant="default"
+              size="sm"
+              rounded="full"
+              onClick={generatePwd}
+              type="button"
+              className="gap-1"
+            >
+              Generate
+              <LuSettings2 size={17} />
+            </Button>
+            {generatePassword === "" ? (
+              <Button
+                variant="disabled"
+                size="sm"
+                rounded="full"
+                disabled
+                type="button"
+                className="gap-1"
+              >
+                copy <BiCopyAlt />
+              </Button>
+            ) : (
+              <Button
+                variant="default"
+                size="sm"
+                rounded="full"
+                onClick={copyPwd}
+                type="button"
+                className="gap-1"
+              >
+                copy <BiCopyAlt />
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="flex items-center gap-4 mt-10">
           <Button variant="default" size="default" rounded="full">
-            Edit
+            Add
           </Button>
         </div>
       </form>
