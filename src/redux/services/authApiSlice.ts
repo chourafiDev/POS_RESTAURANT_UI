@@ -1,6 +1,6 @@
 import { apiSlice } from "./apiSlice";
 
-const USERS_URL = "api/auth";
+const AUTH_URL = "api/auth";
 
 interface Data {
   email: string;
@@ -12,7 +12,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     login: builder.mutation({
       query: (data: Data) => {
         return {
-          url: `${USERS_URL}/login`,
+          url: `${AUTH_URL}/login`,
           method: "POST",
           body: data,
           credentials: "include",
@@ -22,7 +22,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     logout: builder.mutation({
       query: () => {
         return {
-          url: `${USERS_URL}/logout`,
+          url: `${AUTH_URL}/logout`,
           method: "POST",
           credentials: "include",
         };
