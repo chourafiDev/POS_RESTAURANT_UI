@@ -10,7 +10,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useLoginMutation } from "@/redux/services/authApiSlice";
 import { setCredentials } from "@/redux/features/authSlice";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 
 const Form = () => {
   const { _id, firstName, lastName, role } = useAppSelector(
@@ -38,7 +37,7 @@ const Form = () => {
       dispatch(setCredentials({ ...res }));
       router.push("/");
     } catch (err: any) {
-      toast.error(err.data?.message || err.error);
+      // toast.error(err.data?.message || err.error);
     }
   };
 
