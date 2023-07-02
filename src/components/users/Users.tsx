@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { users } from "@/utils/data";
 import { ImSearch } from "react-icons/im";
 import { RiDeleteBin5Fill } from "react-icons/ri";
@@ -14,15 +15,45 @@ import EditUser from "./EditUser";
 import DetailsUser from "./DetailsUser";
 
 const Users = () => {
-  // handle add user
-  const [modalAddOpened, { open: openModalAdd, close: closeModalAdd }] =
-    useDisclosure(false);
+  // handle modal add user
+  // const [modalAddOpened, { open: openModalAdd, close: closeModalAdd }] =
+  //   useDisclosure(false);
+
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+
+  function handleOpneModal(type: string) {
+    switch (type) {
+      case "add":
+        setOpenModalAdd(true);
+        break;
+      case "edit":
+        setOpenModalEdit(true);
+        break;
+
+      default:
+        break;
+    }
+  }
+  function handleCloseModal(type: string) {
+    switch (type) {
+      case "add":
+        setOpenModalAdd(false);
+        break;
+      case "edit":
+        setOpenModalEdit(false);
+        break;
+
+      default:
+        break;
+    }
+  }
 
   //   const handleAddUser = (user) => {};
 
   // handle edit user
-  const [modalEditOpened, { open: openModalEdit, close: closeModalEdit }] =
-    useDisclosure(false);
+  // const [modalEditOpened, { open: openModalEdit, close: closeModalEdit }] =
+  //   useDisclosure(false);
 
   // handle details user
   const [
@@ -48,7 +79,7 @@ const Users = () => {
             size="default"
             rounded="full"
             className="gap-3"
-            onClick={openModalAdd}
+            onClick={() => handleOpneModal("add")}
           >
             Add User
             <LuPlusCircle size={20} />
@@ -106,14 +137,11 @@ const Users = () => {
                       </td>
 
                       <td className="flex items-center gap-2 py-4 whitespace-nowrap">
-                        <button
-                          onClick={openModalDetails}
-                          className="w-9 h-9 rounded-md bg-brand/30 text-brand flex justify-center items-center"
-                        >
+                        <button className="w-9 h-9 rounded-md bg-brand/30 text-brand flex justify-center items-center">
                           <FaEye size={16} />
                         </button>
                         <button
-                          onClick={openModalEdit}
+                          onClick={() => handleOpneModal("edit")}
                           className="w-9 h-9 rounded-md bg-yellow/30 text-yellow flex justify-center items-center"
                         >
                           <AiFillEdit size={16} />
@@ -135,12 +163,15 @@ const Users = () => {
       </div>
 
       {/* Modal Add User */}
-      <AddUser modalAddOpened={modalAddOpened} closeModalAdd={closeModalAdd} />
+      <AddUser
+        openModalAdd={openModalAdd}
+        handleCloseModal={handleCloseModal}
+      />
 
       {/* Modal Edit User */}
       <EditUser
-        modalEditOpened={modalEditOpened}
-        closeModalEdit={closeModalEdit}
+        openModalEdit={openModalEdit}
+        handleCloseModal={handleCloseModal}
       />
 
       {/* Modal Details User */}
