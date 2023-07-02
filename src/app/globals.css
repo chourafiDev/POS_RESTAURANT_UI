@@ -32,15 +32,6 @@ body {
   }
 }
 
-option:checked {
-  background-color: #46a094 !important;
-  color: white !important;
-}
-option:hover {
-  background-color: #aecfa4 !important;
-  color: #073b4c !important;
-}
-
 .border-dashed-with-spacing {
   height: 3px;
   background-image: linear-gradient(
@@ -149,3 +140,5 @@ option:hover {
   background: #dfdfdf;
   border-radius: 20px;
 }
+
+/* Override ant design styles */
