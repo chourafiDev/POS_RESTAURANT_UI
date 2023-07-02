@@ -2,7 +2,7 @@ import "../globals.css";
 import { Poppins, Inter } from "next/font/google";
 import LayoutContext from "@/components/app/LayoutContext";
 import { Providers } from "@/redux/provider";
-import { Toaster } from "react-hot-toast";
+import { message } from "antd";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,12 +21,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [messageApi, contextHolder] = message.useMessage();
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <Providers>
+          {contextHolder}
           <LayoutContext>{children}</LayoutContext>
-          <Toaster />
         </Providers>
       </body>
     </html>

@@ -1,6 +1,5 @@
 import "../globals.css";
 import { Providers } from "@/redux/provider";
-import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Login",
@@ -16,7 +15,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>{children}</Providers>
-        <Toaster />
       </body>
     </html>
   );
