@@ -142,3 +142,34 @@ body {
 }
 
 /* Override ant design styles */
+/* ------------- Modal ------------- */
+.ant-modal-title {
+  color: #073b4c !important;
+}
+.ant-modal-content {
+  padding: 0px !important;
+}
+.ant-modal-header {
+  padding: 16px !important;
+  margin: 0px !important;
+}
+
+/* ------------- Form ------------- */
+.ant-form-item-label {
+  padding: 0px !important;
+}
+.ant-form-item-required {
+  height: 30px !important;
+  color: #073b4c !important;
+  font-weight: 400;
+}
+/* .ant-input:hover,
+.ant-input:focus {
+  border-color: #46a094 !important;
+  box-shadow: 0 0 0 2px #f4fff3 !important;
+}
+.ant-select-selector:hover,
+.ant-select-selector:focus {
+  border-color: #46a094 !important;
+  box-shadow: 0 0 0 2px #f4fff3 !important;
+} */
