@@ -2,7 +2,7 @@ import { VariantProps, cva } from "class-variance-authority";
 import { ButtonHTMLAttributes } from "react";
 
 const buttonVariants = cva(
-  "flex items-center justify-center reltive font-medium w-full",
+  "flex items-center justify-center reltive font-medium w-full outline-none",
   {
     variants: {
       variant: {
@@ -20,7 +20,7 @@ const buttonVariants = cva(
           "bg-brand/30 border border-brand/30 text-dark cursor-not-allowed	",
       },
       size: {
-        default: "py-3 px-4 text-sm",
+        default: "py-2 px-6 text-sm",
         sm: "py-2 px-4 text-sm",
         lg: "py-4 px-6 text-md",
       },
