@@ -1,41 +1,33 @@
 "use client";
 
-import { Input, Modal, useMantineTheme } from "@mantine/core";
+// import { Input, Modal, useMantineTheme } from "@mantine/core";
 import { FC, useState } from "react";
 import Button from "../ui/Button";
 import { FileInput, rem } from "@mantine/core";
 import { FiUpload } from "react-icons/fi";
 import Image from "next/image";
+import { Modal } from "antd";
 
 interface DetailsUserProps {
-  modalDetailsOpened: boolean;
-  closeModalDetails: () => void;
+  openModalDetail: boolean;
+  handleCloseModal: (type: string) => void;
 }
 
 const DetailsUser: FC<DetailsUserProps> = ({
-  modalDetailsOpened,
-  closeModalDetails,
+  openModalDetail,
+  handleCloseModal,
 }) => {
-  const theme = useMantineTheme();
-
   return (
     <Modal
-      opened={modalDetailsOpened}
-      onClose={closeModalDetails}
-      withCloseButton={true}
+      title=""
       centered
-      title="Detail User"
-      overlayProps={{
-        color:
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[9]
-            : theme.colors.gray[2],
-        opacity: 0.55,
-        blur: 3,
-      }}
-      size="xl"
+      open={openModalDetail}
+      onOk={() => handleCloseModal("detail")}
+      onCancel={() => handleCloseModal("detail")}
+      width={800}
+      footer={[]}
     >
-      <form className="px-4 pb-4">
+      <div className="p-4">
         <div className="bg-gray-light/60 rounded-md px-3 py-5 flex items-center gap-4">
           <Image
             src="/assets/imgs/user.png"
@@ -73,7 +65,7 @@ const DetailsUser: FC<DetailsUserProps> = ({
             <p className="text-dark/80 text-[15px]">Location</p>
           </div>
         </div>
-      </form>
+      </div>
     </Modal>
   );
 };
