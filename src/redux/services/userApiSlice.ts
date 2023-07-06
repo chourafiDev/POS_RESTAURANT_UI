@@ -5,6 +5,15 @@ const USERS_URL = "api/users";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getUsers: builder.query<User[], null>({
+      query: () => {
+        return {
+          url: `${USERS_URL}/`,
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
     createUser: builder.mutation({
       query: (data: User) => {
         return {
@@ -15,7 +24,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    deleteUser: builder.mutation({
+      query: (userId: string) => {
+        return {
+          url: `${USERS_URL}/${userId}`,
+          method: "DELETE",
+          credentials: "include",
+        };
+      },
+    }),
   }),
 });
 
-export const { useCreateUserMutation } = userApiSlice;
+export const { useGetUsersQuery, useCreateUserMutation, useDeleteUserMutation } = userApiSlice;
