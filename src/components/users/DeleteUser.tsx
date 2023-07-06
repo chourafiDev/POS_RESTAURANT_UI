@@ -1,19 +1,41 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { BsTrash } from "react-icons/bs";
 import Button from "../ui/Button";
-import { Modal } from "antd";
+import { Modal, message } from "antd";
+import { useDeleteUserMutation } from "@/redux/services/userApiSlice";
+import { Loader } from "@mantine/core";
 
 interface DeleteUserProps {
   openModalDelete: boolean;
   handleCloseModal: (type: string) => void;
+  userId: string;
 }
 
 const DeleteUser: FC<DeleteUserProps> = ({
   openModalDelete,
   handleCloseModal,
+  userId,
 }) => {
+  const [deleteUser, { isLoading, isSuccess, isError }] =
+    useDeleteUserMutation();
+
+  const deleteUserById = async () => {
+    try {
+      await deleteUser(userId);
+    } catch (err: any) {
+      message.success(err.data?.message || err.error);
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      message.success("User deleted successfully");
+      handleCloseModal("delete");
+    }
+  }, [isSuccess, handleCloseModal]);
+
   return (
     <Modal
       title=""
@@ -45,8 +67,22 @@ const DeleteUser: FC<DeleteUserProps> = ({
           >
             No, Keep User
           </Button>
-          <Button variant="destructive" size="default" rounded="default">
-            Yes, Delete User
+          <Button
+            onClick={deleteUserById}
+            variant="destructive"
+            size="default"
+            rounded="default"
+            disabled={isLoading}
+            className="gap-2"
+          >
+            {isLoading ? (
+              <>
+                <span>Yes, Delete User</span>
+                <Loader color="#073b4c" size="xs" />
+              </>
+            ) : (
+              <span>Yes, Delete User</span>
+            )}
           </Button>
         </div>
       </div>
