@@ -48,5 +48,8 @@
     "typescript": "5.0.4",
     "yarn": "^1.22.19",
     "yup": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/react-highlight-words": "^0.16.4"
   }
 }
