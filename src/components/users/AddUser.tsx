@@ -31,9 +31,10 @@ interface AddUserProps {
 }
 
 const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
-  const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
   const [copyPwd, setCopyPwd] = useState<string>("");
+  const [isValideType, setIsValideType] = useState<boolean>(false);
+  const [isValideSize, setIsValideSize] = useState<boolean>(false);
 
   // Generate password
   const generatePwd = () => {
@@ -57,52 +58,41 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
     message.success("Password copied successfully");
   };
 
-  // handle create new user
-  const [addNewUser, { isLoading, isSuccess, isError }] =
-    useCreateUserMutation();
-
-  const onFinish = async (values: any) => {
-    console.log("Received values of form: ", values);
-
-    try {
-      await addNewUser(values);
-    } catch (err: any) {
-      console.log("errrror", err.data?.message || err.error);
-      message.error(err.data?.message || err.error);
-    }
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      message.success("User added successfully");
-      handleCloseModal("add");
-    }
-  }, [isSuccess]);
-
   // handle upload image
   const convertToBase64 = (e: any) => {
-    const reader = new FileReader();
+    const file = e.fileList[0]?.originFileObj;
+    if (file) {
+      const reader = new FileReader();
 
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        form.setFieldsValue({
-          image: reader.result,
-        });
-      }
-    };
-    reader.readAsDataURL(e.fileList[0].originFileObj);
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          form.setFieldsValue({
+            image: reader.result,
+          });
+        }
+      };
+      reader?.readAsDataURL(file);
+    }
   };
 
   const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    setIsValideType(false);
+    setIsValideSize(false);
+
+    const isJpgOrPng =
+      file.type === "image/jpeg" ||
+      file.type === "image/jpg" ||
+      file.type === "image/png";
     if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
-      return false;
+      // message.error("You can only upload JPG/PNG file!");
+      // return false;
+      setIsValideType(true);
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
-      return false;
+      // message.error("Image must smaller than 2MB!");
+      // return false;
+      setIsValideSize(true);
     }
     // return isJpgOrPng && isLt2M;
     return false;
@@ -122,234 +112,257 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
     return e && e.fileList;
   };
 
+  // handle create new user
+  const [addNewUser, { isLoading, isSuccess, isError }] =
+    useCreateUserMutation();
+
+  const onFinish = async (values: any) => {
+    try {
+      if (isValideSize) {
+        return message.error("Image must smaller than 2MB!");
+      }
+
+      if (isValideType) {
+        return message.error("You can only upload JPG/PNG file!");
+      }
+
+      await addNewUser(values).unwrap();
+    } catch (err: any) {
+      message.error(err.data?.message || err.error);
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      message.success("User added successfully");
+      handleCloseModal("add");
+      form.resetFields();
+    }
+  }, [isSuccess]);
+
   return (
-    <>
-      {contextHolder}
-      <Modal
-        title="Add New User"
-        centered
-        open={openModalAdd}
-        onOk={() => handleCloseModal("add")}
-        onCancel={() => handleCloseModal("add")}
-        width={1000}
-        footer={[]}
-      >
-        <div className="p-4">
-          <Form
-            form={form}
-            name="add-new-user"
-            onFinish={onFinish}
-            className="w-full"
-            scrollToFirstError
-            layout="vertical"
-            autoComplete="off"
-            requiredMark={false}
-            size={"large" as SizeType}
-            initialValues={{ password: "" }}
-          >
-            <div className="mb-4">
-              <Form.Item
+    <Modal
+      title="Add New User"
+      centered
+      open={openModalAdd}
+      onOk={() => handleCloseModal("add")}
+      onCancel={() => handleCloseModal("add")}
+      width={1000}
+      footer={[]}
+    >
+      <div className="p-4">
+        <Form
+          form={form}
+          name="add-new-user"
+          onFinish={onFinish}
+          className="w-full"
+          scrollToFirstError
+          layout="vertical"
+          autoComplete="off"
+          requiredMark={false}
+          size={"large" as SizeType}
+          initialValues={{ password: "" }}
+        >
+          <div className="mb-4">
+            <Form.Item
+              name="image"
+              rules={[
+                {
+                  required: true,
+                  message: "Image is required!",
+                },
+              ]}
+              valuePropName="list"
+              getValueFromEvent={normFile}
+            >
+              <Upload
+                // fileList={fileList}
                 name="image"
+                listType="picture"
+                customRequest={dummyRequest}
+                maxCount={1}
+                beforeUpload={beforeUpload}
+                onChange={convertToBase64}
+              >
+                <UploadButton>
+                  <div className="flex items-center gap-3">
+                    <UploadOutlined className="text-dark" />{" "}
+                    <p className="text-dark">Upload Image</p>
+                  </div>
+                </UploadButton>
+              </Upload>
+            </Form.Item>
+          </div>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="firstName"
+                label="First Name"
                 rules={[
                   {
                     required: true,
-                    message: "Image is required!",
+                    message: "First Name is required!",
                   },
                 ]}
-                valuePropName="list"
-                getValueFromEvent={normFile}
+                className="py-4"
               >
-                <Upload
-                  // fileList={fileList}
-                  name="image"
-                  listType="picture"
-                  customRequest={dummyRequest}
-                  maxCount={1}
-                  beforeUpload={beforeUpload}
-                  onChange={convertToBase64}
-                >
-                  <UploadButton>
-                    <div className="flex items-center gap-3">
-                      <UploadOutlined className="text-dark" />{" "}
-                      <p className="text-dark">Upload Image</p>
-                    </div>
-                  </UploadButton>
-                </Upload>
+                <Input className="w-full py-4" />
               </Form.Item>
-            </div>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="lastName"
+                label="Last Name"
+                rules={[{ required: true, message: "Last Name is required!" }]}
+              >
+                <Input className="w-full" />
+              </Form.Item>
+            </Col>
+          </Row>
 
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  name="firstName"
-                  label="First Name"
-                  rules={[
-                    {
-                      required: true,
-                      message: "First Name is required!",
-                    },
-                  ]}
-                  className="py-4"
-                >
-                  <Input className="w-full py-4" />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="lastName"
-                  label="Last Name"
-                  rules={[
-                    { required: true, message: "Last Name is required!" },
-                  ]}
-                >
-                  <Input className="w-full" />
-                </Form.Item>
-              </Col>
-            </Row>
+          <Form.Item
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                type: "email",
+                message: "E-mail is not valid!",
+              },
+              {
+                required: true,
+                message: "E-mail is required!",
+              },
+            ]}
+          >
+            <Input className="w-full" />
+          </Form.Item>
 
+          <Form.Item
+            name="address"
+            label="Address"
+            rules={[{ required: true, message: "Address is required!" }]}
+          >
+            <Input.TextArea showCount maxLength={100} />
+          </Form.Item>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="phone"
+                label="Phone Number"
+                rules={[
+                  { required: true, message: "Phone number is required!" },
+                ]}
+              >
+                <Input className="w-full" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="role"
+                label="Role"
+                rules={[{ required: true, message: "Role is required!" }]}
+              >
+                <Select placeholder="select role">
+                  <Option value="admin">Admin</Option>
+                  <Option value="cashier">Cashier</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <div className="grid grid-cols-2 gap-4 mb-6 bg-gray-light/20 border border-gray-light/40 rounded-xl p-4">
             <Form.Item
-              name="email"
-              label="E-mail"
+              name="password"
+              label="Genrate Password"
               rules={[
                 {
-                  type: "email",
-                  message: "E-mail is not valid!",
-                },
-                {
                   required: true,
-                  message: "E-mail is required!",
+                  message: "Password is required!",
                 },
               ]}
             >
-              <Input className="w-full" />
+              <Input.Password disabled={true} />
             </Form.Item>
 
-            <Form.Item
-              name="address"
-              label="Address"
-              rules={[{ required: true, message: "Address is required!" }]}
-            >
-              <Input.TextArea showCount maxLength={100} />
-            </Form.Item>
-
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  name="phone"
-                  label="Phone Number"
-                  rules={[
-                    { required: true, message: "Phone number is required!" },
-                  ]}
-                >
-                  <Input className="w-full" />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="role"
-                  label="Role"
-                  rules={[{ required: true, message: "Role is required!" }]}
-                >
-                  <Select placeholder="select role">
-                    <Option value="admin">Admin</Option>
-                    <Option value="cashier">Cashier</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <div className="grid grid-cols-2 gap-4 mb-6 bg-gray-light/20 border border-gray-light/40 rounded-xl p-4">
-              <Form.Item
-                name="password"
-                label="Genrate Password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Password is required!",
-                  },
-                ]}
+            <div className="flex items-end gap-2 my-auto">
+              <Button
+                variant="default"
+                size="sm"
+                rounded="full"
+                onClick={generatePwd}
+                type="button"
+                className="gap-1"
               >
-                <Input.Password disabled={true} />
-              </Form.Item>
-
-              <div className="flex items-end gap-2 my-auto">
+                Generate
+                <LuSettings2 size={17} />
+              </Button>
+              {Form.useWatch("password", form) === "" ? (
+                <Button
+                  variant="disabled"
+                  size="sm"
+                  rounded="full"
+                  disabled
+                  type="button"
+                  className="gap-1"
+                >
+                  copy <BiCopyAlt />
+                </Button>
+              ) : (
                 <Button
                   variant="default"
                   size="sm"
                   rounded="full"
-                  onClick={generatePwd}
+                  onClick={copyGeneratedPwd}
                   type="button"
                   className="gap-1"
                 >
-                  Generate
-                  <LuSettings2 size={17} />
+                  copy <BiCopyAlt />
                 </Button>
-                {Form.useWatch("password", form) === "" ? (
-                  <Button
-                    variant="disabled"
-                    size="sm"
-                    rounded="full"
-                    disabled
-                    type="button"
-                    className="gap-1"
-                  >
-                    copy <BiCopyAlt />
-                  </Button>
-                ) : (
-                  <Button
-                    variant="default"
-                    size="sm"
-                    rounded="full"
-                    onClick={copyGeneratedPwd}
-                    type="button"
-                    className="gap-1"
-                  >
-                    copy <BiCopyAlt />
-                  </Button>
-                )}
-              </div>
+              )}
             </div>
+          </div>
 
-            <Row gutter={16}>
-              <Col span={12}>
-                {isLoading ? (
-                  <Button
-                    variant="disabled"
-                    size="default"
-                    rounded="full"
-                    className="gap-2"
-                  >
-                    Add <Loader color="#073b4c" size="xs" />
-                  </Button>
-                ) : (
-                  <Button
-                    variant="default"
-                    size="default"
-                    rounded="full"
-                    // htmlType="submit"
-                  >
-                    Add
-                  </Button>
-                )}
-              </Col>
-              <Col span={12}>
-                {" "}
+          <Row gutter={16}>
+            <Col span={12}>
+              {isLoading ? (
                 <Button
-                  key="back"
-                  variant="outline"
+                  variant="disabled"
                   size="default"
                   rounded="full"
                   className="gap-2"
-                  onClick={() => handleCloseModal("add")}
                 >
-                  Cancel
+                  Add <Loader color="#073b4c" size="xs" />
                 </Button>
-              </Col>
-            </Row>
-          </Form>
-        </div>
-      </Modal>
-    </>
+              ) : (
+                <Button
+                  variant="default"
+                  size="default"
+                  rounded="full"
+                  // htmlType="submit"
+                >
+                  Add
+                </Button>
+              )}
+            </Col>
+            <Col span={12}>
+              {" "}
+              <Button
+                key="back"
+                variant="outline"
+                size="default"
+                rounded="full"
+                className="gap-2"
+                onClick={() => handleCloseModal("add")}
+              >
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+    </Modal>
   );
 };
 
