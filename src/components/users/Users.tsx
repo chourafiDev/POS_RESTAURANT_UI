@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { LuPlusCircle } from "react-icons/lu";
 import { AiFillEdit } from "react-icons/ai";
@@ -12,47 +12,55 @@ import DetailsUser from "./DetailsUser";
 import Button from "@/components/ui/Button";
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef } from "antd";
-import { Input, Space, Table } from "antd";
+import { Image, Input, Space, Table, Tag } from "antd";
 import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
+import { useGetUsersQuery } from "@/redux/services/userApiSlice";
 
 interface DataType {
   key: string;
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
+  role: string;
+  image: string;
 }
 
 type DataIndex = keyof DataType;
 
-const data: DataType[] = [
-  {
-    key: "1",
-    firstName: "John",
-    lastName: "Brown",
-    email: "jhon@gmail.com",
-  },
-  {
-    key: "2",
-    firstName: "Joe",
-    lastName: "Black",
-    email: "joe@gmail.com",
-  },
-  {
-    key: "3",
-    firstName: "Jim",
-    lastName: "Green",
-    email: "jim@gmail.com",
-  },
-];
+// const data: DataType[] = [
+//   {
+//     key: "1",
+//     firstName: "John",
+//     lastName: "Brown",
+//     email: "jhon@gmail.com",
+//   },
+//   {
+//     key: "2",
+//     firstName: "Joe",
+//     lastName: "Black",
+//     email: "joe@gmail.com",
+//   },
+//   {
+//     key: "3",
+//     firstName: "Jim",
+//     lastName: "Green",
+//     email: "jim@gmail.com",
+//   },
+// ];
 
 const Users = () => {
+  // Fetch all users
+  const { data: users, isLoading, isFetching, error } = useGetUsersQuery();
+
   // manage modal
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [userId, setUserId] = useState("");
 
   function handleOpneModal(type: string) {
     switch (type) {
@@ -206,10 +214,25 @@ const Users = () => {
 
   const columns: ColumnsType<DataType> = [
     {
+      title: "Image",
+      render: (record) => (
+        <Image
+          src={
+            record?.image?.url
+              ? record?.image?.url
+              : "assets/imgs/user-default.png"
+          }
+          alt={record?.firstName}
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
+      ),
+    },
+    {
       title: "First Name",
       dataIndex: "firstName",
       key: "firstName",
-      width: "30%",
       ...getColumnSearchProps("firstName"),
       sorter: (a, b) => a.firstName.length - b.firstName.length,
       sortDirections: ["descend", "ascend"],
@@ -218,13 +241,20 @@ const Users = () => {
       title: "Last Name",
       dataIndex: "lastName",
       key: "lastName",
-      width: "20%",
       ...getColumnSearchProps("lastName"),
+      sorter: (a, b) => a.lastName.length - b.lastName.length,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      render: (_, { role }) => <Tag color="blue">{role}</Tag>,
     },
     {
       title: "Actions",
@@ -244,7 +274,10 @@ const Users = () => {
             <AiFillEdit size={16} />
           </button>
           <button
-            onClick={() => handleOpneModal("delete")}
+            onClick={() => {
+              handleOpneModal("delete");
+              setUserId(record._id);
+            }}
             className="w-9 h-9 rounded-md bg-red/30 text-red flex justify-center items-center"
           >
             <RiDeleteBin5Fill size={16} />
@@ -272,7 +305,7 @@ const Users = () => {
         </div>
       </div>
 
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={users} />
 
       {/* Modal Add User */}
       <AddUser
@@ -293,6 +326,7 @@ const Users = () => {
       <DeleteUser
         openModalDelete={openModalDelete}
         handleCloseModal={handleCloseModal}
+        userId={userId}
       />
     </>
   );
