@@ -215,12 +215,13 @@ const Users = () => {
   const columns: ColumnsType<DataType> = [
     {
       title: "Image",
+      key: "image",
       render: (record) => (
         <Image
           src={
             record?.image?.url
               ? record?.image?.url
-              : "assets/imgs/user-default.png"
+              : "/assets/imgs/user-default.png"
           }
           alt={record?.firstName}
           width={40}
@@ -262,13 +263,19 @@ const Users = () => {
       render: (_, record) => (
         <Space size="middle">
           <button
-            onClick={() => handleOpneModal("detail")}
+            onClick={() => {
+              handleOpneModal("detail");
+              setUserId(record._id);
+            }}
             className="w-9 h-9 rounded-md bg-brand/30 text-brand flex justify-center items-center"
           >
             <FaEye size={16} />
           </button>
           <button
-            onClick={() => handleOpneModal("edit")}
+            onClick={() => {
+              handleOpneModal("edit");
+              setUserId(record._id);
+            }}
             className="w-9 h-9 rounded-md bg-yellow/30 text-yellow flex justify-center items-center"
           >
             <AiFillEdit size={16} />
@@ -305,7 +312,16 @@ const Users = () => {
         </div>
       </div>
 
-      <Table columns={columns} dataSource={users} />
+      <Table
+        columns={columns}
+        dataSource={users}
+        rowKey={(record) => record._id}
+        pagination={{
+          defaultPageSize: 5,
+          showSizeChanger: true,
+          pageSizeOptions: ["5", "10", "20", "30"],
+        }}
+      />
 
       {/* Modal Add User */}
       <AddUser
@@ -316,11 +332,13 @@ const Users = () => {
       <EditUser
         openModalEdit={openModalEdit}
         handleCloseModal={handleCloseModal}
+        userId={userId}
       />
       {/* Modal Details User */}
       <DetailsUser
         openModalDetail={openModalDetail}
         handleCloseModal={handleCloseModal}
+        userId={userId}
       />
       {/* Modal Delete User */}
       <DeleteUser
