@@ -40,7 +40,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  image: string;
+  image?: string;
   phone: string;
   role: string;
   password: string;
