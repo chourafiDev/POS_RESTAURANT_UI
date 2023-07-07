@@ -34,7 +34,7 @@ const DeleteUser: FC<DeleteUserProps> = ({
       message.success("User deleted successfully");
       handleCloseModal("delete");
     }
-  }, [isSuccess, handleCloseModal]);
+  }, [isSuccess]);
 
   return (
     <Modal
@@ -77,8 +77,8 @@ const DeleteUser: FC<DeleteUserProps> = ({
           >
             {isLoading ? (
               <>
+                <Loader color="#ffffff" size="xs" />
                 <span>Yes, Delete User</span>
-                <Loader color="#073b4c" size="xs" />
               </>
             ) : (
               <span>Yes, Delete User</span>
