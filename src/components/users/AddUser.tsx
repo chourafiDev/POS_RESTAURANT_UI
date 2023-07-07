@@ -20,6 +20,7 @@ import {
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { RcFile } from "antd/es/upload/interface";
+import { User } from "../../../types";
 
 const { Option } = Select;
 
@@ -116,7 +117,7 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
   const [addNewUser, { isLoading, isSuccess, isError }] =
     useCreateUserMutation();
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: User) => {
     try {
       if (isValideSize) {
         return message.error("Image must smaller than 2MB!");
@@ -162,21 +163,11 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
           requiredMark={false}
           size={"large" as SizeType}
           initialValues={{ password: "" }}
+          preserve={false}
         >
           <div className="mb-4">
-            <Form.Item
-              name="image"
-              rules={[
-                {
-                  required: true,
-                  message: "Image is required!",
-                },
-              ]}
-              valuePropName="list"
-              getValueFromEvent={normFile}
-            >
+            <Form.Item valuePropName="list" getValueFromEvent={normFile}>
               <Upload
-                // fileList={fileList}
                 name="image"
                 listType="picture"
                 customRequest={dummyRequest}
@@ -205,9 +196,8 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
                     message: "First Name is required!",
                   },
                 ]}
-                className="py-4"
               >
-                <Input className="w-full py-4" />
+                <Input className="w-full" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -326,25 +316,22 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
 
           <Row gutter={16}>
             <Col span={12}>
-              {isLoading ? (
-                <Button
-                  variant="disabled"
-                  size="default"
-                  rounded="full"
-                  className="gap-2"
-                >
-                  Add <Loader color="#073b4c" size="xs" />
-                </Button>
-              ) : (
-                <Button
-                  variant="default"
-                  size="default"
-                  rounded="full"
-                  // htmlType="submit"
-                >
-                  Add
-                </Button>
-              )}
+              <Button
+                variant="default"
+                size="default"
+                rounded="full"
+                disabled={isLoading}
+                className="gap-2"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader color="#ffffff" size="xs" />
+                    <span>Add</span>
+                  </>
+                ) : (
+                  <span>Add</span>
+                )}
+              </Button>
             </Col>
             <Col span={12}>
               {" "}
