@@ -3,6 +3,11 @@ import { apiSlice } from "./apiSlice";
 
 const USERS_URL = "api/users";
 
+interface IUpdateUserData {
+  values: User;
+  userId: string;
+}
+
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<User[], null>({
@@ -14,12 +19,32 @@ export const userApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    getUserById: builder.query({
+      query: (userId: string) => {
+        return {
+          url: `${USERS_URL}/${userId}`,
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
     createUser: builder.mutation({
       query: (data: User) => {
         return {
-          url: `${USERS_URL}/create-user`,
+          url: `${USERS_URL}/create`,
           method: "POST",
           body: data,
+          credentials: "include",
+        };
+      },
+    }),
+    updateUser: builder.mutation({
+      query: ({ values, userId }: IUpdateUserData) => {
+        console.log("data", { values, userId });
+        return {
+          url: `${USERS_URL}/${userId}`,
+          method: "PUT",
+          body: values,
           credentials: "include",
         };
       },
@@ -36,4 +61,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetUsersQuery, useCreateUserMutation, useDeleteUserMutation } = userApiSlice;
+export const {
+  useGetUsersQuery,
+  useCreateUserMutation,
+  useDeleteUserMutation,
+  useGetUserByIdQuery,
+  useUpdateUserMutation,
+} = userApiSlice;
