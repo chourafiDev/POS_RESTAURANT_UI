@@ -1,418 +1,328 @@
 "use client";
 
-import {
-  Input,
-  Loader,
-  // Modal,
-  PasswordInput,
-  useMantineTheme,
-} from "@mantine/core";
-import { FC, useEffect, useRef, useState } from "react";
+import { Loader } from "@mantine/core";
+import { FC, useEffect, useState } from "react";
 import Button from "../ui/Button";
-import { FileInput, rem } from "@mantine/core";
-import { FiUpload } from "react-icons/fi";
-import { AiOutlineCloudUpload } from "react-icons/ai";
 import { BiCopyAlt } from "react-icons/bi";
 import { LuSettings2 } from "react-icons/lu";
 import generator from "generate-password";
-import { Field, Formik, useFormik } from "formik";
-import * as Yup from "yup";
-import { useCreateUserMutation } from "@/redux/services/userApiSlice";
-import { Select } from "antd";
-import { Modal } from "antd";
+import {
+  useCreateUserMutation,
+  useGetUserByIdQuery,
+  useUpdateUserMutation,
+} from "@/redux/services/userApiSlice";
+import {
+  Modal,
+  Form,
+  Input,
+  Select,
+  Row,
+  Col,
+  Upload,
+  Button as UploadButton,
+  message,
+  Image,
+} from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import type { RcFile } from "antd/es/upload/interface";
+import { User } from "../../../types";
 
-interface AddUserProps {
+const { Option } = Select;
+
+type SizeType = Parameters<typeof Form>[0]["size"];
+
+interface EditUserProps {
   openModalEdit: boolean;
   handleCloseModal: (type: string) => void;
+  userId: string;
 }
 
-// Initial values
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  image: "",
-  phone: "",
-  role: "",
-  password: "",
-  address: "",
-};
+interface IUpdateUserData {
+  data: User;
+  userId: string;
+}
 
-const validFileExtensions = ["jpg", "png", "jpeg"];
+const EditUser: FC<EditUserProps> = ({
+  openModalEdit,
+  handleCloseModal,
+  userId,
+}) => {
+  const [form] = Form.useForm();
+  const [userImage, setUserImage] = useState<string>("");
+  const [isValideType, setIsValideType] = useState<boolean>(false);
+  const [isValideSize, setIsValideSize] = useState<boolean>(false);
 
-const EditUser: FC<AddUserProps> = ({ openModalEdit, handleCloseModal }) => {
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [imagePrev, setImagePrev] = useState<string>("");
-
-  //Validation schema with YUP
-  const phoneRegExp = /^(0)\d{9}$/;
-
-  const validationSchema = Yup.object({
-    firstName: Yup.string().required("This field is required!"),
-    lastName: Yup.string().required("This field is required!"),
-    email: Yup.string()
-      .required("This field is required!")
-      .email("Invalide Email Address!"),
-    role: Yup.string().required("This field is required!"),
-    password: Yup.string().required("This field is required!"),
-    address: Yup.string().required("This field is required!"),
-    phone: Yup.string()
-      .required("This field is required!")
-      .matches(phoneRegExp, "Invalid mobile phone"),
-    image: Yup.mixed()
-      .required("This field is required!")
-      .test(
-        "is-file-of-correct-type",
-        "Invalid type of file, accept (png, jpg, jpeg)",
-        isValidFileType
-      )
-      .test(
-        "is-file-too-big",
-        "The maximum size allowed is less than 5MB",
-        isValidFileSize
-      ),
-  });
-
-  // Check type extension of CV file
-  function isValidFileType() {
-    let valid = true;
-
-    const file = fileRef.current?.files?.[0] as File;
-    console.log("file", file);
+  // handle upload image
+  const convertToBase64 = (e: any) => {
+    const file = e.fileList[0]?.originFileObj;
     if (file) {
-      const type = file.type.split("/")[1];
+      const reader = new FileReader();
 
-      if (!validFileExtensions.includes(type)) {
-        valid = false;
-      }
-    }
-
-    return valid;
-  }
-
-  // Check size of CV file
-  function isValidFileSize() {
-    let valid = true;
-    const file = fileRef.current?.files?.[0] as File;
-    const size = file.size / (1024 * 1024); //3MB
-
-    if (size > 3) {
-      valid = false;
-    }
-
-    return valid;
-  }
-
-  // handle click file upload
-  const handleClickFile = () => {
-    fileRef.current?.click();
-  };
-
-  // Convert CV file to base64
-  function convertToBase64(file: any) {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        const base64String = fileReader.result;
-        // const base64String = fileReader?.result?.split(",")[1];
-        resolve(base64String);
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          form.setFieldsValue({
+            image: reader.result,
+          });
+        }
       };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  }
-
-  // Generate password
-  const generatePwd = (formik: any) => {
-    const password = generator.generate({
-      length: 8,
-      numbers: true,
-    });
-    formik.setFieldValue("password", password);
+      reader?.readAsDataURL(file);
+    }
   };
 
-  // Copy password
-  const copyPwd = async (formik: any) => {
-    await navigator.clipboard.writeText(formik.values.password);
-    // toast.success("Password copied successfully");
+  const beforeUpload = (file: RcFile) => {
+    setIsValideType(false);
+    setIsValideSize(false);
+
+    const isJpgOrPng =
+      file.type === "image/jpeg" ||
+      file.type === "image/jpg" ||
+      file.type === "image/png";
+    if (!isJpgOrPng) {
+      // message.error("You can only upload JPG/PNG file!");
+      // return false;
+      setIsValideType(true);
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      // message.error("Image must smaller than 2MB!");
+      // return false;
+      setIsValideSize(true);
+    }
+    // return isJpgOrPng && isLt2M;
+    return false;
   };
 
-  // handle create new user
-  const [addNewUser, { isLoading, isSuccess, isError }] =
-    useCreateUserMutation();
+  const dummyRequest = (options: any) => {
+    const { onSuccess } = options;
+    setTimeout(() => {
+      onSuccess("ok");
+    }, 0);
+  };
 
-  const submiteHundler = async (values: any) => {
-    console.log("values", values);
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
 
+  // handle edit user
+  const {
+    data: user,
+    isLoading: isUserLoading,
+    isFetching,
+    isSuccess: isGetUserSuccess,
+    error,
+  } = useGetUserByIdQuery(userId);
+
+  const [updateUser, { isLoading, isSuccess, isError }] =
+    useUpdateUserMutation();
+
+  const onFinish = async (values: User) => {
     try {
-      await addNewUser(values);
+      if (isValideSize) {
+        return message.error("Image must smaller than 2MB!");
+      }
+
+      if (isValideType) {
+        return message.error("You can only upload JPG/PNG file!");
+      }
+      console.log("values", values);
+
+      // const data: IUpdateUserData = { values, userId };
+      await updateUser({ values, userId }).unwrap();
     } catch (err: any) {
-      console.log("errrror", err.data?.message || err.error);
-      // toast.error(err.data?.message || err.error);
+      message.error(err.data?.message || err.error);
     }
   };
 
   useEffect(() => {
+    if (user) {
+      setUserImage(user?.image?.url);
+      form.setFieldsValue({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        address: user.address,
+        role: user.role,
+        phone: user.phone,
+        password: user.password,
+      });
+    }
+  }, [user, form]);
+
+  useEffect(() => {
     if (isSuccess) {
-      // toast.success("User added successfully");
+      message.success("User updated successfully");
+      handleCloseModal("edit");
+      form.resetFields();
     }
   }, [isSuccess]);
 
   return (
     <Modal
-      // opened={modalAddOpened}
-      // onClose={closeModalAdd}
-      // withCloseButton={true}
-      // centered
-      // title="Add User"
-      // overlayProps={{
-      //   color:
-      //     theme.colorScheme === "dark"
-      //       ? theme.colors.dark[9]
-      //       : theme.colors.gray[2],
-      //   opacity: 0.55,
-      //   blur: 3,
-      // }}
-      // size="xl"
-      title="Add New User"
+      title="Edit User"
+      centered
       open={openModalEdit}
       onOk={() => handleCloseModal("edit")}
       onCancel={() => handleCloseModal("edit")}
-      centered
       width={1000}
+      footer={[]}
     >
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={(values) => submiteHundler(values)}
-      >
-        {(formik) => (
-          <form className="mt-6 px-4 pb-7 form" onSubmit={formik.handleSubmit}>
-            <div>
-              <div
-                onClick={handleClickFile}
-                className="p-4 flex flex-col items-center gap-2 bg-[#F5F5F5] text-brand rounded-lg hover:bg-[#F5F5F5]/50 duration-300 ease-in cursor-pointer"
+      <div className="p-4">
+        <Form
+          form={form}
+          name="edit-user"
+          onFinish={onFinish}
+          className="w-full"
+          scrollToFirstError
+          layout="vertical"
+          autoComplete="off"
+          requiredMark={false}
+          size={"large" as SizeType}
+          preserve={false} 
+        >
+          <div className="mb-4">
+            <Form.Item valuePropName="list" getValueFromEvent={normFile}>
+              <Upload
+                name="image"
+                listType="picture"
+                customRequest={dummyRequest}
+                maxCount={1}
+                beforeUpload={beforeUpload}
+                onChange={convertToBase64}
               >
-                <AiOutlineCloudUpload className="w-6 h-6" />
-                <span>Choose some files to upload</span>
-                <input
-                  type="file"
-                  name="image"
-                  ref={fileRef}
-                  onBlur={formik.handleBlur}
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.currentTarget?.files?.[0] as File;
-                    convertToBase64(file).then((res) => {
-                      // Override cv_base64 in initialValues
-                      formik.setFieldValue("image", res);
+                <UploadButton>
+                  <div className="flex items-center gap-3">
+                    <UploadOutlined className="text-dark" />{" "}
+                    <p className="text-dark">Upload Image</p>
+                  </div>
+                </UploadButton>
+              </Upload>
 
-                      const type = file.type.split("/")[1];
-                      // if (validFileExtensions.includes(type)) {
-                      setImagePrev(file.name);
-                      // }
-                    });
-                  }}
-                />
-              </div>
-              {/* display selected files */}
-              {imagePrev && (
-                <div className="bg-gray-light p-2 rounded-md mt-2">
-                  <p className="text-dark text-[12px]">{imagePrev}</p>
-                </div>
-              )}
-
-              {formik.touched.image && formik.errors.image ? (
-                <p className="text-red text-sm font-normal mt-1">
-                  {formik.errors.image}
-                </p>
-              ) : null}
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 mt-6">
-              <Input.Wrapper id="firstName" label="First Name">
-                <Input
-                  id="firstName"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.firstName}
-                />
-                {formik.touched.firstName && formik.errors.firstName ? (
-                  <p className="text-red text-sm font-normal mt-1">
-                    {formik.errors.firstName}
-                  </p>
-                ) : null}
-              </Input.Wrapper>
-              <Input.Wrapper id="lastName" label="Last Name">
-                <Input
-                  id="lastName"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.lastName}
-                />
-                {formik.touched.lastName && formik.errors.lastName ? (
-                  <p className="text-red text-sm font-normal mt-1">
-                    {formik.errors.lastName}
-                  </p>
-                ) : null}
-              </Input.Wrapper>
-            </div>
-
-            <Input.Wrapper id="email" label="Email" className="mt-6">
-              <Input
-                id="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
+              <Image
+                style={{
+                  width: "80px",
+                }}
+                className="mt-4 overflow-hidden rounded-lg"
+                alt="avatar"
+                src={userImage}
               />
-              {formik.touched.email && formik.errors.email ? (
-                <p className="text-red text-sm font-normal mt-1">
-                  {formik.errors.email}
-                </p>
-              ) : null}
-            </Input.Wrapper>
+            </Form.Item>
+          </div>
 
-            <Input.Wrapper id="address" label="Address" className="mt-6">
-              <Input
-                id="address"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.address}
-              />
-              {formik.touched.address && formik.errors.address ? (
-                <p className="text-red text-sm font-normal mt-1">
-                  {formik.errors.address}
-                </p>
-              ) : null}
-            </Input.Wrapper>
-            <div className="grid grid-cols-2 gap-4 mt-6">
-              <Input.Wrapper id="phone" label="Phone">
-                <Input
-                  id="phone"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.phone}
-                />
-                {formik.touched.phone && formik.errors.phone ? (
-                  <p className="text-red text-sm font-normal mt-1">
-                    {formik.errors.phone}
-                  </p>
-                ) : null}
-              </Input.Wrapper>
-              <div className="mt-2">
-                <label className="text-sm text-gray font-semibold block">
-                  Role
-                </label>
-                {/* <select
-                  name="role"
-                  value={formik.values.role}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  className="w-full outline-none border border-gray/20 bg-[#F5F5F5] rounded-xl px-3 py-[11px] text-dark/80 focus:border-brand"
-                >
-                  <option className="py-2" value="" label="Select a role" />
-                  <option className="py-2" value="User" label="User" />
-                  <option className="py-2" value="Cashier" label="Cashier" />
-                </select> */}
-
-                <Select
-                  // defaultValue="lucy"
-                  // style={{ width: 120 }}
-                  className="w-full"
-                  placeholder="Select role"
-                  value={formik.values.role}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  options={[
-                    { value: "admin", label: "Admin" },
-                    { value: "cashier", label: "Cashier" },
-                  ]}
-                />
-
-                {formik.touched.role && formik.errors.role ? (
-                  <p className="text-red text-sm font-normal mt-1">
-                    {formik.errors.role}
-                  </p>
-                ) : null}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 my-6 bg-gray-light/20 border border-gray-light/40 rounded-xl p-4">
-              <Input.Wrapper
-                id="password"
-                className=""
-                label="Generate Password"
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="firstName"
+                label="First Name"
+                rules={[
+                  {
+                    required: true,
+                    message: "First Name is required!",
+                  },
+                ]}
               >
-                <Input id="password" disabled value={formik.values.password} />
-                {formik.touched.password && formik.errors.password ? (
-                  <p className="text-red text-sm font-normal mt-1">
-                    {formik.errors.password}
-                  </p>
-                ) : null}
-              </Input.Wrapper>
-
-              <div className="flex items-end gap-2">
-                <Button
-                  variant="default"
-                  size="sm"
-                  rounded="full"
-                  onClick={() => generatePwd(formik)}
-                  type="button"
-                  className="gap-1"
-                >
-                  Generate
-                  <LuSettings2 size={17} />
-                </Button>
-                {formik.values.password === "" ? (
-                  <Button
-                    variant="disabled"
-                    size="sm"
-                    rounded="full"
-                    disabled
-                    type="button"
-                    className="gap-1"
-                  >
-                    copy <BiCopyAlt />
-                  </Button>
-                ) : (
-                  <Button
-                    variant="default"
-                    size="sm"
-                    rounded="full"
-                    onClick={() => copyPwd(formik)}
-                    type="button"
-                    className="gap-1"
-                  >
-                    copy <BiCopyAlt />
-                  </Button>
-                )}
-              </div>
-            </div>
-
-            {isLoading ? (
-              <Button
-                variant="disabled"
-                size="default"
-                rounded="full"
-                className="gap-2"
+                <Input className="w-full" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="lastName"
+                label="Last Name"
+                rules={[{ required: true, message: "Last Name is required!" }]}
               >
-                Add <Loader color="#073b4c" size="xs" />
-              </Button>
-            ) : (
+                <Input className="w-full" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                type: "email",
+                message: "E-mail is not valid!",
+              },
+              {
+                required: true,
+                message: "E-mail is required!",
+              },
+            ]}
+          >
+            <Input className="w-full" />
+          </Form.Item>
+
+          <Form.Item
+            name="address"
+            label="Address"
+            rules={[{ required: true, message: "Address is required!" }]}
+          >
+            <Input.TextArea showCount maxLength={100} />
+          </Form.Item>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="phone"
+                label="Phone Number"
+                rules={[
+                  { required: true, message: "Phone number is required!" },
+                ]}
+              >
+                <Input className="w-full" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="role"
+                label="Role"
+                rules={[{ required: true, message: "Role is required!" }]}
+              >
+                <Select placeholder="select role">
+                  <Option value="admin">Admin</Option>
+                  <Option value="cashier">Cashier</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={16}>
+            <Col span={12}>
               <Button
                 variant="default"
                 size="default"
                 rounded="full"
-                type="submit"
+                disabled={isLoading}
+                className="gap-2"
               >
-                Add
+                {isLoading ? (
+                  <>
+                    <Loader color="#ffffff" size="xs" />
+                    <span>edit</span>
+                  </>
+                ) : (
+                  <span>edit</span>
+                )}
               </Button>
-            )}
-          </form>
-        )}
-      </Formik>
+            </Col>
+            <Col span={12}>
+              {" "}
+              <Button
+                key="back"
+                variant="outline"
+                size="default"
+                rounded="full"
+                className="gap-2"
+                onClick={() => handleCloseModal("edit")}
+              >
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </div>
     </Modal>
   );
 };
