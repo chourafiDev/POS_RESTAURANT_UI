@@ -1,6 +1,7 @@
 "use client";
 
 import "../globals.css";
+import { App } from "antd";
 import { Poppins, Inter } from "next/font/google";
 import { Providers } from "@/redux/provider";
 import { ConfigProvider } from "antd";
@@ -54,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
+        <App>
           <ConfigProvider
             theme={{
               token: {
@@ -62,36 +63,38 @@ export default function RootLayout({
               },
             }}
           >
-            <NextNProgress
-              color="#6591ff"
-              startPosition={0.3}
-              stopDelayMs={200}
-              height={3}
-              showOnShallow={true}
-              options={{ showSpinner: false }}
-            />
-            <TopBar showNav={showNav} setShowNav={setShowNav} />
-            <Transition
-              as={Fragment}
-              show={showNav}
-              enter="transform transition duration-[400ms]"
-              enterFrom="-translate-x-full"
-              enterTo="translate-x-0"
-              leave="transform duration-[400ms] transition ease-in-out"
-              leaveFrom="translate-x-0"
-              leaveTo="-translate-x-full"
-            >
-              <SideBar showNav={showNav} />
-            </Transition>
-            <main
-              className={`h-screen pt-16 transition-all duration-[400ms] bg-white ${
-                showNav && !isMobile ? "pl-24" : ""
-              }`}
-            >
-              {children}
-            </main>
+            <Providers>
+              <NextNProgress
+                color="#6591ff"
+                startPosition={0.3}
+                stopDelayMs={200}
+                height={3}
+                showOnShallow={true}
+                options={{ showSpinner: false }}
+              />
+              <TopBar showNav={showNav} setShowNav={setShowNav} />
+              <Transition
+                as={Fragment}
+                show={showNav}
+                enter="transform transition duration-[400ms]"
+                enterFrom="-translate-x-full"
+                enterTo="translate-x-0"
+                leave="transform duration-[400ms] transition ease-in-out"
+                leaveFrom="translate-x-0"
+                leaveTo="-translate-x-full"
+              >
+                <SideBar showNav={showNav} />
+              </Transition>
+              <main
+                className={`h-screen pt-16 transition-all duration-[400ms] bg-white ${
+                  showNav && !isMobile ? "pl-24" : ""
+                }`}
+              >
+                {children}
+              </main>
+            </Providers>
           </ConfigProvider>
-        </Providers>
+        </App>
       </body>
     </html>
   );
