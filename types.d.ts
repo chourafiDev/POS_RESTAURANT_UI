@@ -46,3 +46,9 @@ export interface User {
   password: string;
   address: string;
 }
+
+export interface Category {
+  _id: string;
+  name: string;
+  image: string;
+}
