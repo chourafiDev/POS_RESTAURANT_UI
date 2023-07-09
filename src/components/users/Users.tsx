@@ -12,7 +12,7 @@ import DetailsUser from "./DetailsUser";
 import Button from "@/components/ui/Button";
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef } from "antd";
-import { Image, Input, Space, Table, Tag } from "antd";
+import { Image, Input, Space, Table, Tag, Button as AntdButton } from "antd";
 import type { ColumnType, ColumnsType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
@@ -29,27 +29,6 @@ interface DataType {
 }
 
 type DataIndex = keyof DataType;
-
-// const data: DataType[] = [
-//   {
-//     key: "1",
-//     firstName: "John",
-//     lastName: "Brown",
-//     email: "jhon@gmail.com",
-//   },
-//   {
-//     key: "2",
-//     firstName: "Joe",
-//     lastName: "Black",
-//     email: "joe@gmail.com",
-//   },
-//   {
-//     key: "3",
-//     firstName: "Jim",
-//     lastName: "Green",
-//     email: "jim@gmail.com",
-//   },
-// ];
 
 const Users = () => {
   // Fetch all users
@@ -145,7 +124,7 @@ const Users = () => {
           style={{ marginBottom: 8, display: "block" }}
         />
         <Space>
-          <Button
+          <AntdButton
             type="primary"
             onClick={() =>
               handleSearch(selectedKeys as string[], confirm, dataIndex)
@@ -155,15 +134,15 @@ const Users = () => {
             style={{ width: 90 }}
           >
             Search
-          </Button>
-          <Button
+          </AntdButton>
+          <AntdButton
             onClick={() => clearFilters && handleReset(clearFilters)}
             size="small"
             style={{ width: 90 }}
           >
             Reset
-          </Button>
-          <Button
+          </AntdButton>
+          <AntdButton
             type="link"
             size="small"
             onClick={() => {
@@ -173,8 +152,8 @@ const Users = () => {
             }}
           >
             Filter
-          </Button>
-          <Button
+          </AntdButton>
+          <AntdButton
             type="link"
             size="small"
             onClick={() => {
@@ -182,7 +161,7 @@ const Users = () => {
             }}
           >
             close
-          </Button>
+          </AntdButton>
         </Space>
       </div>
     ),

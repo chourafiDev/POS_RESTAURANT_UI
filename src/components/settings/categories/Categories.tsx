@@ -1,71 +1,250 @@
 "use client";
 
-import { FC } from "react";
-import { motion } from "framer-motion";
-
-import { categories } from "@/utils/data";
-import { ImSearch } from "react-icons/im";
+import { useState, useRef, useEffect } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { LuPlusCircle } from "react-icons/lu";
 import { AiFillEdit } from "react-icons/ai";
-import { useDisclosure } from "@mantine/hooks";
-import Button from "@/components/ui/Button";
-import Image from "next/image";
+import { FaEye } from "react-icons/fa";
+import DeleteCategory from "./DeleteCategory";
 import AddCategory from "./AddCategory";
 import EditCategory from "./EditCategory";
-import DeleteCategory from "./DeleteCategory";
+import Button from "@/components/ui/Button";
+import { SearchOutlined } from "@ant-design/icons";
+import type { InputRef } from "antd";
+import { Image, Input, Space, Table, Tag, Button as AntdButton } from "antd";
+import type { ColumnType, ColumnsType } from "antd/es/table";
+import type { FilterConfirmProps } from "antd/es/table/interface";
+import Highlighter from "react-highlight-words";
+import { useGetCategoriesQuery } from "@/redux/services/categoryApiSlice";
 
-interface CategoriesProps {
-  id: string;
-  active: boolean;
+interface DataType {
+  key: string;
+  _id: string;
+  name: string;
+  icon: string;
 }
 
-const Categories: FC<CategoriesProps> = ({ id, active }) => {
-  const tabContentVariant = {
-    active: {
-      display: "block",
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.3,
-      },
-    },
-    inactive: {
-      display: "none",
-      opacity: 0,
-      scale: 0.9,
-      transition: {
-        duration: 0.3,
-      },
-    },
+type DataIndex = keyof DataType;
+
+const Categories = () => {
+  // Fetch all categories
+  const {
+    data: categories,
+    isLoading,
+    isFetching,
+    error,
+  } = useGetCategoriesQuery();
+  console.log("categories", categories);
+  // manage modal
+  const [openModalAdd, setOpenModalAdd] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+  const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [categoryId, setCategoryId] = useState("");
+
+  function handleOpneModal(type: string) {
+    switch (type) {
+      case "add":
+        setOpenModalAdd(true);
+        break;
+      case "edit":
+        setOpenModalEdit(true);
+        break;
+      case "delete":
+        setOpenModalDelete(true);
+        break;
+      case "detail":
+        setOpenModalDetail(true);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  function handleCloseModal(type: string) {
+    switch (type) {
+      case "add":
+        setOpenModalAdd(false);
+        break;
+      case "edit":
+        setOpenModalEdit(false);
+        break;
+      case "delete":
+        setOpenModalDelete(false);
+        break;
+      case "detail":
+        setOpenModalDetail(false);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  // handle table data
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
+
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: (param?: FilterConfirmProps) => void,
+    dataIndex: DataIndex
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
   };
 
-  // handle add category
-  const [modalAddOpened, { open: openModalAdd, close: closeModalAdd }] =
-    useDisclosure(false);
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText("");
+  };
 
-  //   const handleAddCategory = (category) => {};
+  const getColumnSearchProps = (
+    dataIndex: DataIndex
+  ): ColumnType<DataType> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
+      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            handleSearch(selectedKeys as string[], confirm, dataIndex)
+          }
+          style={{ marginBottom: 8, display: "block" }}
+        />
+        <Space>
+          <AntdButton
+            type="primary"
+            onClick={() =>
+              handleSearch(selectedKeys as string[], confirm, dataIndex)
+            }
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </AntdButton>
+          <AntdButton
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </AntdButton>
+          <AntdButton
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setSearchText((selectedKeys as string[])[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </AntdButton>
+          <AntdButton
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </AntdButton>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes((value as string).toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
 
-  // handle edit category
-  const [modalEditOpened, { open: openModalEdit, close: closeModalEdit }] =
-    useDisclosure(false);
+  const columns: ColumnsType<DataType> = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      ...getColumnSearchProps("name"),
+    },
+    {
+      title: "Icon",
+      key: "icon",
+      render: (record) => (
+        <Image
+          src={record?.icon?.url}
+          alt={record?.name}
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
+      ),
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (_, record) => (
+        <Space size="middle">
+          <button
+            onClick={() => {
+              handleOpneModal("edit");
+              setCategoryId(record._id);
+            }}
+            className="w-9 h-9 rounded-md bg-yellow/30 text-yellow flex justify-center items-center"
+          >
+            <AiFillEdit size={16} />
+          </button>
+          <button
+            onClick={() => {
+              handleOpneModal("delete");
+              setCategoryId(record._id);
+            }}
+            className="w-9 h-9 rounded-md bg-red/30 text-red flex justify-center items-center"
+          >
+            <RiDeleteBin5Fill size={16} />
+          </button>
+        </Space>
+      ),
+    },
+  ];
 
-  // handle delete category
-  const [
-    modalDeleteOpened,
-    { open: openModalDelete, close: closeModalDelete },
-  ] = useDisclosure(false);
-
-  //   const handleDleteCategoryById = (categoryId) => {};
   return (
-    <motion.div
-      variants={tabContentVariant}
-      animate={active ? "active" : "inactive"}
-      initial="inactive"
-      className="form bg-white rounded-xl p-6"
-    >
-      <>
-        <div className="flex items-center justify-between">
+    <>
+      <div className="bg-white p-6">
+        <div className="flex items-center justify-between mb-3">
           <h1 className="text-dark font-semibold mb-5 text-[18px]">
             List Categories
           </h1>
@@ -74,100 +253,47 @@ const Categories: FC<CategoriesProps> = ({ id, active }) => {
               variant="default"
               size="default"
               rounded="full"
-              className="gap-3"
-              onClick={openModalAdd}
+              className="flex items-center gap-2"
+              onClick={() => handleOpneModal("add")}
             >
+              <LuPlusCircle />
               Add Category
-              <LuPlusCircle size={20} />
             </Button>
           </div>
         </div>
 
-        <div className="flex items-center bg-gray-light/60 py-[3px] px-4 gap-2 rounded-xl w-full my-6">
-          <ImSearch className="text-dark/40" size={17} />
-          <input
-            type="text"
-            className="outline-none px-2 py-3 font-normal bg-transparent text-sm text-gray w-full"
-            placeholder="Search menu"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-              <div className="overflow-hidden">
-                <table className="min-w-full text-left text-sm font-light">
-                  <thead className="border-b font-medium border-gray/10">
-                    <tr>
-                      <th scope="col" className="px-6 py-4 text-dark">
-                        Name
-                      </th>
-                      <th scope="col" className="px-6 py-4 text-dark">
-                        Icon
-                      </th>
-                      <th scope="col" className="px-6 py-4 text-dark">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {categories.map((category) => (
-                      <tr key={category.id} className="border-b border-gray/10">
-                        <td className="whitespace-nowrap px-6 py-4 font-medium text-dark/70">
-                          {category.name}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 font-medium text-dark/70">
-                          <Image
-                            src={`/assets/imgs/icons/${category.icon}`}
-                            alt={category.name}
-                            width={30}
-                            height={30}
-                            className="rounded-full"
-                          />
-                        </td>
-
-                        <td className="flex items-center gap-2 py-4 whitespace-nowrap">
-                          <button
-                            onClick={openModalEdit}
-                            className="w-9 h-9 rounded-md bg-yellow/30 text-yellow flex justify-center items-center"
-                          >
-                            <AiFillEdit size={16} />
-                          </button>
-                          <button
-                            onClick={openModalDelete}
-                            className="w-9 h-9 rounded-md bg-red/30 text-red flex justify-center items-center"
-                          >
-                            <RiDeleteBin5Fill size={16} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Modal Add Item */}
-        <AddCategory
-          modalAddOpened={modalAddOpened}
-          closeModalAdd={closeModalAdd}
+        <Table
+          columns={columns}
+          dataSource={categories}
+          rowKey={(record) => record._id}
+          pagination={{
+            defaultPageSize: 5,
+            showSizeChanger: true,
+            pageSizeOptions: ["5", "10", "20", "30"],
+          }}
         />
+      </div>
 
-        {/* Modal Edit Category */}
-        <EditCategory
-          modalEditOpened={modalEditOpened}
-          closeModalEdit={closeModalEdit}
-        />
+      {/* Modal Add Category */}
+      <AddCategory
+        openModalAdd={openModalAdd}
+        handleCloseModal={handleCloseModal}
+      />
 
-        {/* Modal Delete Category */}
-        <DeleteCategory
-          modalDeleteOpened={modalDeleteOpened}
-          closeModalDelete={closeModalDelete}
-        />
-      </>
-    </motion.div>
+      {/* Modal Edit Category */}
+      {/* <EditCategory
+        openModalEdit={openModalEdit}
+        handleCloseModal={handleCloseModal}
+        categoryId={categoryId}
+      /> */}
+
+      {/* Modal Delete Category */}
+      {/* <DeleteCategory
+        openModalDelete={openModalDelete}
+        handleCloseModal={handleCloseModal}
+        categoryId={categoryId}
+      /> */}
+    </>
   );
 };
 
