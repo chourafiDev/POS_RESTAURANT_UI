@@ -4,6 +4,19 @@ import { RiHome6Fill } from "react-icons/ri";
 import { BsFillClockFill } from "react-icons/bs";
 import { RiLayoutMasonryFill } from "react-icons/ri";
 import { AiFillSetting } from "react-icons/ai";
+import {
+  burger,
+  cake,
+  dessert,
+  dish,
+  doughnut,
+  juice,
+  meat,
+  pizza,
+  salad,
+  sushi,
+  taco,
+} from "./assets";
 
 export const links = [
   {
@@ -42,68 +55,58 @@ export const categories = [
   {
     id: 1,
     name: "All",
-    icon: "dish.png",
-    total: 200,
+    icon: dish,
   },
   {
     id: 2,
     name: "Burger",
-    icon: "burger.png",
-    total: 5,
+    icon: burger,
   },
   {
     id: 3,
     name: "Juice",
-    icon: "juice.png",
-    total: 5,
+    icon: juice,
   },
   {
     id: 4,
     name: "Salad",
-    icon: "salad.png",
-    total: 5,
+    icon: salad,
   },
   {
     id: 5,
     name: "Taco",
-    icon: "taco.png",
+    icon: taco,
     total: 50,
   },
   {
     id: 6,
     name: "Dessert",
-    icon: "dessert.png",
-    total: 50,
+    icon: dessert,
   },
   {
     id: 7,
     name: "Pizza",
-    icon: "pizza.png",
-    total: 50,
+    icon: pizza,
   },
   {
     id: 8,
     name: "Sushi",
-    icon: "sushi.png",
-    total: 50,
+    icon: sushi,
   },
   {
     id: 9,
     name: "Meat",
-    icon: "meat.png",
-    total: 50,
+    icon: meat,
   },
   {
     id: 10,
     name: "Cake",
-    icon: "cake.png",
-    total: 50,
+    icon: cake,
   },
   {
     id: 11,
     name: "Doughnut",
-    icon: "doughnut.png",
-    total: 50,
+    icon: doughnut,
   },
 ];
 
@@ -404,57 +407,5 @@ export const ordersList = [
     Qta: 3,
     time: "10:30pm",
     price: 40.99,
-  },
-];
-
-export const users = [
-  {
-    id: 1,
-    firstName: "Jhon",
-    lastName: "Patris",
-    phone: "0678987678",
-    email: "jhonpatris@gmail.com",
-  },
-  {
-    id: 2,
-    firstName: "Jhon",
-    lastName: "Patris",
-    phone: "0678987678",
-    email: "jhonpatris@gmail.com",
-  },
-  {
-    id: 3,
-    firstName: "Jhon",
-    lastName: "Patris",
-    phone: "0678987678",
-    email: "jhonpatris@gmail.com",
-  },
-  {
-    id: 4,
-    firstName: "Jhon",
-    lastName: "Patris",
-    phone: "0678987678",
-    email: "jhonpatris@gmail.com",
-  },
-  {
-    id: 5,
-    firstName: "Jhon",
-    lastName: "Patris",
-    phone: "0678987678",
-    email: "jhonpatris@gmail.com",
-  },
-  {
-    id: 6,
-    firstName: "Jhon",
-    lastName: "Patris",
-    phone: "0678987678",
-    email: "jhonpatris@gmail.com",
-  },
-  {
-    id: 7,
-    firstName: "Jhon",
-    lastName: "Patris",
-    phone: "0678987678",
-    email: "jhonpatris@gmail.com",
   },
 ];
