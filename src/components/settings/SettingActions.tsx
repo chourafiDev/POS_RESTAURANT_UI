@@ -30,17 +30,16 @@ const SettingActions: FC<SettingActionsProps> = ({
       role="presentation"
       onClick={() => onTabClick(index)}
     >
-      <a href={`#${tab.id}`} className="flex items-center gap-3 text-sm">
+      <a
+        href={`#${tab.id}`}
+        className={` flex items-center gap-3 text-sm ${
+          activeTabIndex == index ? "text-brand" : "text-dark/80"
+        }`}
+      >
         {tab.id === "menu" ? (
-          <MdFastfood
-            size={20}
-            className={activeTabIndex == index ? "text-brand" : "text-dark/80"}
-          />
+          <MdFastfood size={20} />
         ) : (
-          <RiLayoutMasonryFill
-            size={18}
-            className={activeTabIndex == index ? "text-brand" : "text-dark/80"}
-          />
+          <RiLayoutMasonryFill size={18} />
         )}
         {tab.title}
       </a>

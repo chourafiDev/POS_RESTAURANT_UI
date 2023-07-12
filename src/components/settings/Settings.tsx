@@ -44,13 +44,7 @@ const Settings: FC<SettingsProps> = ({ tabs }) => {
         {/* Tab content */}
         {tabs.map((tab, index) => {
           const TabContent = tab.content;
-          return (
-            <TabContent
-              key={tab.id}
-              id={`${tab.id}-content`}
-              active={activeTabIndex === index}
-            />
-          );
+          return <TabContent key={tab.id} active={activeTabIndex === index} />;
         })}
       </div>
     </div>
