@@ -23,6 +23,10 @@ body {
     }
   }
 
+  a {
+    @apply hover:text-brand;
+  }
+
   .tag {
     @apply w-full flex items-center justify-center py-2 rounded-md border cursor-pointer text-sm;
   }
@@ -133,6 +137,10 @@ body {
   padding: 21px !important;
   color: #073b4c;
   font-weight: 500;
+}
+
+:where(.css-dev-only-do-not-override-1mlkcld).ant-form-item {
+  margin-bottom: 0px !important;
 }
 
 /* Handle */
