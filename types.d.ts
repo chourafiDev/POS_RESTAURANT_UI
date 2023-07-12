@@ -1,10 +1,3 @@
-export interface Category {
-  id: number;
-  name: string;
-  icon: string;
-  total: number;
-}
-
 export interface Menu {
   id: number;
   title: string;
@@ -35,6 +28,12 @@ export interface OrderedList {
   price: number;
 }
 
+// ------------------------
+export interface Image {
+  public_id: any;
+  url: any;
+}
+
 export interface User {
   _id: string;
   firstName: string;
@@ -48,7 +47,19 @@ export interface User {
 }
 
 export interface Category {
-  _id: string;
+  _id?: string;
   name: string;
-  image: string;
+  icon: Image;
+  description: string;
+  createdAt?: string;
+}
+
+export interface Product {
+  _id: string;
+  image: Image;
+  userId: string;
+  title: string;
+  description: string;
+  price: number;
+  options: string[];
 }
