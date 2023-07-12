@@ -10,6 +10,8 @@ import sushi from "/public/assets/imgs/icons/sushi.png";
 import taco from "/public/assets/imgs/icons/taco.png";
 import juice from "/public/assets/imgs/icons/juice.png";
 
+import loading from "/public/assets/imgs/loading.gif";
+
 export {
   burger,
   cake,
@@ -21,5 +23,6 @@ export {
   salad,
   sushi,
   taco,
-  juice
+  juice,
+  loading,
 };
