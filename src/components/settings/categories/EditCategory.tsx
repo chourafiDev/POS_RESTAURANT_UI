@@ -1,166 +1,223 @@
 "use client";
 
-import {
-  Avatar,
-  Group,
-  Input,
-  Modal,
-  Select,
-  Text,
-  useMantineTheme,
-} from "@mantine/core";
-import { FC, useState, forwardRef } from "react";
+import React, { FC, useEffect, useState, createRef, RefObject } from "react";
 import Button from "@/components/ui/Button";
+import { Modal, Form, Input, Row, Col, message, Space } from "antd";
+import { loading } from "@/utils/assets";
+import Image from "next/image";
+import { categories } from "@/utils/data";
+import {
+  useGetCategoryByIdQuery,
+  useUpdateCategoryMutation,
+} from "@/redux/services/categoryApiSlice";
+import { Category } from "../../../../types";
 
-const data = [
-  {
-    image: "/assets/imgs/icons/dish.png",
-    label: "Dish",
-    value: "dish",
-    description: "Not just a sponge",
-  },
-  {
-    image: "/assets/imgs/icons/burger.png",
-    label: "Burger",
-    value: "burger",
-    description: "Not just a sponge",
-  },
-  {
-    image: "/assets/imgs/icons/juice.png",
-    label: "Juice",
-    value: "juice",
-    description: "Not just a sponge",
-  },
-  {
-    image: "/assets/imgs/icons/salad.png",
-    label: "Salad",
-    value: "salad",
-    description: "Not just a sponge",
-  },
-  {
-    image: "/assets/imgs/icons/taco.png",
-    label: "Taco",
-    value: "taco",
-    description: "Not just a sponge",
-  },
-  {
-    image: "/assets/imgs/icons/dessert.png",
-    label: "Dessert",
-    value: "dessert",
-    description: "Not just a sponge",
-  },
-  {
-    image: "/assets/imgs/icons/sushi.png",
-    label: "Sushi",
-    value: "sushi",
-    description: "Not just a sponge",
-  },
-  {
-    image: "/assets/imgs/icons/pizza.png",
-    label: "Pizza",
-    value: "pizza",
-    description: "Not just a sponge",
-  },
-  {
-    image: "/assets/imgs/icons/meat.png",
-    label: "Meat",
-    value: "meat",
-    description: "Not just a sponge",
-  },
-  {
-    image: "/assets/imgs/icons/cake.png",
-    label: "Cake",
-    value: "cake",
-    description: "Not just a sponge",
-  },
-  {
-    image: "/assets/imgs/icons/doughnut.png",
-    label: "Doughnut",
-    value: "doughnut",
-    description: "Not just a sponge",
-  },
-];
+type SizeType = Parameters<typeof Form>[0]["size"];
 
-const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ image, label, description, ...others }: ItemProps, ref) => (
-    <div ref={ref} {...others}>
-      <Group noWrap>
-        <Avatar src={image} size={26} />
-
-        <div>
-          <Text size="sm">{label}</Text>
-        </div>
-      </Group>
-    </div>
-  )
-);
-
-SelectItem.displayName = "SelectItem";
-
-interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
-  image: string;
-  label: string;
-  description: string;
+interface AddCategoryProps {
+  openModalEdit: boolean;
+  handleCloseModal: (type: string) => void;
+  categoryId: string;
 }
 
-interface EditCategoryProps {
-  modalEditOpened: boolean;
-  closeModalEdit: () => void;
-}
+const { TextArea } = Input;
 
-const EditCategory: FC<EditCategoryProps> = ({
-  modalEditOpened,
-  closeModalEdit,
+const EditCategory: FC<AddCategoryProps> = ({
+  openModalEdit,
+  handleCloseModal,
+  categoryId,
 }) => {
-  const theme = useMantineTheme();
+  const [form] = Form.useForm();
+
+  const {
+    data: categoryById,
+    isLoading: isCategoryLoading,
+    isFetching,
+    isSuccess: isGetCategorySuccess,
+    error,
+  } = useGetCategoryByIdQuery(categoryId);
+
+  // handle upload category icon
+  const [selectedCategory, setSelectedCategory] = useState(
+    categoryById?.name ? categoryById?.name : ""
+  );
+
+  const [iconBase64, setIconBase64] = useState("");
+  const categorLength = categories.length;
+  const [elRefs, setElRefs] = useState<Array<RefObject<HTMLImageElement>>>([]);
+
+  useEffect(() => {
+    setElRefs((elRefs) =>
+      Array(categorLength)
+        .fill(null)
+        .map((_, i) => elRefs[i] || createRef())
+    );
+  }, [categorLength]);
+
+  const handleClick = async (index: number, name: string) => {
+    setSelectedCategory(name);
+
+    // get icon base64
+    const image = elRefs[index].current;
+
+    if (image) {
+      try {
+        const response = await fetch(image.src);
+        const blob = await response.blob();
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64 = reader.result as string;
+          setIconBase64(base64);
+        };
+        reader.readAsDataURL(blob);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
+
+  // handle edit category
+  const [updateCategory, { isLoading, isSuccess, isError }] =
+    useUpdateCategoryMutation();
+
+  const onFinish = async ({ description }: { description: string }) => {
+    try {
+      // if (selectedCategory === "") {
+      //   return message.error("You should choose a category!");
+      // }
+
+      const data: Category = {
+        name: "",
+        icon: "",
+        // name: selectedCategory,
+        // icon: iconBase64,
+        description,
+      };
+
+      await updateCategory({ data, categoryId }).unwrap();
+    } catch (err: any) {
+      message.error(err.data?.message || err.error);
+    }
+  };
+
+  useEffect(() => {
+    if (categoryById) {
+      // setUserImage(user?.image?.url);
+      form.setFieldsValue({
+        description: categoryById.description,
+      });
+    }
+  }, [categoryById, form]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      message.success("Category updated successfully");
+      handleCloseModal("edit");
+      form.resetFields();
+    }
+  }, [isSuccess]);
+
+  console.log("selectedCategory", selectedCategory);
+  console.log("categ nma", categoryById?.name);
+  console.log("category one from edit modal", categoryById);
 
   return (
     <Modal
-      opened={modalEditOpened}
-      onClose={closeModalEdit}
-      withCloseButton={true}
-      centered
       title="Edit Category"
-      overlayProps={{
-        color:
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[9]
-            : theme.colors.gray[2],
-        opacity: 0.55,
-        blur: 3,
-      }}
-      size="xl"
+      centered
+      open={openModalEdit}
+      onOk={() => handleCloseModal("edit")}
+      onCancel={() => handleCloseModal("edit")}
+      width={700}
+      footer={[]}
     >
-      <form className="mt-6 px-7 pb-7 form">
-        <p className="text-dark fon-medium mb-8">
-          Edit category by choosing new information from below
-        </p>
+      <div className="p-4">
+        <Form
+          form={form}
+          name="edit-category"
+          onFinish={onFinish}
+          className="w-full"
+          scrollToFirstError
+          layout="vertical"
+          autoComplete="off"
+          requiredMark={false}
+          size={"large" as SizeType}
+          initialValues={{ password: "" }}
+          preserve={false}
+        >
+          <div className="mb-6">
+            <p className="mb-2 text-dark">Choose Category</p>
+            <div className="flex flex-wrap gap-2 items-center">
+              {categories.map(({ id, name, icon }, i) => (
+                <Space
+                  key={id}
+                  onClick={() => handleClick(i, name)}
+                  className={`border rounded-full pl-1 pr-3 py-[2px] cursor-pointer ease-in-out duration-150 ${
+                    selectedCategory === name
+                      ? "border-brand bg-brand text-white"
+                      : "border-gray/40"
+                  }`}
+                >
+                  <div
+                    className={`w-[30px] h-[30px] flex items-center justify-center ${
+                      selectedCategory === name
+                        ? "bg-white/40 rounded-full"
+                        : ""
+                    }`}
+                  >
+                    <Image
+                      src={icon}
+                      ref={elRefs[i]}
+                      alt={name}
+                      width={20}
+                      height={20}
+                    />
+                  </div>
+                  {name}
+                </Space>
+              ))}
+            </div>
+          </div>
 
-        <Input.Wrapper id="name" label="Name">
-          <Input id="name" />
-        </Input.Wrapper>
+          <Form.Item name="description" label="Description">
+            <TextArea rows={4} />
+          </Form.Item>
 
-        <Select
-          className="mt-4"
-          label="Category Icon"
-          placeholder="Pick one"
-          itemComponent={SelectItem}
-          dropdownPosition="top"
-          data={data}
-          searchable
-          maxDropdownHeight={150}
-          nothingFound="No category here"
-          filter={(value, item) =>
-            item.label!.toLowerCase().includes(value.toLowerCase().trim())
-          }
-        />
-
-        <div className="flex items-center gap-4 mt-10">
-          <Button variant="default" size="default" rounded="full">
-            Add
-          </Button>
-        </div>
-      </form>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Button
+                variant="default"
+                size="default"
+                rounded="full"
+                disabled={isLoading}
+                className="gap-2"
+              >
+                {isLoading ? (
+                  <>
+                    <Image src={loading} alt="loading" width="16" height="16" />
+                    <span>Edit</span>
+                  </>
+                ) : (
+                  <span>Edit</span>
+                )}
+              </Button>
+            </Col>
+            <Col span={12}>
+              <Button
+                key="back"
+                variant="outline"
+                size="default"
+                rounded="full"
+                className="gap-2"
+                onClick={() => handleCloseModal("edit")}
+              >
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </div>
     </Modal>
   );
 };
