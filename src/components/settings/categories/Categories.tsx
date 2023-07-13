@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, FC } from "react";
+import { motion } from "framer-motion";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { LuPlusCircle } from "react-icons/lu";
 import { AiFillEdit } from "react-icons/ai";
@@ -26,7 +27,30 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
-const Categories = () => {
+interface CategoriesProps {
+  active: boolean;
+}
+
+const Categories: FC<CategoriesProps> = ({ active }) => {
+  const tabContentVariant = {
+    active: {
+      display: "block",
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.3,
+      },
+    },
+    inactive: {
+      display: "none",
+      opacity: 0,
+      scale: 0.9,
+      transition: {
+        duration: 0.3,
+      },
+    },
+  };
+
   // Fetch all categories
   const {
     data: categories,
@@ -34,12 +58,11 @@ const Categories = () => {
     isFetching,
     error,
   } = useGetCategoriesQuery();
-  console.log("categories", categories);
+
   // manage modal
   const [openModalAdd, setOpenModalAdd] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  const [openModalDetail, setOpenModalDetail] = useState(false);
   const [categoryId, setCategoryId] = useState("");
 
   function handleOpneModal(type: string) {
@@ -241,9 +264,16 @@ const Categories = () => {
     },
   ];
 
+  console.log("categories from table", categories);
+
   return (
     <>
-      <div className="bg-white p-6">
+      <motion.div
+        variants={tabContentVariant}
+        animate={active ? "active" : "inactive"}
+        initial="inactive"
+        className="form bg-white rounded-xl p-6"
+      >
         <div className="flex items-center justify-between mb-3">
           <h1 className="text-dark font-semibold mb-5 text-[18px]">
             List Categories
@@ -265,14 +295,20 @@ const Categories = () => {
         <Table
           columns={columns}
           dataSource={categories}
-          rowKey={(record) => record._id}
+          expandable={{
+            expandedRowRender: (record) => (
+              <p style={{ margin: 0 }}>{record.description}</p>
+            ),
+            rowExpandable: (record) => record.name !== "Not Expandable",
+          }}
+          rowKey={(record) => record.name}
           pagination={{
             defaultPageSize: 5,
             showSizeChanger: true,
             pageSizeOptions: ["5", "10", "20", "30"],
           }}
         />
-      </div>
+      </motion.div>
 
       {/* Modal Add Category */}
       <AddCategory
@@ -281,18 +317,18 @@ const Categories = () => {
       />
 
       {/* Modal Edit Category */}
-      {/* <EditCategory
+      <EditCategory
         openModalEdit={openModalEdit}
         handleCloseModal={handleCloseModal}
         categoryId={categoryId}
-      /> */}
+      />
 
       {/* Modal Delete Category */}
-      {/* <DeleteCategory
+      <DeleteCategory
         openModalDelete={openModalDelete}
         handleCloseModal={handleCloseModal}
         categoryId={categoryId}
-      /> */}
+      />
     </>
   );
 };
