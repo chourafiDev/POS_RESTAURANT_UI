@@ -12,13 +12,14 @@ import { useAppDispatch } from "@/redux/hooks";
 import { useLogoutMutation } from "@/redux/services/authApiSlice";
 import { clearCredentials } from "@/redux/features/authSlice";
 import Link from "next/link";
+import { Button } from "antd";
 
 interface SideBarProps {
-  showNav: boolean;
-  setShowNav: (item: boolean) => void;
+  collapsed: boolean;
+  setCollapsed: (item: boolean) => void;
 }
 
-const TopBar: FC<SideBarProps> = ({ showNav, setShowNav }) => {
+const TopBar: FC<SideBarProps> = ({ collapsed, setCollapsed }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -43,11 +44,13 @@ const TopBar: FC<SideBarProps> = ({ showNav, setShowNav }) => {
 
   return (
     <div
-      className={`fixed w-full h-16 pr-8 bg-white flex justify-between items-center transition-all duration-[400ms] border-b border-gray/20 z-10 ${
-        showNav ? "pl-28" : "pl-5"
-      }`}
+      // className={`fixed w-full h-16 pr-8 bg-white flex justify-between items-center transition-all duration-[400ms] border-b border-gray/20 z-10
+      // ${
+      //   showNav ? "pl-28" : "pl-5"
+      // }`}
+      className={`w-full h-16 pr-8 bg-white flex justify-between items-center transition-all duration-[400ms] border-b border-gray/20 z-10 `}
     >
-      <button
+      {/* <button
         onClick={() => setShowNav(!showNav)}
         className="w-9 h-9 flex cursor-pointer justify-center items-center rounded-full border border-gray/50 bg-gray-light/10 text-gray"
       >
@@ -56,7 +59,24 @@ const TopBar: FC<SideBarProps> = ({ showNav, setShowNav }) => {
         ) : (
           <FaChevronRight color="#cacaca" />
         )}
-      </button>
+      </button> */}
+
+      <Button
+        type="text"
+        icon={
+          collapsed ? (
+            <FaChevronLeft color="#cacaca" />
+          ) : (
+            <FaChevronRight color="#cacaca" />
+          )
+        }
+        onClick={() => setCollapsed(!collapsed)}
+        style={{
+          fontSize: "16px",
+          width: 64,
+          height: 64,
+        }}
+      />
 
       <div className="flex items-center gap-3">
         <p className="text-gray/70 text-sm tracking-wide mr-6">{fullDate}</p>
