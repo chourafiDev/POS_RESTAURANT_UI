@@ -63,6 +63,16 @@ body {
   color: #073b4c !important;
 }
 
+/* layout */
+.ant-menu-dark,
+.ant-layout-sider-dark {
+  background-color: #073b4c !important;
+}
+
+.ant-menu-sub {
+  background-color: #08465a !important;
+}
+
 /* Drawer */
 .mantine-1q36a81 {
   padding: 0rem !important;
