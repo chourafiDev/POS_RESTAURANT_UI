@@ -7,7 +7,7 @@ import Trending from "@/components/dashbord/Trending";
 
 export default function Home() {
   return (
-    <div className="px-4 md:px-6 py-6 bg-[#fafafa] min-h-screen">
+    <div className="bg-white p-4 min-h-screen rounded-lg">
       <Header />
       <Revenue />
 
