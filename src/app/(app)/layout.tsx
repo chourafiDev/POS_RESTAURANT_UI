@@ -1,23 +1,112 @@
 "use client";
 
 import "../globals.css";
-import { App } from "antd";
-import { Poppins, Inter } from "next/font/google";
+import React from "react";
+import { App, Layout, Menu, theme } from "antd";
+import { Poppins, Inter, Jost } from "next/font/google";
 import { Providers } from "@/redux/provider";
 import { ConfigProvider } from "antd";
 import { Transition } from "@headlessui/react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 import { useState, useEffect, Fragment } from "react";
 import NextNProgress from "nextjs-progressbar";
 import TopBar from "@/components/app/TopBar";
 import SideBar from "@/components/app/SideBar";
 
+import {
+  DesktopOutlined,
+  FileOutlined,
+  PieChartOutlined,
+  TeamOutlined,
+  UserOutlined,
+  HomeOutlined,
+  ShoppingCartOutlined,
+  TableOutlined,
+  FieldTimeOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+import type { MenuProps } from "antd";
+import Image from "next/image";
+import Link from "next/link";
+import Button from "@/components/ui/Button";
+
+type MenuItem = Required<MenuProps>["items"][number];
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[]
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem(
+    <Link href="/" className="text-[15px]">
+      HomeV
+    </Link>,
+    "home",
+    <HomeOutlined className="text-[30px]" />
+  ),
+  getItem(
+    <Link href="/users" className="text-[15px]">
+      Users
+    </Link>,
+    "users",
+    <TeamOutlined className="text-[30px]" />
+  ),
+  getItem(
+    <Link href="/order" className="text-[15px]">
+      Orders
+    </Link>,
+    "orders",
+    <ShoppingCartOutlined />
+  ),
+  getItem(
+    <Link href="/tables" className="text-[15px]">
+      Tables
+    </Link>,
+    "tables",
+    <TableOutlined className="text-[30px]" />
+  ),
+  getItem(
+    <Link href="/products" className="text-[15px]">
+      Products
+    </Link>,
+    "products",
+    <HomeOutlined className="text-[30px]" />
+  ),
+  getItem(
+    <Link href="/categories" className="text-[15px]">
+      Categories
+    </Link>,
+    "categories",
+    <UserOutlined className="text-[30px]" />
+  ),
+  getItem("History", "history", <FieldTimeOutlined className="text-[15px]" />, [
+    getItem(<Link href="/tables">My History</Link>, "my-history"),
+    getItem(<Link href="/tables">All History</Link>, "all-history"),
+  ]),
+];
+
+const { Header, Content, Footer, Sider } = Layout;
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const inter = Inter({ subsets: ["latin"] });
+const jost = Jost({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata = {
   title: "POS app",
@@ -31,6 +120,8 @@ export default function RootLayout({
 }) {
   const [showNav, setShowNav] = useState<boolean>(true);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const [collapsed, setCollapsed] = useState(false);
 
   function handleResize() {
     if (innerWidth <= 640) {
@@ -52,9 +143,13 @@ export default function RootLayout({
     };
   }, []);
 
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={jost.className}>
         <App>
           <ConfigProvider
             theme={{
@@ -64,15 +159,15 @@ export default function RootLayout({
             }}
           >
             <Providers>
-              <NextNProgress
+              {/* <NextNProgress
                 color="#6591ff"
                 startPosition={0.3}
                 stopDelayMs={200}
                 height={3}
                 showOnShallow={true}
                 options={{ showSpinner: false }}
-              />
-              <TopBar showNav={showNav} setShowNav={setShowNav} />
+              /> */}
+              {/* <TopBar showNav={showNav} setShowNav={setShowNav} />
               <Transition
                 as={Fragment}
                 show={showNav}
@@ -84,14 +179,147 @@ export default function RootLayout({
                 leaveTo="-translate-x-full"
               >
                 <SideBar showNav={showNav} />
-              </Transition>
-              <main
+              </Transition> */}
+              {/* <main
                 className={`h-screen pt-16 transition-all duration-[400ms] bg-white ${
                   showNav && !isMobile ? "pl-24" : ""
                 }`}
               >
                 {children}
-              </main>
+              </main> */}
+
+              {/* <Layout hasSider>
+                <Sider
+                  trigger={null}
+                  collapsible
+                  collapsed={collapsed}
+                  className="overflow-auto h-screen fixed left-0 top-0 bottom-0"
+                >
+                  <picture className="">
+                    <Image
+                      src="/assets/imgs/logo.svg"
+                      alt="logo"
+                      width={45}
+                      height={40}
+                      className=""
+                    />
+                  </picture>
+                  <Menu
+                    theme="dark"
+                    mode="inline"
+                    defaultSelectedKeys={["4"]}
+                    items={items}
+                  />
+                </Sider>
+                <Layout>
+                  <TopBar collapsed={collapsed} setCollapsed={setCollapsed} />
+                  {children}
+                  <Content
+                    style={{ margin: "24px 16px 0", overflow: "initial" }}
+                  >
+                    <div
+                      style={{
+                        padding: 24,
+                        textAlign: "center",
+                        background: colorBgContainer,
+                      }}
+                    >
+                      <p>long content</p>
+                      {
+                        // indicates very long content
+                        Array.from({ length: 100 }, (_, index) => (
+                          <React.Fragment key={index}>
+                            {index % 20 === 0 && index ? "more" : "..."}
+                            <br />
+                          </React.Fragment>
+                        ))
+                      }
+                    </div>
+                  </Content>
+                  <Footer className="text-center">
+                    pos app ©2023 Created by Abdelmonaime Chourafi
+                  </Footer>
+                </Layout>
+              </Layout> */}
+
+              <Layout hasSider>
+                <Sider
+                  trigger={null}
+                  collapsible
+                  collapsed={collapsed}
+                  style={{
+                    overflow: "auto",
+                    height: "100vh",
+                    position: "fixed",
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <div className="bg-[#042e3c] flex items-center gap-3">
+                    <Button
+                      // variant="default"
+                      // size="default"
+                      onClick={() => setCollapsed(!collapsed)}
+                      className="w-10 h-10 rounded-xl bg-brand"
+                    >
+                      {collapsed ? (
+                        <FaChevronLeft color="#cacaca" />
+                      ) : (
+                        <FaChevronRight color="#cacaca" />
+                      )}
+                    </Button>
+                    <picture>
+                      <Image
+                        src="/assets/imgs/logo.svg"
+                        alt="logo"
+                        width={130}
+                        height={40}
+                        className="pl-7 py-5"
+                      />
+                    </picture>
+                  </div>
+
+                  <Menu
+                    theme="dark"
+                    mode="inline"
+                    defaultSelectedKeys={["4"]}
+                    items={items}
+                  />
+                </Sider>
+                <Layout
+                  className={`site-layout ${collapsed ? "ml-16" : "ml-48"}`}
+                >
+                  <Header style={{ padding: 0, background: colorBgContainer }}>
+                    <TopBar collapsed={collapsed} setCollapsed={setCollapsed} />
+                  </Header>
+                  <Content
+                    style={{ margin: "24px 16px 0", overflow: "initial" }}
+                  >
+                    {children}
+                    <div
+                      style={{
+                        padding: 24,
+                        textAlign: "center",
+                        background: colorBgContainer,
+                      }}
+                    >
+                      {
+                        // indicates very long content
+                        Array.from({ length: 100 }, (_, index) => (
+                          <React.Fragment key={index}>
+                            {index % 20 === 0 && index ? "more" : "..."}
+                            <br />
+                          </React.Fragment>
+                        ))
+                      }
+                    </div>
+                  </Content>
+                  <Footer style={{ textAlign: "center" }}>
+                    Ant Design ©2023 Created by Ant UED
+                  </Footer>
+                </Layout>
+              </Layout>
             </Providers>
           </ConfigProvider>
         </App>
