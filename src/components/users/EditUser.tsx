@@ -37,11 +37,6 @@ interface EditUserProps {
   userId: string;
 }
 
-interface IUpdateUserData {
-  data: User;
-  userId: string;
-}
-
 const EditUser: FC<EditUserProps> = ({
   openModalEdit,
   handleCloseModal,
@@ -127,9 +122,7 @@ const EditUser: FC<EditUserProps> = ({
       if (isValideType) {
         return message.error("You can only upload JPG/PNG file!");
       }
-      console.log("values", values);
 
-      // const data: IUpdateUserData = { values, userId };
       await updateUser({ values, userId }).unwrap();
     } catch (err: any) {
       message.error(err.data?.message || err.error);
@@ -180,7 +173,7 @@ const EditUser: FC<EditUserProps> = ({
           autoComplete="off"
           requiredMark={false}
           size={"large" as SizeType}
-          preserve={false} 
+          preserve={false}
         >
           <div className="mb-4">
             <Form.Item valuePropName="list" getValueFromEvent={normFile}>

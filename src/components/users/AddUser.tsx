@@ -59,7 +59,7 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
     message.success("Password copied successfully");
   };
 
-  // handle upload image
+  // handle upload imagec
   const convertToBase64 = (e: any) => {
     const file = e.fileList[0]?.originFileObj;
     if (file) {
