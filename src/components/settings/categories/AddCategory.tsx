@@ -1,28 +1,13 @@
 "use client";
 
-import { Loader } from "@mantine/core";
-import React, { FC, useEffect, useState, useRef } from "react";
+import React, { FC, useEffect, useState, createRef, RefObject } from "react";
 import Button from "@/components/ui/Button";
-import { BiCopyAlt } from "react-icons/bi";
-import { LuSettings2 } from "react-icons/lu";
-import { useCreateUserMutation } from "@/redux/services/userApiSlice";
-import {
-  Modal,
-  Form,
-  Input,
-  Select,
-  Row,
-  Col,
-  Upload,
-  Button as UploadButton,
-  message,
-  Space,
-} from "antd";
-import { UploadOutlined } from "@ant-design/icons";
-import { burger } from "@/utils/assets";
+import { Modal, Form, Input, Row, Col, message, Space } from "antd";
+import { loading } from "@/utils/assets";
 import Image from "next/image";
-import { RcFile } from "antd/es/upload";
 import { categories } from "@/utils/data";
+import { useCreateCategoryMutation } from "@/redux/services/categoryApiSlice";
+import { Category } from "../../../../types";
 
 type SizeType = Parameters<typeof Form>[0]["size"];
 
@@ -31,108 +16,80 @@ interface AddCategoryProps {
   handleCloseModal: (type: string) => void;
 }
 
-const { Option } = Select;
+const { TextArea } = Input;
 
 const AddCategory: FC<AddCategoryProps> = ({
   openModalAdd,
   handleCloseModal,
 }) => {
   const [form] = Form.useForm();
-  const [copyPwd, setCopyPwd] = useState<string>("");
-  const [isValideType, setIsValideType] = useState<boolean>(false);
-  const [isValideSize, setIsValideSize] = useState<boolean>(false);
 
-  const handleChange = (value: string[]) => {
-    console.log(`selected ${value}`);
+  // handle upload category icon
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [iconBase64, setIconBase64] = useState("");
+  const categorLength = categories.length;
+  const [elRefs, setElRefs] = useState<Array<RefObject<HTMLImageElement>>>([]);
+
+  useEffect(() => {
+    setElRefs((elRefs) =>
+      Array(categorLength)
+        .fill(null)
+        .map((_, i) => elRefs[i] || createRef())
+    );
+  }, [categorLength]);
+
+  const handleClick = async (index: number, name: string) => {
+    setSelectedCategory(name);
+
+    // get icon base64
+    const image = elRefs[index].current;
+
+    if (image) {
+      try {
+        const response = await fetch(image.src);
+        const blob = await response.blob();
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64 = reader.result as string;
+          setIconBase64(base64);
+        };
+        reader.readAsDataURL(blob);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
   };
 
-  // handle upload image
-  const convertToBase64 = (e: any) => {
-    const file = e.fileList[0]?.originFileObj;
-    if (file) {
-      const reader = new FileReader();
+  // handle add new category
+  const [addNewCategory, { isLoading, isSuccess, isError }] =
+    useCreateCategoryMutation();
 
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          form.setFieldsValue({
-            image: reader.result,
-          });
-        }
+  const onFinish = async ({ description }: { description: string }) => {
+    try {
+      if (selectedCategory === "") {
+        return message.error("You should choose a category!");
+      }
+      const data: Category = {
+        name: selectedCategory,
+        icon: iconBase64,
+        description,
       };
-      reader?.readAsDataURL(file);
+      await addNewCategory(data).unwrap();
+    } catch (err: any) {
+      message.error(err.data?.message || err.error);
     }
   };
 
-  const beforeUpload = (file: RcFile) => {
-    setIsValideType(false);
-    setIsValideSize(false);
-
-    const isJpgOrPng =
-      file.type === "image/jpeg" ||
-      file.type === "image/jpg" ||
-      file.type === "image/png";
-    if (!isJpgOrPng) {
-      // message.error("You can only upload JPG/PNG file!");
-      // return false;
-      setIsValideType(true);
+  useEffect(() => {
+    if (isSuccess) {
+      message.success("Category added successfully");
+      handleCloseModal("add");
+      form.resetFields();
+      setSelectedCategory("");
+      setIconBase64("");
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      // message.error("Image must smaller than 2MB!");
-      // return false;
-      setIsValideSize(true);
-    }
-    // return isJpgOrPng && isLt2M;
-    return false;
-  };
-
-  const dummyRequest = (options: any) => {
-    const { onSuccess } = options;
-    setTimeout(() => {
-      onSuccess("ok");
-    }, 0);
-  };
-
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-  // handle create new user
-  // const [addNewUser, { isLoading, isSuccess, isError }] =
-  //   useCreateUserMutation();
-
-  // const onFinish = async (values: User) => {
-  //   try {
-  //     if (isValideSize) {
-  //       return message.error("Image must smaller than 2MB!");
-  //     }
-
-  //     if (isValideType) {
-  //       return message.error("You can only upload JPG/PNG file!");
-  //     }
-
-  //     await addNewUser(values).unwrap();
-  //   } catch (err: any) {
-  //     message.error(err.data?.message || err.error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     message.success("User added successfully");
-  //     handleCloseModal("add");
-  //     form.resetFields();
-  //   }
-  // }, [isSuccess]);
-
-  const iconRef = useRef();
-
-  const handleClick = (e: any) => {
-    console.log("image", iconRef?.current.value);
-  };
+  }, [isSuccess]);
 
   return (
     <Modal
@@ -147,8 +104,8 @@ const AddCategory: FC<AddCategoryProps> = ({
       <div className="p-4">
         <Form
           form={form}
-          name="add-new-user"
-          // onFinish={onFinish}
+          name="add-category"
+          onFinish={onFinish}
           className="w-full"
           scrollToFirstError
           layout="vertical"
@@ -158,80 +115,61 @@ const AddCategory: FC<AddCategoryProps> = ({
           initialValues={{ password: "" }}
           preserve={false}
         >
-          <Image src={burger} width="40" height="40" alt="test" />
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-                message: "Name is required!",
-              },
-            ]}
-          >
-            <Input className="w-full" />
-          </Form.Item>
-
-          <Form.Item
-            name="icon"
-            label="Icon"
-            rules={[
-              {
-                required: true,
-                message: "Icon is required!",
-              },
-            ]}
-          >
-            <Select
-              style={{ width: "100%" }}
-              defaultValue={["china"]}
-              onChange={handleChange}
-              optionLabelProp="label"
-            >
-              {categories.map(({ id, name, icon }) => (
-                <Option key={id} value={name} label={name}>
-                  <Space>
-                    <Image src={icon} alt={name} width={20} height={20} />
-                    {name}
-                  </Space>
-                </Option>
+          <div className="mb-6">
+            <p className="mb-2 text-dark">Choose Category</p>
+            <div className="flex flex-wrap gap-2 items-center">
+              {categories.map(({ id, name, icon }, i) => (
+                <Space
+                  key={id}
+                  onClick={() => handleClick(i, name)}
+                  className={`border rounded-full pl-1 pr-3 py-[2px] cursor-pointer ease-in-out duration-150 ${
+                    selectedCategory === name
+                      ? "border-brand bg-brand text-white"
+                      : "border-gray/40"
+                  }`}
+                >
+                  <div
+                    className={`w-[30px] h-[30px] flex items-center justify-center ${
+                      selectedCategory === name
+                        ? "bg-white/40 rounded-full"
+                        : ""
+                    }`}
+                  >
+                    <Image
+                      src={icon}
+                      ref={elRefs[i]}
+                      alt={name}
+                      width={20}
+                      height={20}
+                    />
+                  </div>
+                  {name}
+                </Space>
               ))}
-            </Select>
+            </div>
+          </div>
+
+          <Form.Item name="description" label="Description">
+            <TextArea rows={4} />
           </Form.Item>
 
-          <Space>
-            {categories.map(({ id, name, icon }, i) => (
-              <Space key={id} onClick={handleClick}>
-                <Image
-                  src={icon}
-                  ref={iconRef[i]}
-                  alt={name}
-                  width={20}
-                  height={20}
-                />
-                {name}
-              </Space>
-            ))}
-          </Space>
-
-          <Row gutter={16}>
+          <Row gutter={16} className="mt-8">
             <Col span={12}>
               <Button
                 variant="default"
                 size="default"
                 rounded="full"
-                // disabled={isLoading}
+                disabled={isLoading}
                 className="gap-2"
               >
-                add
-                {/* {isLoading ? (
+                {isLoading ? (
                   <>
-                    <Loader color="#ffffff" size="xs" />
+                    <Image src={loading} alt="loading" width="16" height="16" />
                     <span>Add</span>
                   </>
                 ) : (
                   <span>Add</span>
-                )} */}
+                )}
               </Button>
             </Col>
             <Col span={12}>
