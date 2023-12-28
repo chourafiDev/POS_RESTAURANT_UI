@@ -2,26 +2,271 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+@layer utilities {
+  @variants responsive {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  }
+
+  a {
+    @apply hover:text-brand;
+  }
+
+  .tag {
+    @apply w-full flex items-center justify-center py-2 rounded-md border cursor-pointer text-sm;
+  }
+
+  .input {
+    @apply w-full outline-none border border-gray/50 rounded-md px-3 py-2 text-dark/80 focus:border-brand;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.d-flex {
+  display: flex !important;
+}
+
+.border-dashed-with-spacing {
+  height: 3px;
+  background-image: linear-gradient(
+    to right,
+    #e3e3e3 50%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  background-position: top;
+  background-size: 20px 1px;
+  background-repeat: repeat-x;
+}
+
+.bounce-animation {
+  animation: bounce 2s linear infinite;
+}
+
+/* Animation */
+
+.bounce {
+  animation: bounce 2s infinite;
+  -webkit-animation: bounce 2s infinite;
+  -moz-animation: bounce 2s infinite;
+  -o-animation: bounce 2s infinite;
+}
+
+.spin {
+  animation-name: spin;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@-webkit-keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -webkit-transform: translateY(0);
+  }
+  40% {
+    -webkit-transform: translateY(-30px);
+  }
+  60% {
+    -webkit-transform: translateY(-15px);
+  }
+}
+
+@-moz-keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -moz-transform: translateY(0);
+  }
+  40% {
+    -moz-transform: translateY(-30px);
+  }
+  60% {
+    -moz-transform: translateY(-15px);
+  }
+}
+
+@-o-keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    -o-transform: translateY(0);
+  }
+  40% {
+    -o-transform: translateY(-30px);
+  }
+  60% {
+    -o-transform: translateY(-15px);
+  }
+}
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Override swiper design styles */
+.swiper-pagination-bullet {
+  background: #858585 !important;
+  width: 8px !important;
+  height: 8px !important;
+}
+.swiper-pagination-bullet-active {
+  background: #ffca40 !important;
+  width: 20px !important;
+  height: 8px !important;
+  border-radius: 20px !important;
+}
+
+/* layout */
+.ant-layout {
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  min-height: 0;
+  background: #f8f8f8;
+}
+
+.ant-layout-sider-collapsed {
+  width: 80px !important;
+}
+.ant-layout-sider-no-collapsed {
+  width: 240px !important;
+}
+
+.ant-layout-sider {
+  background-color: #fffffc;
+  color: #545454;
+  flex: 0 0 auto !important;
+  max-width: none !important;
+  min-width: 10px !important;
+  overflow: hidden;
+}
+
+.ant-menu-dark,
+.ant-layout-sider-dark,
+.ant-menu-sub {
+  background-color: #272932 !important;
+}
+
+.ant-menu-item-group-title {
+  margin-left: 3px;
+  color: #aba895 !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+.ant-menu-title-content {
+  color: #aba895 !important;
+  transition: 0.1s ease !important;
+  font-weight: 500 !important;
+  background-color: transparent !important;
+}
+
+.ant-menu-title-content:hover,
+.ant-menu-submenu-inline:hover {
+  color: #f1d05d !important;
+}
+
+.ant-menu-item {
+  height: 33px !important;
+}
+.ant-menu-item:hover {
+  background-color: transparent !important;
+  color: #f1d05d !important;
+}
+
+.ant-menu-dark .ant-menu-item-selected > a,
+.ant-menu-dark .ant-menu-item-selected > span > a,
+.ant-menu-item-selected {
+  color: #ffffff;
+  background-color: transparent !important;
+}
+
+/* Override ant design styles */
+/* ------------- Modal ------------- */
+.ant-modal-title {
+  color: #073b4c !important;
+}
+.ant-modal-content {
+  padding: 0px !important;
+}
+.ant-modal-header {
+  padding: 16px !important;
+  margin: 0px !important;
+}
+
+/* ------------- Form ------------- */
+.ant-form-item-label {
+  padding: 0px !important;
+}
+.ant-form-item-required {
+  height: 30px !important;
+  color: #073b4c !important;
+  font-weight: 400;
+}
+
+/* ------------- Popover ------------- */
+.ant-popover-inner {
+  padding: 6px 12px !important;
+}
+
+/* ------------- Divider ------------- */
+.ant-divider-inner-text {
+  color: #264653 !important;
+}
+
+/* Override global scrolbar styles */
+::-webkit-scrollbar-thumb {
+  background: #dfdfdf;
+  border-radius: 20px;
+}
+
+.sidebar-scroll-content::-webkit-scrollbar-thumb {
+  background: #042e3cc9;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f9f9f9;
+}
+.sidebar-scroll-content::-webkit-scrollbar-track {
+  background: transparent;
 }

@@ -1,0 +1,33 @@
+{
+  "sidebar": {
+    "main": "Voornaamst",
+    "mainContent": { "dashboard": "Dashboard" },
+    "passOrders": "Bestellingen doorgeven",
+    "passOrdersContent": { "orders": "Bestellingen", "tables": "Tafels" },
+    "management": "Beheer",
+    "managementContent": {
+      "users": "Gebruikers",
+      "products": "Producten",
+      "categories": "Categorieën",
+      "manageTables": "Tabellen beheren",
+      "history": "Geschiedenis",
+      "historyContent": {
+        "allHistory": "Alle geschiedenis",
+        "myHistory": "Mijn geschiedenis"
+      }
+    },
+    "settings": "Instellingen",
+    "help": "Hulp"
+  },
+  "dashboard": {
+    "statistics": "Statistieken",
+    "revenue": "Winst",
+    "totalOrders": "Totaal aantal bestellingen",
+    "totalCustomers": "Totaal aantal klanten",
+    "totalEmployees": "Totaal aantal werknemers",
+    "dailySales": "Dagelijkse verkoop",
+    "totalIncome": "Totaal inkomen",
+    "latestOrders": "Laatste bestellingen"
+  },
+  "footer": "Gemaakt door"
+}

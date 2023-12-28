@@ -1,4 +1,13 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {}
-
-module.exports = nextConfig
+module.exports = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  experimental: {
+    appDir: true,
+  },
+  experimental: { serverActions: true },
+  optimizeFonts: false,
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
+};

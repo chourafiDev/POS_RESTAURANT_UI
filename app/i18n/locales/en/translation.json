@@ -1,0 +1,33 @@
+{
+  "sidebar": {
+    "main": "Main",
+    "mainContent": { "dashboard": "Dashboard" },
+    "passOrders": "Pass Orders",
+    "passOrdersContent": { "orders": "Orders", "tables": "Tables" },
+    "management": "Management",
+    "managementContent": {
+      "users": "Users",
+      "products": "Products",
+      "categories": "Categories",
+      "manageTables": "Manage Tables",
+      "history": "History",
+      "historyContent": {
+        "allHistory": "All History",
+        "myHistory": "My History"
+      }
+    },
+    "settings": "Settings",
+    "help": "Help"
+  },
+  "dashboard": {
+    "statistics": "Statistics",
+    "revenue": "Revenue",
+    "totalOrders": "Total Orders",
+    "totalCustomers": "Total Customers",
+    "totalEmployees": "Total Employees",
+    "dailySales": "Daily Sales",
+    "totalIncome": "Total Income",
+    "latestOrders": "Latest Orders"
+  },
+  "footer": "Created by"
+}

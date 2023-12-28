@@ -1,0 +1,33 @@
+{
+  "sidebar": {
+    "main": "Principale",
+    "mainContent": { "dashboard": "Tableau de bord" },
+    "passOrders": "Passer les commandes",
+    "passOrdersContent": { "orders": "Ordres", "tables": "Les tables" },
+    "management": "Gestion",
+    "managementContent": {
+      "users": "Utilisatrices",
+      "products": "Products",
+      "categories": "Des produits",
+      "manageTables": "Gérer les tableaux",
+      "history": "Histoire",
+      "historyContent": {
+        "allHistory": "Toute l'histoire",
+        "myHistory": "Mon histoire"
+      }
+    },
+    "settings": "Paramètres",
+    "help": "Aider"
+  },
+  "dashboard": {
+    "statistics": "Statistiques",
+    "revenue": "Revenu",
+    "totalOrders": "Commandes totales",
+    "totalCustomers": "Nombre total de clients",
+    "totalEmployees": "Nombre total d'employés",
+    "dailySales": "Ventes quotidiennes",
+    "totalIncome": "Revenu total",
+    "latestOrders": "Dernières commandes"
+  },
+  "footer": "Créé par"
+}
