@@ -19,7 +19,7 @@ import {
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { RcFile } from "antd/es/upload/interface";
-import { Product } from "../../../types";
+import { Product } from "@/types";
 import { useCreateProductMutation } from "@/redux/services/productApiSlice";
 import Image from "next/image";
 import { useGetCategoriesQuery } from "@/redux/services/categoryApiSlice";
