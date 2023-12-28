@@ -42,7 +42,7 @@ const Form = ({ locale }: FormProps) => {
   };
 
   useEffect(() => {
-    if (isSuccess) router.push(`${locale}/dashboard`);
+    if (isSuccess) router.push(`/${locale}/dashboard`);
   }, [isSuccess, router]);
 
   return (
