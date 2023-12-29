@@ -68,66 +68,66 @@ const SideBarContent: FC<SideBarContentProps> = ({
 
   // handle access menu items
   const managementItems =
-    // user?.role == "admin"
-    // ?
-    [
-      getItem(
-        <Link
-          href={`/${locale}/users`}
-          className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
-        >
-          {t("sidebar.managementContent.users")}
-        </Link>,
-        `/${locale}/users`,
-        <TeamOutlined style={{ fontSize: "120%", marginRight: 10 }} />
-      ),
-      getItem(
-        <Link
-          href={`/${locale}/products`}
-          className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
-        >
-          {t("sidebar.managementContent.products")}
-        </Link>,
-        `/${locale}/products`,
-        <ShoppingOutlined style={{ fontSize: "120%", marginRight: 10 }} />
-      ),
-      getItem(
-        <Link
-          href={`/${locale}/categories`}
-          className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
-        >
-          {t("sidebar.managementContent.categories")}
-        </Link>,
-        `/${locale}/categories`,
-        <InsertRowAboveOutlined style={{ fontSize: "120%", marginRight: 10 }} />
-      ),
-      getItem(
-        <Link
-          href={`/${locale}/manage-tables`}
-          className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
-        >
-          {t("sidebar.managementContent.manageTables")}
-        </Link>,
-        `/${locale}/manage-tables`,
-        <TableOutlined style={{ fontSize: "120%", marginRight: 10 }} />
-      ),
-    ];
-  // : [];
+    user?.role == "admin"
+      ? [
+          getItem(
+            <Link
+              href={`/${locale}/users`}
+              className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
+            >
+              {t("sidebar.managementContent.users")}
+            </Link>,
+            `/${locale}/users`,
+            <TeamOutlined style={{ fontSize: "120%", marginRight: 10 }} />
+          ),
+          getItem(
+            <Link
+              href={`/${locale}/products`}
+              className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
+            >
+              {t("sidebar.managementContent.products")}
+            </Link>,
+            `/${locale}/products`,
+            <ShoppingOutlined style={{ fontSize: "120%", marginRight: 10 }} />
+          ),
+          getItem(
+            <Link
+              href={`/${locale}/categories`}
+              className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
+            >
+              {t("sidebar.managementContent.categories")}
+            </Link>,
+            `/${locale}/categories`,
+            <InsertRowAboveOutlined
+              style={{ fontSize: "120%", marginRight: 10 }}
+            />
+          ),
+          getItem(
+            <Link
+              href={`/${locale}/manage-tables`}
+              className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
+            >
+              {t("sidebar.managementContent.manageTables")}
+            </Link>,
+            `/${locale}/manage-tables`,
+            <TableOutlined style={{ fontSize: "120%", marginRight: 10 }} />
+          ),
+        ]
+      : [];
 
   const allHistoryItem =
-    // user?.role == "admin"
-    //   ?
-    getItem(
-      <Link
-        href={`/${locale}/all-history`}
-        className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
-      >
-        {t("sidebar.managementContent.historyContent.allHistory")}
-      </Link>,
-      `/${locale}/all-history`,
-      null
-    );
-  // : null;
+    user?.role == "admin"
+      ? getItem(
+          <Link
+            href={`/${locale}/all-history`}
+            className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
+          >
+            {t("sidebar.managementContent.historyContent.allHistory")}
+          </Link>,
+          `/${locale}/all-history`,
+          null
+        )
+      : null;
 
   const items: MenuProps["items"] = [
     { type: "divider" },
