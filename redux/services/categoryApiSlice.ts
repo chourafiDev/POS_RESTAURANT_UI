@@ -1,4 +1,4 @@
-import { Category } from "../../../types";
+import { Category } from "@/types";
 import { apiSlice } from "./apiSlice";
 
 const CATEGORY_URL = "api/categories";
