@@ -50,6 +50,7 @@
     "typescript": "5.3.3"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/react-highlight-words": "^0.16.7"
   }
 }
