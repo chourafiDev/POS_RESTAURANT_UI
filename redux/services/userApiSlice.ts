@@ -1,4 +1,4 @@
-import { User } from "../../../types";
+import { User } from "@/types";
 import { apiSlice } from "./apiSlice";
 
 const USERS_URL = "api/users";
