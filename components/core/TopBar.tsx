@@ -42,7 +42,7 @@ const TopBar: FC<TopBarProps> = ({ t, locale }) => {
     try {
       await logoutApiCall(null).unwrap();
       dispatch(clearCredentials());
-      router.push(`${locale}/login`);
+      router.push(`/${locale}/login`);
     } catch (err) {
       console.log(err);
     }
