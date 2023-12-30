@@ -1,3 +1,5 @@
+"use client";
+
 import { FC, useState } from "react";
 import Order from "./Order";
 import { motion } from "framer-motion";
