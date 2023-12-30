@@ -20,7 +20,7 @@ import {
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { RcFile } from "antd/es/upload/interface";
-import { User } from "../../../types";
+import { User } from "@/types";
 
 const { Option } = Select;
 
@@ -337,7 +337,7 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
                 disabled={isLoading}
                 className="gap-2"
               >
-                {!isLoading ? (
+                {isLoading ? (
                   <>
                     <SpinLoading color="#264653" />
                     <span>Add</span>
@@ -348,7 +348,6 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
               </Button>
             </Col>
             <Col span={12}>
-              {" "}
               <Button
                 key="back"
                 variant="outline"
