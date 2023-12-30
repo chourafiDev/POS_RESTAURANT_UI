@@ -1,5 +1,9 @@
 import Users from "@/components/users/Users";
-import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "POS | Users",
+};
 
 const page = () => {
   return (

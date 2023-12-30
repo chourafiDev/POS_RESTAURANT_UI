@@ -2,6 +2,11 @@ import Income from "@/components/dashbord/Income";
 import Statistics from "@/components/dashbord/statistcis/Statistics";
 import Sales from "@/components/dashbord/Sales";
 import LatestOrders from "@/components/dashbord/LatestOrders";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "POS | Dashboard",
+};
 
 export default function Home({
   params: { locale },

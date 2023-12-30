@@ -1,4 +1,9 @@
 import CategoriesList from "@/components/categories/Categories";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "POS | Categories",
+};
 
 const page = () => {
   return (
