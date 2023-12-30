@@ -8,15 +8,6 @@ type User = {
   role: string;
 };
 
-// const getUserInfoFromLocalStorage = (): User | null => {
-//   const userInfo =
-//     typeof window !== "undefined" && localStorage?.getItem("userInfo");
-//   if (userInfo) {
-//     return JSON.parse(userInfo);
-//   }
-//   return null;
-// };
-
 const getUserInfoFromCookie = (): User | null => {
   const userCookie = Cookies.get("currentUser");
   if (userCookie) {
@@ -43,9 +34,6 @@ const authSlice = createSlice({
       state.lastName = lastName;
       state.role = role;
 
-      // typeof window !== "undefined" &&
-      //   localStorage?.setItem("userInfo", JSON.stringify(action.payload));
-
       Cookies.set("currentUser", JSON.stringify(action.payload), {
         expires: 30,
       });
@@ -56,8 +44,6 @@ const authSlice = createSlice({
       state.firstName = "";
       state.lastName = "";
       state.role = "";
-
-      // typeof window !== "undefined" && localStorage?.removeItem("userInfo");
 
       Cookies.remove("currentUser");
     },
