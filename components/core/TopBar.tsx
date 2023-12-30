@@ -7,11 +7,11 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 
 import { Menu, Transition } from "@headlessui/react";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useLogoutMutation } from "@/redux/services/authApiSlice";
 import { clearCredentials } from "@/redux/features/authSlice";
 import Link from "next/link";
-import { Button, Layout, Popover, Select } from "antd";
+import { Button, Layout, Popover } from "antd";
 import { franceFlag, germanyFlag, usFlag } from "@/utils/assets";
 import Image from "next/image";
 
@@ -26,6 +26,8 @@ interface TopBarProps {
 }
 
 const TopBar: FC<TopBarProps> = ({ t, locale }) => {
+  const { role } = useAppSelector((state) => state.auth);
+
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -48,7 +50,7 @@ const TopBar: FC<TopBarProps> = ({ t, locale }) => {
     }
   };
 
-  // // Popover content
+  // Popover content
   const content = (
     <>
       {languages
@@ -56,7 +58,7 @@ const TopBar: FC<TopBarProps> = ({ t, locale }) => {
         .map((l, index) => {
           return (
             <Link
-              href={`/${l}/dashboard`}
+              href={`/${l}/${role == "admin" ? "dashboard" : "tables"}`}
               key={index}
               className="flex items-center gap-2 w-[120px] my-1"
             >

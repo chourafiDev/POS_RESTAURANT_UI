@@ -17,9 +17,7 @@ interface FormProps {
 }
 
 const Form = ({ locale }: FormProps) => {
-  const { _id, firstName, lastName, role } = useAppSelector(
-    (state) => state.auth
-  );
+  const { role } = useAppSelector((state) => state.auth);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -42,7 +40,11 @@ const Form = ({ locale }: FormProps) => {
   };
 
   useEffect(() => {
-    if (isSuccess) router.push(`/${locale}/dashboard`);
+    if (isSuccess) {
+      role == "admin"
+        ? router.push(`/${locale}/dashboard`)
+        : router.push(`/${locale}/tables`);
+    }
   }, [isSuccess, router]);
 
   return (
