@@ -1,27 +1,32 @@
-export const protectedRoutes = [
-  "/en/dashboard",
-  "/en/tables",
-  "/en/orders",
-  "/en/users",
-  "/en/products",
-  "/en/categories",
-  "/en/manage-tables",
-  "/en/all-history",
-  "/en/my-history",
-  "/en/menu",
-  "/en/profile",
-];
-export const authRoutes = [
-  "/en/login",
-  "/en/forgot-password",
-  "/en/reset-password",
-];
+export const getRoutes = (lang: string) => {
+  const protectedRoutes = [
+    `/${lang}/dashboard`,
+    `/${lang}/tables`,
+    `/${lang}/orders`,
+    `/${lang}/users`,
+    `/${lang}/products`,
+    `/${lang}/categories`,
+    `/${lang}/manage-tables`,
+    `/${lang}/all-history`,
+    `/${lang}/my-history`,
+    `/${lang}/menu`,
+    `/${lang}/profile`,
+  ];
 
-export const adminRoutes = [
-  "/en/dashboard",
-  "/en/users",
-  "/en/categories",
-  "/en/products",
-  "/en/manage-tables",
-  "/en/all-history",
-];
+  const authRoutes = [
+    `/${lang}/login`,
+    `/${lang}/forgot-password`,
+    `/${lang}/reset-password`,
+  ];
+
+  const adminRoutes = [
+    `/${lang}/dashboard`,
+    `/${lang}/users`,
+    `/${lang}/categories`,
+    `/${lang}/products`,
+    `/${lang}/manage-tables`,
+    `/${lang}/all-history`,
+  ];
+
+  return { protectedRoutes, adminRoutes, authRoutes };
+};
