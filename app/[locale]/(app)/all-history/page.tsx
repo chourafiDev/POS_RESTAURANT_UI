@@ -1,4 +1,9 @@
-import History from "@/components/history/History";
+import History from "@/components/history/all/History";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "POS | All history",
+};
 
 const Page = () => {
   return (
