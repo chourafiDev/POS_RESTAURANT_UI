@@ -201,7 +201,7 @@ const SideBarContent: FC<SideBarContentProps> = ({
           [
             getItem(
               <Link
-                href={`/${locale}/history`}
+                href={`/${locale}/my-history`}
                 className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
               >
                 {t("sidebar.managementContent.historyContent.myHistory")}
