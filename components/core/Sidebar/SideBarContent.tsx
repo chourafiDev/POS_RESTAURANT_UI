@@ -20,6 +20,7 @@ import UserInfo from "./UserInfo";
 import type { MenuProps } from "antd";
 import { useTranslation } from "@/app/i18n/client";
 import { useGetCurrentUserQuery } from "@/redux/services/userApiSlice";
+import { ClipLoader } from "react-spinners";
 
 const { Sider } = Layout;
 
@@ -59,7 +60,7 @@ const SideBarContent: FC<SideBarContentProps> = ({
   locale,
 }) => {
   // Fetch current user
-  const { data: user } = useGetCurrentUserQuery(null);
+  const { data: user, isLoading } = useGetCurrentUserQuery(null);
 
   const { t } = useTranslation(locale, "sidebar-content");
 
@@ -67,6 +68,28 @@ const SideBarContent: FC<SideBarContentProps> = ({
   const selectedKeys = pathname;
 
   // handle access menu items
+  const dashboardItem =
+    user?.role == "admin"
+      ? getItem(
+          `${t("sidebar.main")}`,
+          "main",
+          null,
+          [
+            getItem(
+              <Link
+                href={`/${locale}/dashboard`}
+                className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
+              >
+                {t("sidebar.mainContent.dashboard")}
+              </Link>,
+              `/${locale}/dashboard`,
+              <HomeOutlined style={{ fontSize: "120%", marginRight: 10 }} />
+            ),
+          ],
+          "group"
+        )
+      : null;
+
   const managementItems =
     user?.role == "admin"
       ? [
@@ -131,25 +154,10 @@ const SideBarContent: FC<SideBarContentProps> = ({
 
   const items: MenuProps["items"] = [
     { type: "divider" },
-    getItem(
-      `${t("sidebar.main")}`,
-      "main",
-      null,
-      [
-        getItem(
-          <Link
-            href={`/${locale}/dashboard`}
-            className="text-[14px] hover:text-brand text-brand duration-75 ease-in"
-          >
-            {t("sidebar.mainContent.dashboard")}
-          </Link>,
-          `/${locale}/dashboard`,
-          <HomeOutlined style={{ fontSize: "120%", marginRight: 10 }} />
-        ),
-      ],
-      "group"
-    ),
+    // main group
+    dashboardItem,
 
+    // pass orders group
     getItem(
       `${t("sidebar.passOrders")}`,
       "pass-orders",
@@ -179,6 +187,7 @@ const SideBarContent: FC<SideBarContentProps> = ({
       "group"
     ),
 
+    // management group
     getItem(
       `${t("sidebar.management")}`,
       "management",
@@ -197,7 +206,7 @@ const SideBarContent: FC<SideBarContentProps> = ({
               >
                 {t("sidebar.managementContent.historyContent.myHistory")}
               </Link>,
-              `/${locale}/history`,
+              `/${locale}/my-history`,
               null
             ),
             allHistoryItem,
@@ -209,6 +218,7 @@ const SideBarContent: FC<SideBarContentProps> = ({
 
     { type: "divider" },
 
+    // setting item
     getItem(
       <Link
         href={`/${locale}/settings`}
@@ -220,6 +230,7 @@ const SideBarContent: FC<SideBarContentProps> = ({
       <SettingOutlined style={{ fontSize: "120%", marginRight: 10 }} />
     ),
 
+    // help item
     getItem(
       <Link
         href={`/${locale}/help`}
@@ -252,15 +263,23 @@ const SideBarContent: FC<SideBarContentProps> = ({
       } ${jost.className}`}
     >
       <SideBarLogo collapsed={collapsed} setCollapsed={setCollapsed} />
-      <UserInfo collapsed={collapsed} locale={locale} />
 
-      <Menu
-        selectedKeys={[selectedKeys]}
-        theme="dark"
-        mode="inline"
-        className="overflow-y-auto h-[475px] sidebar-scroll-content"
-        items={items}
-      />
+      {isLoading ? (
+        <div className="h-[80%] flex justify-center items-center">
+          <ClipLoader color="#FFCA40" size={30} />
+        </div>
+      ) : (
+        <>
+          <UserInfo collapsed={collapsed} locale={locale} />
+          <Menu
+            selectedKeys={[selectedKeys]}
+            theme="dark"
+            mode="inline"
+            className="overflow-y-auto h-[475px] sidebar-scroll-content"
+            items={items}
+          />
+        </>
+      )}
     </Sider>
   );
 };
