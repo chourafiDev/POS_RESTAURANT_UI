@@ -63,17 +63,20 @@ const ModalOrder: FC<ModalOrderProps> = ({
   const dispatch = useAppDispatch();
 
   const addOrderToCart = () => {
-    const oredrData = {
-      id,
-      title,
-      price,
-      options: optionsSelected,
-      image: image?.url,
-      qty: 1,
-      note,
-    };
-
-    dispatch(addToCart(oredrData));
+    dispatch(
+      addToCart({
+        type: "increase",
+        item: {
+          id,
+          title,
+          price,
+          options: optionsSelected,
+          image: image?.url,
+          qty: 1,
+          note,
+        },
+      })
+    );
     showDrawer();
     handleCloseMoadlDetail();
   };

@@ -35,13 +35,16 @@ const Order: FC<OrderProps> = ({
   const decreaseNumberOfOrders = () => {
     dispatch(
       addToCart({
-        id,
-        title,
-        image,
-        price,
-        options,
-        note,
-        qty: qty - 1,
+        type: "decrease",
+        item: {
+          id,
+          title,
+          image,
+          price,
+          options,
+          note,
+          qty,
+        },
       })
     );
   };
@@ -49,13 +52,16 @@ const Order: FC<OrderProps> = ({
   const increaseNumberOfOrders = () => {
     dispatch(
       addToCart({
-        id,
-        title,
-        image,
-        price,
-        options,
-        note,
-        qty: qty + 1,
+        type: "increase",
+        item: {
+          id,
+          title,
+          image,
+          price,
+          options,
+          note,
+          qty,
+        },
       })
     );
   };

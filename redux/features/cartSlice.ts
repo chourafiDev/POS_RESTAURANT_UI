@@ -77,14 +77,15 @@ const cartSlice = createSlice({
       Cookie.set("tableOrder", JSON.stringify(state.tableOrderInfo));
     },
     addToCart(state, action: PayloadAction<any>) {
-      const item = action.payload;
+      const { type, item } = action.payload;
 
       const existItem = state.cartItems.find((el: Item) => el.id === item.id);
 
       if (existItem) {
-        // When exist items is true we update it with the new item in the palyload
         state.cartItems = state.cartItems.map((el: Item) =>
-          el.id === existItem.id ? item : el
+          el.id === existItem.id
+            ? { ...el, qty: type == "increase" ? el.qty + 1 : el.qty - 1 }
+            : el
         );
       } else {
         state.cartItems = [...state.cartItems, item];
@@ -94,7 +95,7 @@ const cartSlice = createSlice({
 
       // Calculate items price
       state.itemsPrice = addDecimals(
-        state.cartItems.reduce((acc, items) => acc + items.price * item.qty, 0)
+        state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
       );
 
       // Calculate subtotal
