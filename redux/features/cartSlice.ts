@@ -28,7 +28,6 @@ type Order = {
   total: number;
   itemsPrice: number;
   subtotal: number;
-  totalSalesTax: number;
   tableInfo: TableOrderInfo;
   items: Item[];
 };
@@ -52,7 +51,6 @@ const initialState = {
     ? (JSON.parse(ordersCookie) as Item[])
     : ([] as Item[]),
   subtotal: orderPrice.subtotal ? orderPrice.subtotal : 0,
-  totalSalesTax: orderPrice.totalSalesTax ? orderPrice.totalSalesTax : 0,
   totalPrice: orderPrice.totalPrice ? orderPrice.totalPrice : 0,
   itemsPrice: 0,
 };
@@ -93,7 +91,6 @@ const cartSlice = createSlice({
       }
 
       const discount = 3;
-      const salesTax = 0.35;
 
       // Calculate items price
       state.itemsPrice = addDecimals(
@@ -103,18 +100,12 @@ const cartSlice = createSlice({
       // Calculate subtotal
       state.subtotal = addDecimals(state.itemsPrice - discount);
 
-      // Calculate total sales tax
-      state.totalSalesTax = addDecimals(Number(salesTax * state.subtotal));
-
       // Calculate total price
-      state.totalPrice = addDecimals(
-        Number(state.subtotal) + Number(state.totalSalesTax)
-      );
+      state.totalPrice = addDecimals(Number(state.subtotal));
 
       const orderPrice = {
         totalPrice: state.totalPrice,
         subtotal: state.subtotal,
-        totalSalesTax: state.totalSalesTax,
       };
 
       Cookie.set("orders", JSON.stringify(state.cartItems));
@@ -126,7 +117,6 @@ const cartSlice = createSlice({
       );
 
       const discount = 3;
-      const salesTax = 0;
 
       // Calculate items price
       state.itemsPrice = addDecimals(
@@ -136,18 +126,12 @@ const cartSlice = createSlice({
       // Calculate subtotal
       state.subtotal = addDecimals(state.itemsPrice - discount);
 
-      // Calculate total sales tax
-      state.totalSalesTax = addDecimals(Number(salesTax * state.subtotal));
-
       // Calculate total price
-      state.totalPrice = addDecimals(
-        Number(state.subtotal) + Number(state.totalSalesTax)
-      );
+      state.totalPrice = addDecimals(Number(state.subtotal));
 
       const orderPrice = {
         totalPrice: state.totalPrice,
         subtotal: state.subtotal,
-        totalSalesTax: state.totalSalesTax,
       };
 
       Cookie.set("orders", JSON.stringify(state.cartItems));
