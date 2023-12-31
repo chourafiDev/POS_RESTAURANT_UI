@@ -105,7 +105,7 @@ const TopBar: FC<TopBarProps> = ({ t, locale }) => {
                   <Menu.Item>
                     {({ active }) => (
                       <Link
-                        href="/profile"
+                        href={`/${locale}/profile`}
                         className={`${
                           active ? "bg-brand text-white" : "text-dark"
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2 hover:text-white`}
