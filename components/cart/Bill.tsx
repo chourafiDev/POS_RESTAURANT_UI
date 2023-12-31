@@ -3,11 +3,16 @@ import { FC } from "react";
 interface billProps {
   subtotal: number;
   totalPrice: number;
+  itemsPrice: number;
 }
 
-const bill: FC<billProps> = ({ subtotal, totalPrice }) => {
+const bill: FC<billProps> = ({ subtotal, totalPrice, itemsPrice }) => {
   return (
     <div className="bg-[#F2F3F7] rounded-lg p-6 mt-10 overflow-hidden">
+      <div className="flex items-center justify-between mb-3">
+        <h4 className="text-dark/60 font-normal">Total price</h4>
+        <p className="text-dark font-medium">${itemsPrice}</p>
+      </div>
       <div className="flex items-center justify-between mb-3">
         <h4 className="text-dark/60 font-normal">Subtotal</h4>
         <p className="text-dark font-medium">${subtotal}</p>
@@ -21,7 +26,7 @@ const bill: FC<billProps> = ({ subtotal, totalPrice }) => {
         <div className="absolute -bottom-3 -right-9 w-7 h-7 rounded-full bg-white"></div>
       </div>
       <div className="flex items-center justify-between">
-        <h4 className="text-dark text-xl font-medium">Total</h4>
+        <h4 className="text-dark text-xl font-medium">Total sales</h4>
         <p className="text-dark text-xl font-medium">${totalPrice}</p>
       </div>
     </div>

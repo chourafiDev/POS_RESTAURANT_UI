@@ -12,9 +12,8 @@ interface CartProps {
 }
 
 const Cart = ({ open, hideDrawer }: CartProps) => {
-  const { cartItems, subtotal, totalPrice, tableOrderInfo } = useAppSelector(
-    (state) => state.cart
-  );
+  const { cartItems, subtotal, totalPrice, tableOrderInfo, itemsPrice } =
+    useAppSelector((state) => state.cart);
 
   return (
     <Drawer
@@ -70,7 +69,11 @@ const Cart = ({ open, hideDrawer }: CartProps) => {
                 </div>
               </div>
 
-              <Bill subtotal={subtotal} totalPrice={totalPrice} />
+              <Bill
+                subtotal={subtotal}
+                totalPrice={totalPrice}
+                itemsPrice={itemsPrice}
+              />
             </div>
           </div>
 
