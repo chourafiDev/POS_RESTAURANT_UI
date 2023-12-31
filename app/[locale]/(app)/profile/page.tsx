@@ -1,6 +1,11 @@
 import Form from "@/components/profile/Form";
 import Password from "@/components/profile/Password";
 import Profile from "@/components/profile/Profile";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "POS | Profile",
+};
 
 const tabs = [
   {
