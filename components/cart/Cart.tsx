@@ -31,7 +31,7 @@ const Cart = ({ open, hideDrawer }: CartProps) => {
         </div>
       ) : (
         <div>
-          <div className=" pb-8">
+          <div className=" pb-4">
             <div className="overflow-y-auto no-scrollbar">
               <div className="border-b border-gray-light pb-3">
                 <h2 className="text-dark font-medium mb-1 text-lg">
@@ -49,6 +49,9 @@ const Cart = ({ open, hideDrawer }: CartProps) => {
                 </p>
                 <p className="text-gray text-sm mt-2 font-medium">
                   Customer : {tableOrderInfo.customer?.fullname}
+                </p>
+                <p className="text-gray text-sm mt-1 font-medium">
+                  Phone number : {tableOrderInfo.customer?.phone}
                 </p>
               </div>
 
