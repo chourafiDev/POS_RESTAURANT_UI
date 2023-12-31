@@ -11,8 +11,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="p-4 md:p-6 bg-[#fafafa] min-h-screen">
-      {/* Search */}
+    <main className="md:p-6 bg-[#fafafa] min-h-screen">
       <Search />
       {children}
     </main>

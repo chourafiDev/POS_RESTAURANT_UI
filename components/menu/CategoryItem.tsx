@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
-import { Category } from "../../../types";
+import { Category } from "@/types";
 
 interface CategoryItemProps {
   category: Category;
@@ -15,7 +15,7 @@ const Index: FC<CategoryItemProps> = ({
 }) => {
   return (
     <div
-      className={`flex items-center gap-3 border border-gray-light rounded-xl p-3 shadow-lg shadow-gray-light/50 cursor-pointer  hover:-translate-y-1 duration-300 ease-in ${
+      className={`flex items-center gap-3 border border-gray/10 rounded-xl p-3 shadow-lg shadow-gray-light/50 cursor-pointer  hover:-translate-y-1 duration-300 ease-in ${
         name.toLocaleLowerCase() === selectedCategory.toLocaleLowerCase()
           ? "bg-brand"
           : "bg-white"
@@ -25,7 +25,6 @@ const Index: FC<CategoryItemProps> = ({
       <Image
         src={icon?.url}
         alt={name}
-        // className="w-full h-full"
         width={45}
         height={45}
         className={`rounded-md p-2 ${

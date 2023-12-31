@@ -36,7 +36,7 @@ const Page: FC<PageProps> = ({ searchParams, params: { term } }) => {
     useGetMenuQuery(data);
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 bg-white rounded-lg px-4 pt-3 pb-6">
       <Link
         href={`/${lng}/menu`}
         className="text-dark underline text-[15px] font-medium"

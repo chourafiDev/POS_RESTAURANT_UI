@@ -39,7 +39,7 @@ const Categories = () => {
   };
 
   return (
-    <div className="pt-4">
+    <div className="mt-4 bg-white px-4 py-2 rounded-xl">
       <div className="flex justify-between items-center">
         <h2 className="text-dark font-medium text-xl">Categories</h2>
 
@@ -58,7 +58,7 @@ const Categories = () => {
           </div>
         </div>
       </div>
-      <div className="mb-4">
+      <div className="mb-0">
         {isLoading ? (
           <div className="mt-2">
             <Loading type="category" />

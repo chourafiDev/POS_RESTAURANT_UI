@@ -30,7 +30,7 @@ const MenuItem: FC<MenuItemProps> = ({
     <>
       <div
         onClick={handleOpenMoadlDetail}
-        className="cursor-pointer bg-white p-2 rounded-md border border-gray/20 shadow-lg shadow-gray-light/50 hover:-translate-y-1 duration-200 ease-in"
+        className="cursor-pointer bg-white p-2 rounded-xl border border-gray/10 shadow-lg shadow-gray-light/50 hover:-translate-y-1 duration-200 ease-in"
       >
         <div>
           <Image
@@ -38,7 +38,7 @@ const MenuItem: FC<MenuItemProps> = ({
             alt={title}
             width={300}
             height={100}
-            className="rounded-md object-cover"
+            className="rounded-xl object-cover"
             style={{ maxHeight: "200px" }}
           />
         </div>

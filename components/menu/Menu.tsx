@@ -12,7 +12,7 @@ const Menu = () => {
   const { data: products, isLoading: isLoadingProducts } =
     useGetProductsQuery(null);
   return (
-    <>
+    <div className="mt-4 bg-white px-4 pt-2 pb-4 rounded-xl">
       <h2 className="text-dark font-medium text-xl mb-3">
         Special menu for you
       </h2>
@@ -34,7 +34,7 @@ const Menu = () => {
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 
