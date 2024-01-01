@@ -1,4 +1,4 @@
-import { Product } from "../../../types";
+import { Product } from "@/types";
 import { apiSlice } from "./apiSlice";
 
 const PRODUCTS_URL = "api/products";

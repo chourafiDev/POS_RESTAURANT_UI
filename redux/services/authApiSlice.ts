@@ -43,7 +43,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         return {
           url: `${AUTH_URL}/reset-password/${tokenParam}`,
           method: "PATCH",
-          body: password,
+          body: { password },
           credentials: "include",
         };
       },
