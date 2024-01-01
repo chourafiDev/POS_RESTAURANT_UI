@@ -21,7 +21,7 @@ import {
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { RcFile } from "antd/es/upload/interface";
-import { User } from "../../../types";
+import { User } from "@/types";
 
 const { Option } = Select;
 
