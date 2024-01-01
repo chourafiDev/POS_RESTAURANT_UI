@@ -126,7 +126,7 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
       if (isValideType) {
         return message.error("You can only upload JPG/PNG file!");
       }
-
+      
       await addNewUser(values).unwrap();
     } catch (err: any) {
       message.error(err.data?.message || err.error);
@@ -167,9 +167,12 @@ const AddUser: FC<AddUserProps> = ({ openModalAdd, handleCloseModal }) => {
           preserve={false}
         >
           <div className="mb-4">
-            <Form.Item valuePropName="list" getValueFromEvent={normFile}>
+            <Form.Item
+              name="image"
+              valuePropName="list"
+              getValueFromEvent={normFile}
+            >
               <Upload
-                name="image"
                 listType="picture"
                 customRequest={dummyRequest}
                 maxCount={1}
