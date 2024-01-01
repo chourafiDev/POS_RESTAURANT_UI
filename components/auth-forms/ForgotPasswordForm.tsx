@@ -76,7 +76,7 @@ const ForgotPasswordForm = ({ locale }: { locale: string }) => {
             className="gap-2"
             type="button"
           >
-            <Link href={`${locale}/login`}>Back to Login</Link>
+            <Link href={`/${locale}/login`}>Back to Login</Link>
           </Button>
         </Col>
       </Row>
