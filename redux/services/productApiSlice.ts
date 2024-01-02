@@ -17,8 +17,7 @@ export const productApiSlice = apiSliceWithTag.injectEndpoints({
     getMenu: builder.query({
       query: (data) => {
         const { title, category, min_price, max_price } = data;
-        console.log("min_price");
-        console.log("min_price", min_price);
+
         return {
           url: `${PRODUCTS_URL}/menu?title=${title}&category=${category}&min_price=${min_price}&max_price=${max_price}`,
           method: "GET",
