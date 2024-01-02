@@ -38,11 +38,6 @@ const History = () => {
   // handle table data
   const columns: ColumnsType<History> = [
     {
-      title: "Action",
-      dataIndex: "action",
-      key: "number",
-    },
-    {
       title: "Description",
       dataIndex: "description",
       key: "description",
