@@ -4,7 +4,9 @@ import Button from "../ui/Button";
 import { useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
 import { noResults } from "@/utils/assets";
-import { Drawer } from "antd";
+import { Drawer, message } from "antd";
+import { useCreateCheckOutSessionMutation } from "@/redux/services/paymentApiSlice";
+import SpinLoading from "../ui/SpinLoading";
 
 interface CartProps {
   open: boolean;
@@ -14,6 +16,26 @@ interface CartProps {
 const Cart = ({ open, hideDrawer }: CartProps) => {
   const { cartItems, subtotal, totalPrice, tableOrderInfo, itemsPrice } =
     useAppSelector((state) => state.cart);
+
+  const { _id } = useAppSelector((state) => state.auth);
+
+  const [createCheckOutSession, { isLoading }] =
+    useCreateCheckOutSessionMutation();
+
+  const handleCheckOut = async () => {
+    try {
+      const checkOutItems = { cartItems };
+      const res = await createCheckOutSession(checkOutItems).unwrap();
+
+      if (res.url) {
+        window.location.href = res.url;
+      } else {
+        console.error("Error creating checkout session");
+      }
+    } catch (err: any) {
+      console.error("Error creating checkout session");
+    }
+  };
 
   return (
     <Drawer
@@ -80,8 +102,21 @@ const Cart = ({ open, hideDrawer }: CartProps) => {
             </div>
           </div>
 
-          <Button variant="default" size="default" rounded="default">
-            Charge ${totalPrice.toFixed(2)}
+          <Button
+            onClick={handleCheckOut}
+            variant="default"
+            size="default"
+            rounded="default"
+            className={`gap-2 ${isLoading && "opacity-60"}`}
+          >
+            {isLoading ? (
+              <>
+                <SpinLoading color="#264653" />
+                <span> Charge ${totalPrice.toFixed(2)}</span>
+              </>
+            ) : (
+              <span> Charge ${totalPrice.toFixed(2)}</span>
+            )}
           </Button>
         </div>
       )}
