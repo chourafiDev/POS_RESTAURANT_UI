@@ -11,7 +11,18 @@ export const historyApiSlice = apiSliceWithTag.injectEndpoints({
     getAllHistories: builder.query({
       query: ({ startDate, endDate }) => {
         return {
-          url: `${HISTORY_URL}/?startDate=${startDate}&endDate=${endDate}`,
+          url: `${HISTORY_URL}?startDate=${startDate}&endDate=${endDate}`,
+          method: "GET",
+          credentials: "include",
+        };
+      },
+      providesTags: ["history"],
+    }),
+
+    getMyHistories: builder.query({
+      query: ({ startDate, endDate }) => {
+        return {
+          url: `${HISTORY_URL}/me?startDate=${startDate}&endDate=${endDate}`,
           method: "GET",
           credentials: "include",
         };
@@ -46,6 +57,7 @@ export const historyApiSlice = apiSliceWithTag.injectEndpoints({
 
 export const {
   useGetAllHistoriesQuery,
+  useGetMyHistoriesQuery,
   useDeleteHistoryMutation,
   useDeleteHistoriesMutation,
 } = historyApiSlice;
