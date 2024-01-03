@@ -42,6 +42,10 @@ const Cart = ({ open, hideDrawer }: CartProps) => {
 
       if (res.url) {
         window.location.href = res.url;
+
+        Cookie.remove("orderPrice");
+        Cookie.remove("orders");
+        Cookie.remove("tableOrder");
       } else {
         console.error("Error creating checkout session");
       }
