@@ -156,58 +156,6 @@ export const oredrs = [
   },
 ];
 
-export const ordersList = [
-  {
-    orderId: "#906753",
-    table: "T-6",
-    Qta: 8,
-    time: "20:30pm",
-    price: 40.99,
-  },
-  {
-    orderId: "#906893",
-    table: "T-10",
-    Qta: 6,
-    time: "23:00pm",
-    price: 40.99,
-  },
-  {
-    orderId: "#956753",
-    table: "T-5",
-    Qta: 3,
-    time: "09:00pm",
-    price: 40.99,
-  },
-  {
-    orderId: "#906798",
-    table: "T-2",
-    Qta: 2,
-    time: "20:00pm",
-    price: 40.99,
-  },
-  {
-    orderId: "#906243",
-    table: "T-1",
-    Qta: 9,
-    time: "14:00pm",
-    price: 40.99,
-  },
-  {
-    orderId: "#909053",
-    table: "T-12",
-    Qta: 4,
-    time: "15:00pm",
-    price: 40.99,
-  },
-  {
-    orderId: "#906353",
-    table: "T-15",
-    Qta: 3,
-    time: "10:30pm",
-    price: 40.99,
-  },
-];
-
 export const statusList = ["Available", "Booked", "Billed", "Occupied"];
 
 export const statistics = [
