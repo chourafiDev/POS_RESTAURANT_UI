@@ -13,6 +13,7 @@ type Item = {
 
 type Customer = {
   fullname: string;
+  email: string;
   phone: string;
 };
 
@@ -23,20 +24,9 @@ type TableOrderInfo = {
   guests: number;
 };
 
-type Order = {
-  loading: boolean;
-  total: number;
-  itemsPrice: number;
-  subtotal: number;
-  tableInfo: TableOrderInfo;
-  items: Item[];
-};
-
 const ordersCookie = Cookie.get("orders");
 
 const orderPriceCookie = Cookie.get("orderPrice");
-const orderPrice = orderPriceCookie ? JSON.parse(orderPriceCookie) : {};
-
 const tableOrderCookie = Cookie.get("tableOrder");
 
 const addDecimals = (num: number) => {
@@ -50,9 +40,7 @@ const initialState = {
   cartItems: ordersCookie
     ? (JSON.parse(ordersCookie) as Item[])
     : ([] as Item[]),
-  subtotal: orderPrice.subtotal ? orderPrice.subtotal : 0,
-  totalPrice: orderPrice.totalPrice ? orderPrice.totalPrice : 0,
-  itemsPrice: 0,
+  itemsPrice: orderPriceCookie ? JSON.parse(orderPriceCookie).totalPrice : 0,
 };
 
 const cartSlice = createSlice({
@@ -63,14 +51,14 @@ const cartSlice = createSlice({
       const {
         number,
         tables,
-        customer: { fullname, phone },
+        customer: { fullname, email, phone },
         guests,
       } = action.payload;
 
       state.tableOrderInfo = {
         number,
         tables,
-        customer: { fullname, phone },
+        customer: { fullname, email, phone },
         guests,
       };
 
@@ -91,22 +79,13 @@ const cartSlice = createSlice({
         state.cartItems = [...state.cartItems, item];
       }
 
-      const discount = 3;
-
       // Calculate items price
       state.itemsPrice = addDecimals(
         state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
       );
 
-      // Calculate subtotal
-      state.subtotal = addDecimals(state.itemsPrice - discount);
-
-      // Calculate total price
-      state.totalPrice = addDecimals(Number(state.subtotal));
-
       const orderPrice = {
-        totalPrice: state.totalPrice,
-        subtotal: state.subtotal,
+        totalPrice: state.itemsPrice,
       };
 
       Cookie.set("orders", JSON.stringify(state.cartItems));
@@ -117,22 +96,13 @@ const cartSlice = createSlice({
         (el) => el.id !== action.payload
       );
 
-      const discount = 3;
-
       // Calculate items price
       state.itemsPrice = addDecimals(
         state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
       );
 
-      // Calculate subtotal
-      state.subtotal = addDecimals(state.itemsPrice - discount);
-
-      // Calculate total price
-      state.totalPrice = addDecimals(Number(state.subtotal));
-
       const orderPrice = {
-        totalPrice: state.totalPrice,
-        subtotal: state.subtotal,
+        totalPrice: state.itemsPrice,
       };
 
       Cookie.set("orders", JSON.stringify(state.cartItems));
