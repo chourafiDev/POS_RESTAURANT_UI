@@ -68,3 +68,38 @@ export interface History {
   user: string;
   createdAt: string;
 }
+
+// Order
+export interface Order {
+  _id: string;
+  table_order: TableOrder;
+  userId: string;
+  customerId: OrderCustomerId;
+  orderId: string;
+  items: OrderItem[];
+  amountPaid: number;
+  payment_status: string;
+  createdAt: string;
+}
+
+export interface TableOrder {
+  guests: number;
+  tables: number[];
+}
+
+export interface OrderCustomerId {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export interface OrderItem {
+  id: string;
+  title: string;
+  price: number;
+  options: any[];
+  image: string;
+  qty: number;
+  note: string;
+  _id: string;
+}
