@@ -129,33 +129,6 @@ export const links = [
   },
 ];
 
-export const oredrs = [
-  {
-    id: 1,
-    title: "Breadtalk With Foam",
-    desc: "No Chocolate",
-    price: 22.56,
-    total: 2,
-    image: "bread.jpg",
-  },
-  {
-    id: 2,
-    title: "Special Spicy Fried Rice",
-    desc: "Not Spicy",
-    price: 22.56,
-    total: 2,
-    image: "bread.jpg",
-  },
-  {
-    id: 3,
-    title: "Seblak Beef Macaroni",
-    desc: "Spicy with 10 Chilies",
-    price: 22.56,
-    total: 2,
-    image: "bread.jpg",
-  },
-];
-
 export const statusList = ["Available", "Booked", "Billed", "Occupied"];
 
 export const statistics = [
