@@ -1,18 +1,29 @@
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
 import OrderDetails from "./OrderDetails";
-import { OrderedList } from "@/types";
+import { Order } from "@/types";
+import moment from "moment";
 
 interface OrderProps {
-  order: OrderedList;
+  order: Order;
   hundleClickOrder: (orderId: string) => void;
   orderSelected: string;
+  index: number;
 }
 
 const Order: FC<OrderProps> = ({
-  order: { orderId, table, Qta, time, price },
+  order: {
+    orderId,
+    table_order,
+    amountPaid,
+    items,
+    payment_status,
+    createdAt,
+    customerId,
+  },
   hundleClickOrder,
   orderSelected,
+  index,
 }) => {
   // handle opne drawer
   const [open, setOpen] = useState(false);
@@ -25,22 +36,33 @@ const Order: FC<OrderProps> = ({
     setOpen(false);
   };
 
-  const cardVariant = {
-    active: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
+  const cardVariant = (delay: number) => {
+    return {
+      active: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          type: "tween",
+          duration: 0.8,
+          delay: 0.3 * delay,
+          ease: [0.25, 0.25, 0.25, 0.75],
+        },
       },
-    },
-    inactive: {
-      opacity: 0,
-      y: 10,
-      transition: {
-        duration: 0.5,
+      inactive: {
+        opacity: 0,
+        y: 10,
+        transition: {
+          type: "tween",
+          duration: 0.8,
+          delay: 0.3 * delay,
+          ease: [0.25, 0.25, 0.25, 0.75],
+        },
       },
-    },
+    };
   };
+
+  const tablesList = table_order.tables.map((table) => `T${table}`);
+  const totalQyt = items.reduce((acc, item) => acc + item.qty, 0);
 
   return (
     <>
@@ -51,24 +73,30 @@ const Order: FC<OrderProps> = ({
             ? "border border-brand"
             : "border border-gray-light/50"
         }`}
-        variants={cardVariant}
+        variants={cardVariant(index)}
+        initial="inactive"
+        animate="active"
         onClick={() => {
           showDrawer(), hundleClickOrder(orderId);
         }}
       >
         <div className="space-y-1">
           <h1 className="text-dark font-semibold text-[15px]">
-            Order: {orderId}
+            Order: #{orderId}
           </h1>
-          <p className="text-dark/70 font-semibold text-sm">Table: {table}</p>
-          <span className="block text-gray text-sm">QtaM: {Qta}</span>
+          <p className="text-dark/70 font-semibold text-sm">
+            Table: {tablesList.join(", ")}
+          </p>
+          <span className="block text-gray text-sm">Quantity: {totalQyt}</span>
         </div>
         <div className="space-y-2">
-          <p className="text-gray text-right text-sm">{time}</p>
+          <p className="text-gray text-right text-sm">
+            {moment(createdAt).format("l")} / {moment(createdAt).format("LT")}
+          </p>
           <div className="flex items-center gap-2">
-            <strong className="text-dark text-lg">${price}</strong>
+            <strong className="text-dark text-lg">${amountPaid}</strong>
             <p className="px-3 py-1 rounded-full bg-[#56CA93] text-white text-sm font-medium">
-              Dine-In
+              {payment_status}
             </p>
           </div>
         </div>
@@ -78,7 +106,11 @@ const Order: FC<OrderProps> = ({
         hideDrawer={hideDrawer}
         open={open}
         orderId={orderId}
-        table={table}
+        tables={tablesList}
+        amountPaid={amountPaid}
+        totalQyt={totalQyt}
+        customer={customerId}
+        items={items}
       />
     </>
   );

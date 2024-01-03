@@ -1,54 +1,68 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
+import Order from "./Order";
+import { motion } from "framer-motion";
+import { DatePicker } from "antd";
+import { useGetOrdersQuery } from "@/redux/services/orderApiSlice";
+import { Order as TOrder } from "@/types";
+import { ClipLoader } from "react-spinners";
 
-interface Tabs {
-  title: string;
-  id: string;
-  content: any;
-}
+const { RangePicker } = DatePicker;
 
-interface OrdersProps {
-  tabs: Tabs[];
-}
+const Orders = () => {
+  const [orderSelected, setOrderSelected] = useState("");
 
-const Orders: FC<OrdersProps> = ({ tabs }) => {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-
-  const onTabClick = (index: number) => {
-    setActiveTabIndex(index);
+  const hundleClickOrder = (orderId: string) => {
+    setOrderSelected(orderId);
   };
 
-  return (
-    <>
-      <ul
-        className="flex items-center gap-4 mb-5 bg-white p-4 rounded-xl"
-        role="tablist"
-      >
-        {tabs.map((tab, index) => (
-          <li
-            key={tab.id}
-            className={`rounded-full px-6 py-2 cursor-pointer text-sm font-medium ${
-              activeTabIndex == index
-                ? "bg-brand/20 border border-brand/10 text-brand"
-                : "bg-gray/10 border border-gray/5 text-gray"
-            }`}
-            role="presentation"
-            onClick={() => onTabClick(index)}
-          >
-            <a href={`#${tab.id}`}>{tab.title}</a>
-          </li>
-        ))}
-      </ul>
+  // handle change date
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
 
-      {tabs.map((tab, index) => (
-        <tab.content
-          key={tab.id}
-          id={`${tab.id}-content`}
-          active={activeTabIndex === index}
-        />
-      ))}
-    </>
+  const handleOnChangeDateRange = (dates: any) => {
+    if (dates && dates[0] && dates[1]) {
+      const startDateFormatted = dates[0].format("YYYY-MM-DD");
+      const endDateFormatted = dates[1].format("YYYY-MM-DD");
+
+      setStartDate(startDateFormatted);
+      setEndDate(endDateFormatted);
+    } else {
+      setStartDate("");
+      setEndDate("");
+    }
+  };
+
+  // Fetch history tables
+  const { data: orders, isLoading } = useGetOrdersQuery(null);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-5 bg-white p-4 rounded-xl">
+        <h1 className="text-dark font-medium text-[17px]">List Orders</h1>
+        <RangePicker size="middle" onChange={handleOnChangeDateRange} />
+      </div>
+
+      <motion.div className="space-y-2 min-h-[350px]">
+        {isLoading ? (
+          <div className="h-[350px] flex justify-center items-center">
+            <ClipLoader color="#FFCA40" size={30} />
+          </div>
+        ) : (
+          orders &&
+          orders.map((order: TOrder, i: number) => (
+            <Order
+              key={order.orderId}
+              index={i}
+              order={order}
+              orderSelected={orderSelected}
+              hundleClickOrder={hundleClickOrder}
+            />
+          ))
+        )}
+      </motion.div>
+    </div>
   );
 };
 
