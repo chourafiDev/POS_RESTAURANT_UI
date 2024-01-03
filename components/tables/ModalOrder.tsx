@@ -1,6 +1,6 @@
 import { useState, FC } from "react";
 import Button from "@/components/ui/Button";
-import { Divider, Form, Input, Modal, SelectProps } from "antd";
+import { Col, Divider, Form, Input, Modal, Row, SelectProps } from "antd";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { addTableOrder } from "@/redux/features/cartSlice";
@@ -45,13 +45,13 @@ const ModalOrder: FC<ModalOrderProps> = ({
   // handle add order
   const dispatch = useAppDispatch();
   const handleAddOrder = (values: any) => {
-    const { fullname, phone } = values;
+    const { fullname, phone, email } = values;
 
     const data = {
       number,
       tables: selectedTables,
       guests: selectedGuest,
-      customer: { fullname, phone },
+      customer: { fullname, email, phone },
     };
 
     dispatch(addTableOrder(data));
@@ -137,18 +137,37 @@ const ModalOrder: FC<ModalOrderProps> = ({
             >
               <Input className="w-full" />
             </Form.Item>
-            <Form.Item
-              name="phone"
-              label="Phone"
-              rules={[
-                {
-                  required: true,
-                  message: "Phone is required!",
-                },
-              ]}
-            >
-              <Input className="w-full" />
-            </Form.Item>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item
+                  name="email"
+                  label="Email address"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Email address is required!",
+                    },
+                  ]}
+                  className="mb-3"
+                >
+                  <Input className="w-full" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="phone"
+                  label="Phone"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Phone is required!",
+                    },
+                  ]}
+                >
+                  <Input className="w-full" />
+                </Form.Item>
+              </Col>
+            </Row>
           </div>
 
           <Button variant="default" size="default" rounded="default">
