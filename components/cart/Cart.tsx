@@ -4,9 +4,10 @@ import Button from "../ui/Button";
 import { useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
 import { noResults } from "@/utils/assets";
-import { Drawer, message } from "antd";
+import { Drawer } from "antd";
 import { useCreateCheckOutSessionMutation } from "@/redux/services/paymentApiSlice";
 import SpinLoading from "../ui/SpinLoading";
+import Cookie from "js-cookie";
 
 interface CartProps {
   open: boolean;
@@ -14,18 +15,30 @@ interface CartProps {
 }
 
 const Cart = ({ open, hideDrawer }: CartProps) => {
-  const { cartItems, subtotal, totalPrice, tableOrderInfo, itemsPrice } =
-    useAppSelector((state) => state.cart);
+  const { cartItems, tableOrderInfo, itemsPrice } = useAppSelector(
+    (state) => state.cart
+  );
 
-  const { _id } = useAppSelector((state) => state.auth);
+  const qty = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
   const [createCheckOutSession, { isLoading }] =
     useCreateCheckOutSessionMutation();
 
   const handleCheckOut = async () => {
     try {
-      const checkOutItems = { cartItems };
-      const res = await createCheckOutSession(checkOutItems).unwrap();
+      const cookieTableOrder = Cookie.get("tableOrder");
+      const cookieOrderPrice = Cookie.get("orderPrice");
+
+      const tableOrder = cookieTableOrder && JSON.parse(cookieTableOrder);
+      const orderPrice = cookieOrderPrice && JSON.parse(cookieOrderPrice);
+
+      const checkOutData = {
+        cartItems,
+        tableOrder,
+        orderPrice,
+      };
+
+      const res = await createCheckOutSession(checkOutData).unwrap();
 
       if (res.url) {
         window.location.href = res.url;
@@ -94,11 +107,7 @@ const Cart = ({ open, hideDrawer }: CartProps) => {
                 </div>
               </div>
 
-              <Bill
-                subtotal={subtotal}
-                totalPrice={totalPrice}
-                itemsPrice={itemsPrice}
-              />
+              <Bill itemsPrice={itemsPrice} qty={qty} />
             </div>
           </div>
 
@@ -112,10 +121,10 @@ const Cart = ({ open, hideDrawer }: CartProps) => {
             {isLoading ? (
               <>
                 <SpinLoading color="#264653" />
-                <span> Charge ${totalPrice.toFixed(2)}</span>
+                <span> Charge ${itemsPrice.toFixed(2)}</span>
               </>
             ) : (
-              <span> Charge ${totalPrice.toFixed(2)}</span>
+              <span> Charge ${itemsPrice.toFixed(2)}</span>
             )}
           </Button>
         </div>
