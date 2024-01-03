@@ -1,20 +1,12 @@
-export interface Order {
-  id: string;
-  image: string;
-  title: string;
-  price: number;
-  quantity: number;
-  note: string;
-  options: string[];
-}
-
-export interface OrderedList {
-  orderId: string;
-  table: string;
-  Qta: number;
-  time: string;
-  price: number;
-}
+// export interface Order {
+//   id: string;
+//   image: string;
+//   title: string;
+//   price: number;
+//   quantity: number;
+//   note: string;
+//   options: string[];
+// }
 
 // ------------------------
 export interface Image {
