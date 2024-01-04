@@ -8,6 +8,7 @@ import React, { useState } from "react";
 
 const Page = ({ params: { locale } }: { params: { locale: string } }) => {
   const [selectedTables, setSelectedTables] = useState<number[]>([]);
+  const [status, setStatus] = useState<string>("all");
 
   // Handle select tables to pass orders
   const handleSelectedTable = (item: number) => {
@@ -37,12 +38,14 @@ const Page = ({ params: { locale } }: { params: { locale: string } }) => {
         <TableState
           removeAllTables={removeAllTables}
           selectedTables={selectedTables}
+          setStatus={setStatus}
         />
       </div>
 
       <TablesList
         handleSelectedTable={handleSelectedTable}
         selectedTables={selectedTables}
+        status={status}
       />
       <SelectedTables
         selectedTables={selectedTables}
