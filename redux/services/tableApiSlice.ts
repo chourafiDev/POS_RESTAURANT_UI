@@ -1,4 +1,3 @@
-import { Table } from "../../../types";
 import { apiSlice } from "./apiSlice";
 
 const TABLE_URL = "api/tables";
@@ -20,10 +19,10 @@ const apiSliceWithTag = apiSlice.enhanceEndpoints({
 
 export const tableApiSlice = apiSliceWithTag.injectEndpoints({
   endpoints: (builder) => ({
-    getTables: builder.query<Table[], null>({
-      query: () => {
+    getTables: builder.query({
+      query: (status: string) => {
         return {
-          url: `${TABLE_URL}/`,
+          url: `${TABLE_URL}?status=${status}`,
           method: "GET",
           credentials: "include",
         };
