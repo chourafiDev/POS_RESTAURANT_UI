@@ -3,18 +3,21 @@ import Table from "./Table";
 import { motion } from "framer-motion";
 import { useGetTablesQuery } from "@/redux/services/tableApiSlice";
 import Loading from "@/components/ui/Loading";
+import { Table as ITable } from "@/types";
 
 interface TablesListProps {
   handleSelectedTable: (item: number) => void;
   selectedTables: number[];
+  status: string;
 }
 
 const TablesList: FC<TablesListProps> = ({
   handleSelectedTable,
   selectedTables,
+  status,
 }) => {
   // Fetch all categories
-  const { data: tables, isLoading } = useGetTablesQuery(null);
+  const { data: tables, isLoading } = useGetTablesQuery(status);
 
   const tabContentVariant = {
     active: {
@@ -39,7 +42,7 @@ const TablesList: FC<TablesListProps> = ({
         {isLoading ? (
           <Loading type="tables" />
         ) : (
-          tables?.map((table) => (
+          tables?.map((table: ITable) => (
             <Table
               key={table._id}
               table={table}
