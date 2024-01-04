@@ -15,6 +15,9 @@ interface CartProps {
 }
 
 const Cart = ({ open, hideDrawer }: CartProps) => {
+  // get lang from localhost
+  const lang = localStorage.getItem("i18nextLng");
+
   const { cartItems, tableOrderInfo, itemsPrice } = useAppSelector(
     (state) => state.cart
   );
@@ -27,15 +30,13 @@ const Cart = ({ open, hideDrawer }: CartProps) => {
   const handleCheckOut = async () => {
     try {
       const cookieTableOrder = Cookie.get("tableOrder");
-      const cookieOrderPrice = Cookie.get("orderPrice");
 
       const tableOrder = cookieTableOrder && JSON.parse(cookieTableOrder);
-      const orderPrice = cookieOrderPrice && JSON.parse(cookieOrderPrice);
 
       const checkOutData = {
         cartItems,
         tableOrder,
-        orderPrice,
+        lang,
       };
 
       const res = await createCheckOutSession(checkOutData).unwrap();
