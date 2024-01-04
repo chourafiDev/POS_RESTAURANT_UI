@@ -35,7 +35,10 @@ const Orders = () => {
   };
 
   // Fetch history tables
-  const { data: orders, isLoading } = useGetOrdersQuery(null);
+  const { data: orders, isLoading } = useGetOrdersQuery({
+    startDate,
+    endDate,
+  });
 
   return (
     <div>
